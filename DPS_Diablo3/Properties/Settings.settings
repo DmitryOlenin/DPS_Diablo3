@@ -6,13 +6,13 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="tb_damage2" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Оружие 2</Value>
+      <Value Profile="(Default)">Weapon 2</Value>
     </Setting>
     <Setting Name="tb_ac1" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="tb_ac2" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Оружие 2</Value>
+      <Value Profile="(Default)">Weapon 2</Value>
     </Setting>
     <Setting Name="tb_main" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -102,10 +102,10 @@
       <Value Profile="(Default)">max2</Value>
     </Setting>
     <Setting Name="tb_dmg1_p" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Оружие 1</Value>
+      <Value Profile="(Default)">Weapon 1</Value>
     </Setting>
     <Setting Name="tb_dmg2_p" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Оружие 2</Value>
+      <Value Profile="(Default)">Weapon 2</Value>
     </Setting>
     <Setting Name="tb_skill1" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -132,10 +132,10 @@
       <Value Profile="(Default)">skill2</Value>
     </Setting>
     <Setting Name="tb_ac1_p" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Оружие 1</Value>
+      <Value Profile="(Default)">Weapon 1</Value>
     </Setting>
     <Setting Name="tb_ac2_p" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Оружие 2</Value>
+      <Value Profile="(Default)">Weapon 2</Value>
     </Setting>
     <Setting Name="tb_dmg1_w" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -191,8 +191,11 @@
     <Setting Name="nud_cdr10" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Setting" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="UpdateSettings" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="bt_lang" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ENG</Value>
     </Setting>
   </Settings>
 </SettingsFile>

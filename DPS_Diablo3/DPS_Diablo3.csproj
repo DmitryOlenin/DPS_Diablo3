@@ -8,7 +8,7 @@
     <ProjectGuid>{7C6579ED-9B96-492F-AE75-4C022830AFF5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DPS_Diablo3</RootNamespace>
+    <RootNamespace>Dps_Diablo3</RootNamespace>
     <AssemblyName>DPS_Diablo3</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -39,6 +39,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,6 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class_lang.cs" />
+    <Compile Include="Class_parse.cs" />
     <Compile Include="dps_diablo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,9 +87,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="diablo3.ico" />
+    <None Include="Resources\loading_bar.gif" />
     <None Include="Resources\diablo3.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>"$(SolutionDir)\ILMerge\copy_publ.bat" "$(SolutionDir)" "$(TargetPath)"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

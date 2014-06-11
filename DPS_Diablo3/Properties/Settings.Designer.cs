@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DPS_Diablo3.Properties {
+namespace Dps_Diablo3.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -37,7 +37,7 @@ namespace DPS_Diablo3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Оружие 2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Weapon 2")]
         public string tb_damage2 {
             get {
                 return ((string)(this["tb_damage2"]));
@@ -61,7 +61,7 @@ namespace DPS_Diablo3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Оружие 2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Weapon 2")]
         public string tb_ac2 {
             get {
                 return ((string)(this["tb_ac2"]));
@@ -421,7 +421,7 @@ namespace DPS_Diablo3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Оружие 1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Weapon 1")]
         public string tb_dmg1_p {
             get {
                 return ((string)(this["tb_dmg1_p"]));
@@ -433,7 +433,7 @@ namespace DPS_Diablo3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Оружие 2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Weapon 2")]
         public string tb_dmg2_p {
             get {
                 return ((string)(this["tb_dmg2_p"]));
@@ -541,7 +541,7 @@ namespace DPS_Diablo3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Оружие 1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Weapon 1")]
         public string tb_ac1_p {
             get {
                 return ((string)(this["tb_ac1_p"]));
@@ -553,7 +553,7 @@ namespace DPS_Diablo3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Оружие 2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Weapon 2")]
         public string tb_ac2_p {
             get {
                 return ((string)(this["tb_ac2_p"]));
@@ -781,13 +781,25 @@ namespace DPS_Diablo3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Setting {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UpdateSettings {
             get {
-                return ((string)(this["Setting"]));
+                return ((bool)(this["UpdateSettings"]));
             }
             set {
-                this["Setting"] = value;
+                this["UpdateSettings"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ENG")]
+        public string bt_lang {
+            get {
+                return ((string)(this["bt_lang"]));
+            }
+            set {
+                this["bt_lang"] = value;
             }
         }
     }

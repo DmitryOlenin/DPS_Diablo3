@@ -69,24 +69,24 @@
             this.lb_result = new System.Windows.Forms.Label();
             this.lb_Debug = new System.Windows.Forms.ListBox();
             this.nud_ac = new System.Windows.Forms.NumericUpDown();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
+            this.lb_acc = new System.Windows.Forms.Label();
+            this.lb_mainc = new System.Windows.Forms.Label();
+            this.lb_cdc = new System.Windows.Forms.Label();
+            this.lb_ccc = new System.Windows.Forms.Label();
             this.nud_main = new System.Windows.Forms.NumericUpDown();
             this.nud_cc = new System.Windows.Forms.NumericUpDown();
             this.nud_cd = new System.Windows.Forms.NumericUpDown();
-            this.label23 = new System.Windows.Forms.Label();
+            this.lb_elemc = new System.Windows.Forms.Label();
             this.nud_elem = new System.Windows.Forms.NumericUpDown();
-            this.label24 = new System.Windows.Forms.Label();
+            this.lb_statc = new System.Windows.Forms.Label();
             this.lb_changed = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
+            this.lb_dps = new System.Windows.Forms.Label();
+            this.lb_dpsr = new System.Windows.Forms.Label();
+            this.lb_elem_dps = new System.Windows.Forms.Label();
+            this.lb_cd_dps = new System.Windows.Forms.Label();
+            this.lb_cc_dps = new System.Windows.Forms.Label();
+            this.lb_stat_dps = new System.Windows.Forms.Label();
+            this.lb_as_dps = new System.Windows.Forms.Label();
             this.lb_ac = new System.Windows.Forms.Label();
             this.lb_main = new System.Windows.Forms.Label();
             this.lb_cc = new System.Windows.Forms.Label();
@@ -101,26 +101,26 @@
             this.tt_start = new System.Windows.Forms.ToolTip(this.components);
             this.pan_stat = new System.Windows.Forms.Panel();
             this.lb_dmg = new System.Windows.Forms.Label();
-            this.label39 = new System.Windows.Forms.Label();
+            this.lb_dmg_dps = new System.Windows.Forms.Label();
             this.b_stat = new System.Windows.Forms.Button();
             this.nud_damage = new System.Windows.Forms.NumericUpDown();
-            this.label30 = new System.Windows.Forms.Label();
+            this.lb_damc = new System.Windows.Forms.Label();
             this.pan_info = new System.Windows.Forms.Panel();
-            this.label38 = new System.Windows.Forms.Label();
-            this.label37 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
-            this.label35 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
-            this.label33 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
-            this.label31 = new System.Windows.Forms.Label();
+            this.lb_help8 = new System.Windows.Forms.Label();
+            this.lb_help7 = new System.Windows.Forms.Label();
+            this.lb_help6 = new System.Windows.Forms.Label();
+            this.lb_help5 = new System.Windows.Forms.Label();
+            this.lb_help4 = new System.Windows.Forms.Label();
+            this.lb_help3 = new System.Windows.Forms.Label();
+            this.lb_help2 = new System.Windows.Forms.Label();
+            this.lb_help1 = new System.Windows.Forms.Label();
             this.lb_auth = new System.Windows.Forms.Label();
-            this.label41 = new System.Windows.Forms.Label();
-            this.label42 = new System.Windows.Forms.Label();
-            this.label43 = new System.Windows.Forms.Label();
-            this.label44 = new System.Windows.Forms.Label();
-            this.label45 = new System.Windows.Forms.Label();
-            this.label46 = new System.Windows.Forms.Label();
+            this.lb_spp = new System.Windows.Forms.Label();
+            this.lb_damp = new System.Windows.Forms.Label();
+            this.lb_fet = new System.Windows.Forms.Label();
+            this.lb_dogs = new System.Windows.Forms.Label();
+            this.lb_garg = new System.Windows.Forms.Label();
+            this.lb_fizp = new System.Windows.Forms.Label();
             this.nud_elemp = new System.Windows.Forms.NumericUpDown();
             this.nud_speedp = new System.Windows.Forms.NumericUpDown();
             this.nud_damp = new System.Windows.Forms.NumericUpDown();
@@ -128,8 +128,8 @@
             this.nud_dogs = new System.Windows.Forms.NumericUpDown();
             this.nud_garg = new System.Windows.Forms.NumericUpDown();
             this.pan_wd = new System.Windows.Forms.Panel();
-            this.label48 = new System.Windows.Forms.Label();
-            this.label47 = new System.Windows.Forms.Label();
+            this.lb_wd = new System.Windows.Forms.Label();
+            this.lb_dpspets = new System.Windows.Forms.Label();
             this.pan_wddam = new System.Windows.Forms.Panel();
             this.lb_result_wd = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -147,7 +147,7 @@
             this.toolTip14 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip15 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip16 = new System.Windows.Forms.ToolTip(this.components);
-            this.label1 = new System.Windows.Forms.Label();
+            this.lb_dpsp = new System.Windows.Forms.Label();
             this.lb_result_profile = new System.Windows.Forms.Label();
             this.b_adv = new System.Windows.Forms.Button();
             this.pan_wa = new System.Windows.Forms.Panel();
@@ -187,7 +187,7 @@
             this.toolTip22 = new System.Windows.Forms.ToolTip(this.components);
             this.b_wep = new System.Windows.Forms.Button();
             this.pan_wep = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lb_wep = new System.Windows.Forms.Label();
             this.lb_elem_w = new System.Windows.Forms.Label();
             this.nud_acp_w = new System.Windows.Forms.NumericUpDown();
             this.nud_elem_w = new System.Windows.Forms.NumericUpDown();
@@ -226,6 +226,7 @@
             this.nud_cooldown = new System.Windows.Forms.NumericUpDown();
             this.lb_cooldown = new System.Windows.Forms.Label();
             this.pan_cdr = new System.Windows.Forms.Panel();
+            this.lb_cdr = new System.Windows.Forms.Label();
             this.pan_roll = new System.Windows.Forms.Panel();
             this.cb_wd = new System.Windows.Forms.CheckBox();
             this.lb_state = new System.Windows.Forms.Label();
@@ -236,6 +237,21 @@
             this.toolTip33 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip34 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip35 = new System.Windows.Forms.ToolTip(this.components);
+            this.lb_adv = new System.Windows.Forms.Label();
+            this.lb_lang = new System.Windows.Forms.Label();
+            this.bt_lang = new System.Windows.Forms.Button();
+            this.lb_stat = new System.Windows.Forms.Label();
+            this.lb_start = new System.Windows.Forms.Label();
+            this.b_fileload = new System.Windows.Forms.Button();
+            this.b_filesave = new System.Windows.Forms.Button();
+            this.tt_filesave = new System.Windows.Forms.ToolTip(this.components);
+            this.tt_fileload = new System.Windows.Forms.ToolTip(this.components);
+            this.b_web = new System.Windows.Forms.Button();
+            this.b_parse = new System.Windows.Forms.Button();
+            this.tb_pers = new System.Windows.Forms.TextBox();
+            this.pb_load = new System.Windows.Forms.PictureBox();
+            this.bw = new System.ComponentModel.BackgroundWorker();
+            this.toolTip36 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.nud_ac)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_main)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cc)).BeginInit();
@@ -277,6 +293,7 @@
             this.pan_cdr.SuspendLayout();
             this.pan_roll.SuspendLayout();
             this.pan_list.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_load)).BeginInit();
             this.SuspendLayout();
             // 
             // lb_idmg1
@@ -433,7 +450,7 @@
             this.tb_damage2.ReadOnly = true;
             this.tb_damage2.Size = new System.Drawing.Size(56, 20);
             this.tb_damage2.TabIndex = 19;
-            this.tb_damage2.Text = "Оружие 2";
+            this.tb_damage2.Text = "Weapon 2";
             this.tb_damage2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_damage2_MouseClick);
             this.tb_damage2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_damage2_KeyPress);
             // 
@@ -445,7 +462,7 @@
             this.tb_ac2.ReadOnly = true;
             this.tb_ac2.Size = new System.Drawing.Size(56, 20);
             this.tb_ac2.TabIndex = 21;
-            this.tb_ac2.Text = "Оружие 2";
+            this.tb_ac2.Text = "Weapon 2";
             this.tb_ac2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_ac2_MouseClick);
             this.tb_ac2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_ac2_KeyPress);
             // 
@@ -613,7 +630,7 @@
             // 
             // b_start
             // 
-            this.b_start.Location = new System.Drawing.Point(237, 217);
+            this.b_start.Location = new System.Drawing.Point(219, 225);
             this.b_start.Name = "b_start";
             this.b_start.Size = new System.Drawing.Size(134, 59);
             this.b_start.TabIndex = 41;
@@ -633,7 +650,7 @@
             // lb_Debug
             // 
             this.lb_Debug.FormattingEnabled = true;
-            this.lb_Debug.Location = new System.Drawing.Point(280, 277);
+            this.lb_Debug.Location = new System.Drawing.Point(380, 317);
             this.lb_Debug.Name = "lb_Debug";
             this.lb_Debug.Size = new System.Drawing.Size(67, 17);
             this.lb_Debug.TabIndex = 44;
@@ -657,41 +674,41 @@
             this.nud_ac.Size = new System.Drawing.Size(65, 20);
             this.nud_ac.TabIndex = 45;
             // 
-            // label19
+            // lb_acc
             // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(0, 32);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(99, 13);
-            this.label19.TabIndex = 46;
-            this.label19.Text = "+- Скорость атаки";
+            this.lb_acc.AutoSize = true;
+            this.lb_acc.Location = new System.Drawing.Point(0, 32);
+            this.lb_acc.Name = "lb_acc";
+            this.lb_acc.Size = new System.Drawing.Size(99, 13);
+            this.lb_acc.TabIndex = 46;
+            this.lb_acc.Text = "+- Скорость атаки";
             // 
-            // label20
+            // lb_mainc
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(0, 58);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(121, 13);
-            this.label20.TabIndex = 47;
-            this.label20.Text = "+- Основной параметр";
+            this.lb_mainc.AutoSize = true;
+            this.lb_mainc.Location = new System.Drawing.Point(0, 58);
+            this.lb_mainc.Name = "lb_mainc";
+            this.lb_mainc.Size = new System.Drawing.Size(121, 13);
+            this.lb_mainc.TabIndex = 47;
+            this.lb_mainc.Text = "+- Основной параметр";
             // 
-            // label21
+            // lb_cdc
             // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(0, 136);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(66, 13);
-            this.label21.TabIndex = 49;
-            this.label21.Text = "+- Критурон";
+            this.lb_cdc.AutoSize = true;
+            this.lb_cdc.Location = new System.Drawing.Point(0, 136);
+            this.lb_cdc.Name = "lb_cdc";
+            this.lb_cdc.Size = new System.Drawing.Size(66, 13);
+            this.lb_cdc.TabIndex = 49;
+            this.lb_cdc.Text = "+- Критурон";
             // 
-            // label22
+            // lb_ccc
             // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(0, 110);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(69, 13);
-            this.label22.TabIndex = 48;
-            this.label22.Text = "+- Критшанс";
+            this.lb_ccc.AutoSize = true;
+            this.lb_ccc.Location = new System.Drawing.Point(0, 110);
+            this.lb_ccc.Name = "lb_ccc";
+            this.lb_ccc.Size = new System.Drawing.Size(69, 13);
+            this.lb_ccc.TabIndex = 48;
+            this.lb_ccc.Text = "+- Критшанс";
             // 
             // nud_main
             // 
@@ -750,14 +767,14 @@
             this.nud_cd.Size = new System.Drawing.Size(65, 20);
             this.nud_cd.TabIndex = 52;
             // 
-            // label23
+            // lb_elemc
             // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(0, 162);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(127, 13);
-            this.label23.TabIndex = 53;
-            this.label23.Text = "+- Элементальный урон";
+            this.lb_elemc.AutoSize = true;
+            this.lb_elemc.Location = new System.Drawing.Point(0, 162);
+            this.lb_elemc.Name = "lb_elemc";
+            this.lb_elemc.Size = new System.Drawing.Size(127, 13);
+            this.lb_elemc.TabIndex = 53;
+            this.lb_elemc.Text = "+- Элементальный урон";
             // 
             // nud_elem
             // 
@@ -771,15 +788,15 @@
             this.nud_elem.Size = new System.Drawing.Size(65, 20);
             this.nud_elem.TabIndex = 54;
             // 
-            // label24
+            // lb_statc
             // 
-            this.label24.AutoSize = true;
-            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label24.Location = new System.Drawing.Point(15, 6);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(195, 13);
-            this.label24.TabIndex = 55;
-            this.label24.Text = "Изменение статов - изменение DPS:";
+            this.lb_statc.AutoSize = true;
+            this.lb_statc.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lb_statc.Location = new System.Drawing.Point(15, 6);
+            this.lb_statc.Name = "lb_statc";
+            this.lb_statc.Size = new System.Drawing.Size(195, 13);
+            this.lb_statc.TabIndex = 55;
+            this.lb_statc.Text = "Изменение статов - изменение DPS:";
             // 
             // lb_changed
             // 
@@ -790,68 +807,68 @@
             this.lb_changed.TabIndex = 56;
             this.lb_changed.Text = "Урон после изменений";
             // 
-            // label25
+            // lb_dps
             // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(234, 311);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(35, 13);
-            this.label25.TabIndex = 57;
-            this.label25.Text = "DPS: ";
+            this.lb_dps.AutoSize = true;
+            this.lb_dps.Location = new System.Drawing.Point(234, 311);
+            this.lb_dps.Name = "lb_dps";
+            this.lb_dps.Size = new System.Drawing.Size(35, 13);
+            this.lb_dps.TabIndex = 57;
+            this.lb_dps.Text = "DPS: ";
             // 
-            // label26
+            // lb_dpsr
             // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(234, 331);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(80, 13);
-            this.label26.TabIndex = 58;
-            this.label26.Text = "DPS - реролл: ";
+            this.lb_dpsr.AutoSize = true;
+            this.lb_dpsr.Location = new System.Drawing.Point(234, 331);
+            this.lb_dpsr.Name = "lb_dpsr";
+            this.lb_dpsr.Size = new System.Drawing.Size(80, 13);
+            this.lb_dpsr.TabIndex = 58;
+            this.lb_dpsr.Text = "DPS - реролл: ";
             // 
-            // label2
+            // lb_elem_dps
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(0, 109);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(132, 13);
-            this.label2.TabIndex = 63;
-            this.label2.Text = "+ 1% Elem увеличит DPS:";
+            this.lb_elem_dps.AutoSize = true;
+            this.lb_elem_dps.Location = new System.Drawing.Point(0, 109);
+            this.lb_elem_dps.Name = "lb_elem_dps";
+            this.lb_elem_dps.Size = new System.Drawing.Size(132, 13);
+            this.lb_elem_dps.TabIndex = 63;
+            this.lb_elem_dps.Text = "+ 1% Elem увеличит DPS:";
             // 
-            // label3
+            // lb_cd_dps
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(0, 83);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(130, 13);
-            this.label3.TabIndex = 62;
-            this.label3.Text = "+ 10% КУ увеличит DPS:";
+            this.lb_cd_dps.AutoSize = true;
+            this.lb_cd_dps.Location = new System.Drawing.Point(0, 83);
+            this.lb_cd_dps.Name = "lb_cd_dps";
+            this.lb_cd_dps.Size = new System.Drawing.Size(130, 13);
+            this.lb_cd_dps.TabIndex = 62;
+            this.lb_cd_dps.Text = "+ 10% КУ увеличит DPS:";
             // 
-            // label27
+            // lb_cc_dps
             // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(0, 57);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(125, 13);
-            this.label27.TabIndex = 61;
-            this.label27.Text = "+ 1% КШ увеличит DPS:";
+            this.lb_cc_dps.AutoSize = true;
+            this.lb_cc_dps.Location = new System.Drawing.Point(0, 57);
+            this.lb_cc_dps.Name = "lb_cc_dps";
+            this.lb_cc_dps.Size = new System.Drawing.Size(125, 13);
+            this.lb_cc_dps.TabIndex = 61;
+            this.lb_cc_dps.Text = "+ 1% КШ увеличит DPS:";
             // 
-            // label28
+            // lb_stat_dps
             // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(0, 31);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(132, 13);
-            this.label28.TabIndex = 60;
-            this.label28.Text = "+ 100 Stat увеличит DPS:";
+            this.lb_stat_dps.AutoSize = true;
+            this.lb_stat_dps.Location = new System.Drawing.Point(0, 31);
+            this.lb_stat_dps.Name = "lb_stat_dps";
+            this.lb_stat_dps.Size = new System.Drawing.Size(132, 13);
+            this.lb_stat_dps.TabIndex = 60;
+            this.lb_stat_dps.Text = "+ 100 Stat увеличит DPS:";
             // 
-            // label29
+            // lb_as_dps
             // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(0, 5);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(123, 13);
-            this.label29.TabIndex = 59;
-            this.label29.Text = "+ 1% AC увеличит DPS:";
+            this.lb_as_dps.AutoSize = true;
+            this.lb_as_dps.Location = new System.Drawing.Point(0, 5);
+            this.lb_as_dps.Name = "lb_as_dps";
+            this.lb_as_dps.Size = new System.Drawing.Size(123, 13);
+            this.lb_as_dps.TabIndex = 59;
+            this.lb_as_dps.Text = "+ 1% AC увеличит DPS:";
             // 
             // lb_ac
             // 
@@ -905,29 +922,29 @@
             // 
             // b_save
             // 
-            this.b_save.Location = new System.Drawing.Point(377, 213);
+            this.b_save.Location = new System.Drawing.Point(395, 225);
             this.b_save.Name = "b_save";
-            this.b_save.Size = new System.Drawing.Size(56, 20);
+            this.b_save.Size = new System.Drawing.Size(52, 20);
             this.b_save.TabIndex = 69;
-            this.b_save.Text = "Save";
+            this.b_save.Text = "Q.Save";
             this.b_save.UseVisualStyleBackColor = true;
             this.b_save.Click += new System.EventHandler(this.b_save_Click);
             // 
             // b_load
             // 
-            this.b_load.Location = new System.Drawing.Point(377, 239);
+            this.b_load.Location = new System.Drawing.Point(395, 245);
             this.b_load.Name = "b_load";
-            this.b_load.Size = new System.Drawing.Size(56, 20);
+            this.b_load.Size = new System.Drawing.Size(52, 20);
             this.b_load.TabIndex = 70;
-            this.b_load.Text = "Load";
+            this.b_load.Text = "Q.Load";
             this.b_load.UseVisualStyleBackColor = true;
             this.b_load.Click += new System.EventHandler(this.b_load_Click);
             // 
             // b_clear
             // 
-            this.b_clear.Location = new System.Drawing.Point(377, 265);
+            this.b_clear.Location = new System.Drawing.Point(352, 264);
             this.b_clear.Name = "b_clear";
-            this.b_clear.Size = new System.Drawing.Size(56, 20);
+            this.b_clear.Size = new System.Drawing.Size(95, 20);
             this.b_clear.TabIndex = 71;
             this.b_clear.Text = "Clear";
             this.b_clear.UseVisualStyleBackColor = true;
@@ -936,13 +953,13 @@
             // pan_stat
             // 
             this.pan_stat.Controls.Add(this.lb_dmg);
-            this.pan_stat.Controls.Add(this.label39);
-            this.pan_stat.Controls.Add(this.label29);
-            this.pan_stat.Controls.Add(this.label28);
-            this.pan_stat.Controls.Add(this.label27);
-            this.pan_stat.Controls.Add(this.label3);
+            this.pan_stat.Controls.Add(this.lb_dmg_dps);
+            this.pan_stat.Controls.Add(this.lb_as_dps);
+            this.pan_stat.Controls.Add(this.lb_stat_dps);
+            this.pan_stat.Controls.Add(this.lb_cc_dps);
+            this.pan_stat.Controls.Add(this.lb_cd_dps);
             this.pan_stat.Controls.Add(this.lb_elem);
-            this.pan_stat.Controls.Add(this.label2);
+            this.pan_stat.Controls.Add(this.lb_elem_dps);
             this.pan_stat.Controls.Add(this.lb_cd);
             this.pan_stat.Controls.Add(this.lb_ac);
             this.pan_stat.Controls.Add(this.lb_cc);
@@ -963,19 +980,19 @@
             this.lb_dmg.Text = "label35";
             this.lb_dmg.Visible = false;
             // 
-            // label39
+            // lb_dmg_dps
             // 
-            this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(0, 135);
-            this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(129, 13);
-            this.label39.TabIndex = 69;
-            this.label39.Text = "+ 50 Dmg увеличит DPS:";
+            this.lb_dmg_dps.AutoSize = true;
+            this.lb_dmg_dps.Location = new System.Drawing.Point(0, 135);
+            this.lb_dmg_dps.Name = "lb_dmg_dps";
+            this.lb_dmg_dps.Size = new System.Drawing.Size(129, 13);
+            this.lb_dmg_dps.TabIndex = 69;
+            this.lb_dmg_dps.Text = "+ 50 Dmg увеличит DPS:";
             // 
             // b_stat
             // 
             this.b_stat.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.b_stat.Location = new System.Drawing.Point(14, 163);
+            this.b_stat.Location = new System.Drawing.Point(14, 162);
             this.b_stat.Name = "b_stat";
             this.b_stat.Size = new System.Drawing.Size(181, 23);
             this.b_stat.TabIndex = 73;
@@ -1007,101 +1024,101 @@
             this.nud_damage.Size = new System.Drawing.Size(65, 20);
             this.nud_damage.TabIndex = 75;
             // 
-            // label30
+            // lb_damc
             // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(0, 84);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(152, 13);
-            this.label30.TabIndex = 74;
-            this.label30.Text = "+-  Средний урон (min+max)/2";
+            this.lb_damc.AutoSize = true;
+            this.lb_damc.Location = new System.Drawing.Point(0, 84);
+            this.lb_damc.Name = "lb_damc";
+            this.lb_damc.Size = new System.Drawing.Size(152, 13);
+            this.lb_damc.TabIndex = 74;
+            this.lb_damc.Text = "+-  Средний урон (min+max)/2";
             // 
             // pan_info
             // 
-            this.pan_info.Controls.Add(this.label38);
-            this.pan_info.Controls.Add(this.label37);
-            this.pan_info.Controls.Add(this.label34);
-            this.pan_info.Controls.Add(this.label35);
-            this.pan_info.Controls.Add(this.label36);
-            this.pan_info.Controls.Add(this.label33);
-            this.pan_info.Controls.Add(this.label32);
-            this.pan_info.Controls.Add(this.label31);
+            this.pan_info.Controls.Add(this.lb_help8);
+            this.pan_info.Controls.Add(this.lb_help7);
+            this.pan_info.Controls.Add(this.lb_help6);
+            this.pan_info.Controls.Add(this.lb_help5);
+            this.pan_info.Controls.Add(this.lb_help4);
+            this.pan_info.Controls.Add(this.lb_help3);
+            this.pan_info.Controls.Add(this.lb_help2);
+            this.pan_info.Controls.Add(this.lb_help1);
             this.pan_info.Location = new System.Drawing.Point(12, 191);
             this.pan_info.Name = "pan_info";
             this.pan_info.Size = new System.Drawing.Size(204, 153);
             this.pan_info.TabIndex = 69;
             // 
-            // label38
+            // lb_help8
             // 
-            this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(5, 135);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(191, 13);
-            this.label38.TabIndex = 7;
-            this.label38.Text = "Оружие 2 - для данных по оружию 2.";
+            this.lb_help8.AutoSize = true;
+            this.lb_help8.Location = new System.Drawing.Point(5, 135);
+            this.lb_help8.Name = "lb_help8";
+            this.lb_help8.Size = new System.Drawing.Size(193, 13);
+            this.lb_help8.TabIndex = 7;
+            this.lb_help8.Text = "Weapon 2 - для данных по оружию 2.";
             // 
-            // label37
+            // lb_help7
             // 
-            this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(3, 117);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(158, 13);
-            this.label37.TabIndex = 6;
-            this.label37.Text = "изменений при смене вещей.";
+            this.lb_help7.AutoSize = true;
+            this.lb_help7.Location = new System.Drawing.Point(3, 117);
+            this.lb_help7.Name = "lb_help7";
+            this.lb_help7.Size = new System.Drawing.Size(158, 13);
+            this.lb_help7.TabIndex = 6;
+            this.lb_help7.Text = "изменений при смене вещей.";
             // 
-            // label34
+            // lb_help6
             // 
-            this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(3, 100);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(180, 13);
-            this.label34.TabIndex = 5;
-            this.label34.Text = "Блок справа служит для подсчёта";
+            this.lb_help6.AutoSize = true;
+            this.lb_help6.Location = new System.Drawing.Point(3, 100);
+            this.lb_help6.Name = "lb_help6";
+            this.lb_help6.Size = new System.Drawing.Size(180, 13);
+            this.lb_help6.TabIndex = 5;
+            this.lb_help6.Text = "Блок справа служит для подсчёта";
             // 
-            // label35
+            // lb_help5
             // 
-            this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(3, 80);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(99, 13);
-            this.label35.TabIndex = 4;
-            this.label35.Text = "экранных данных.";
+            this.lb_help5.AutoSize = true;
+            this.lb_help5.Location = new System.Drawing.Point(3, 80);
+            this.lb_help5.Name = "lb_help5";
+            this.lb_help5.Size = new System.Drawing.Size(99, 13);
+            this.lb_help5.TabIndex = 4;
+            this.lb_help5.Text = "экранных данных.";
             // 
-            // label36
+            // lb_help4
             // 
-            this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(3, 61);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(162, 13);
-            this.label36.TabIndex = 3;
-            this.label36.Text = "сохранения/загрузки/очистки";
+            this.lb_help4.AutoSize = true;
+            this.lb_help4.Location = new System.Drawing.Point(3, 61);
+            this.lb_help4.Name = "lb_help4";
+            this.lb_help4.Size = new System.Drawing.Size(162, 13);
+            this.lb_help4.TabIndex = 3;
+            this.lb_help4.Text = "сохранения/загрузки/очистки";
             // 
-            // label33
+            // lb_help3
             // 
-            this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(3, 44);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(190, 13);
-            this.label33.TabIndex = 2;
-            this.label33.Text = "Кнопки Save/Load/Clear служат для";
+            this.lb_help3.AutoSize = true;
+            this.lb_help3.Location = new System.Drawing.Point(3, 44);
+            this.lb_help3.Name = "lb_help3";
+            this.lb_help3.Size = new System.Drawing.Size(190, 13);
+            this.lb_help3.TabIndex = 2;
+            this.lb_help3.Text = "Кнопки Save/Load/Clear служат для";
             // 
-            // label32
+            // lb_help2
             // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(3, 24);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(185, 13);
-            this.label32.TabIndex = 1;
-            this.label32.Text = "используйте кнопку \"Расчёт DPS\".";
+            this.lb_help2.AutoSize = true;
+            this.lb_help2.Location = new System.Drawing.Point(3, 24);
+            this.lb_help2.Name = "lb_help2";
+            this.lb_help2.Size = new System.Drawing.Size(185, 13);
+            this.lb_help2.TabIndex = 1;
+            this.lb_help2.Text = "используйте кнопку \"Расчёт DPS\".";
             // 
-            // label31
+            // lb_help1
             // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(3, 5);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(171, 13);
-            this.label31.TabIndex = 0;
-            this.label31.Text = "Введите основные параметры и";
+            this.lb_help1.AutoSize = true;
+            this.lb_help1.Location = new System.Drawing.Point(3, 5);
+            this.lb_help1.Name = "lb_help1";
+            this.lb_help1.Size = new System.Drawing.Size(171, 13);
+            this.lb_help1.TabIndex = 0;
+            this.lb_help1.Text = "Введите основные параметры и";
             // 
             // lb_auth
             // 
@@ -1116,59 +1133,59 @@
             this.lb_auth.MouseLeave += new System.EventHandler(this.lb_auth_MouseLeave);
             this.lb_auth.MouseHover += new System.EventHandler(this.lb_auth_MouseHover);
             // 
-            // label41
+            // lb_spp
             // 
-            this.label41.AutoSize = true;
-            this.label41.Location = new System.Drawing.Point(0, 162);
-            this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(112, 13);
-            this.label41.TabIndex = 85;
-            this.label41.Text = "+% к скорости петов";
+            this.lb_spp.AutoSize = true;
+            this.lb_spp.Location = new System.Drawing.Point(0, 162);
+            this.lb_spp.Name = "lb_spp";
+            this.lb_spp.Size = new System.Drawing.Size(112, 13);
+            this.lb_spp.TabIndex = 85;
+            this.lb_spp.Text = "+% к скорости петов";
             // 
-            // label42
+            // lb_damp
             // 
-            this.label42.AutoSize = true;
-            this.label42.Location = new System.Drawing.Point(0, 136);
-            this.label42.Name = "label42";
-            this.label42.Size = new System.Drawing.Size(93, 13);
-            this.label42.TabIndex = 84;
-            this.label42.Text = "+% к урону петов";
+            this.lb_damp.AutoSize = true;
+            this.lb_damp.Location = new System.Drawing.Point(0, 136);
+            this.lb_damp.Name = "lb_damp";
+            this.lb_damp.Size = new System.Drawing.Size(93, 13);
+            this.lb_damp.TabIndex = 84;
+            this.lb_damp.Text = "+% к урону петов";
             // 
-            // label43
+            // lb_fet
             // 
-            this.label43.AutoSize = true;
-            this.label43.Location = new System.Drawing.Point(0, 84);
-            this.label43.Name = "label43";
-            this.label43.Size = new System.Drawing.Size(134, 13);
-            this.label43.TabIndex = 83;
-            this.label43.Text = "Среднее кол-во фетишей";
+            this.lb_fet.AutoSize = true;
+            this.lb_fet.Location = new System.Drawing.Point(0, 84);
+            this.lb_fet.Name = "lb_fet";
+            this.lb_fet.Size = new System.Drawing.Size(134, 13);
+            this.lb_fet.TabIndex = 83;
+            this.lb_fet.Text = "Среднее кол-во фетишей";
             // 
-            // label44
+            // lb_dogs
             // 
-            this.label44.AutoSize = true;
-            this.label44.Location = new System.Drawing.Point(0, 58);
-            this.label44.Name = "label44";
-            this.label44.Size = new System.Drawing.Size(133, 13);
-            this.label44.TabIndex = 82;
-            this.label44.Text = "Кол-во собак (если есть)";
+            this.lb_dogs.AutoSize = true;
+            this.lb_dogs.Location = new System.Drawing.Point(0, 58);
+            this.lb_dogs.Name = "lb_dogs";
+            this.lb_dogs.Size = new System.Drawing.Size(133, 13);
+            this.lb_dogs.TabIndex = 82;
+            this.lb_dogs.Text = "Кол-во собак (если есть)";
             // 
-            // label45
+            // lb_garg
             // 
-            this.label45.AutoSize = true;
-            this.label45.Location = new System.Drawing.Point(0, 32);
-            this.label45.Name = "label45";
-            this.label45.Size = new System.Drawing.Size(100, 13);
-            this.label45.TabIndex = 81;
-            this.label45.Text = "% урона Громадня";
+            this.lb_garg.AutoSize = true;
+            this.lb_garg.Location = new System.Drawing.Point(0, 32);
+            this.lb_garg.Name = "lb_garg";
+            this.lb_garg.Size = new System.Drawing.Size(100, 13);
+            this.lb_garg.TabIndex = 81;
+            this.lb_garg.Text = "% урона Громадня";
             // 
-            // label46
+            // lb_fizp
             // 
-            this.label46.AutoSize = true;
-            this.label46.Location = new System.Drawing.Point(0, 110);
-            this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(132, 13);
-            this.label46.TabIndex = 87;
-            this.label46.Text = "+% физ. урона для петов";
+            this.lb_fizp.AutoSize = true;
+            this.lb_fizp.Location = new System.Drawing.Point(0, 110);
+            this.lb_fizp.Name = "lb_fizp";
+            this.lb_fizp.Size = new System.Drawing.Size(132, 13);
+            this.lb_fizp.TabIndex = 87;
+            this.lb_fizp.Text = "+% физ. урона для петов";
             // 
             // nud_elemp
             // 
@@ -1229,18 +1246,18 @@
             // 
             // pan_wd
             // 
-            this.pan_wd.Controls.Add(this.label48);
-            this.pan_wd.Controls.Add(this.label45);
-            this.pan_wd.Controls.Add(this.label44);
-            this.pan_wd.Controls.Add(this.label43);
+            this.pan_wd.Controls.Add(this.lb_wd);
+            this.pan_wd.Controls.Add(this.lb_garg);
+            this.pan_wd.Controls.Add(this.lb_dogs);
+            this.pan_wd.Controls.Add(this.lb_fet);
             this.pan_wd.Controls.Add(this.nud_elemp);
-            this.pan_wd.Controls.Add(this.label42);
+            this.pan_wd.Controls.Add(this.lb_damp);
             this.pan_wd.Controls.Add(this.nud_speedp);
-            this.pan_wd.Controls.Add(this.label41);
+            this.pan_wd.Controls.Add(this.lb_spp);
             this.pan_wd.Controls.Add(this.nud_damp);
             this.pan_wd.Controls.Add(this.nud_fet);
             this.pan_wd.Controls.Add(this.nud_garg);
-            this.pan_wd.Controls.Add(this.label46);
+            this.pan_wd.Controls.Add(this.lb_fizp);
             this.pan_wd.Controls.Add(this.nud_dogs);
             this.pan_wd.Location = new System.Drawing.Point(447, 185);
             this.pan_wd.Name = "pan_wd";
@@ -1248,29 +1265,29 @@
             this.pan_wd.TabIndex = 70;
             this.pan_wd.Visible = false;
             // 
-            // label48
+            // lb_wd
             // 
-            this.label48.AutoSize = true;
-            this.label48.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label48.Location = new System.Drawing.Point(15, 6);
-            this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(171, 13);
-            this.label48.TabIndex = 98;
-            this.label48.Text = "Расчёт урона от питомцев (WD):";
+            this.lb_wd.AutoSize = true;
+            this.lb_wd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lb_wd.Location = new System.Drawing.Point(15, 6);
+            this.lb_wd.Name = "lb_wd";
+            this.lb_wd.Size = new System.Drawing.Size(171, 13);
+            this.lb_wd.TabIndex = 98;
+            this.lb_wd.Text = "Расчёт урона от питомцев (WD):";
             // 
-            // label47
+            // lb_dpspets
             // 
-            this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(-7, 0);
-            this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(65, 13);
-            this.label47.TabIndex = 96;
-            this.label47.Text = " +Pets DPS:";
+            this.lb_dpspets.AutoSize = true;
+            this.lb_dpspets.Location = new System.Drawing.Point(-7, 0);
+            this.lb_dpspets.Name = "lb_dpspets";
+            this.lb_dpspets.Size = new System.Drawing.Size(65, 13);
+            this.lb_dpspets.TabIndex = 96;
+            this.lb_dpspets.Text = " +Pets DPS:";
             // 
             // pan_wddam
             // 
             this.pan_wddam.Controls.Add(this.lb_result_wd);
-            this.pan_wddam.Controls.Add(this.label47);
+            this.pan_wddam.Controls.Add(this.lb_dpspets);
             this.pan_wddam.Location = new System.Drawing.Point(237, 351);
             this.pan_wddam.Name = "pan_wddam";
             this.pan_wddam.Size = new System.Drawing.Size(162, 13);
@@ -1286,15 +1303,15 @@
             this.lb_result_wd.TabIndex = 98;
             this.lb_result_wd.Text = "+ урон петов";
             // 
-            // label1
+            // lb_dpsp
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(234, 291);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 13);
-            this.label1.TabIndex = 98;
-            this.label1.Text = "DPS - профиль:";
+            this.lb_dpsp.AutoSize = true;
+            this.lb_dpsp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lb_dpsp.Location = new System.Drawing.Point(234, 291);
+            this.lb_dpsp.Name = "lb_dpsp";
+            this.lb_dpsp.Size = new System.Drawing.Size(85, 13);
+            this.lb_dpsp.TabIndex = 98;
+            this.lb_dpsp.Text = "DPS - профиль:";
             // 
             // lb_result_profile
             // 
@@ -1405,7 +1422,7 @@
             this.tb_dmg1_p.ReadOnly = true;
             this.tb_dmg1_p.Size = new System.Drawing.Size(56, 20);
             this.tb_dmg1_p.TabIndex = 115;
-            this.tb_dmg1_p.Text = "Оружие 1";
+            this.tb_dmg1_p.Text = "Weapon 1";
             this.tb_dmg1_p.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_dmg1_p_MouseClick_1);
             this.tb_dmg1_p.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_dmg1_p_KeyPress);
             // 
@@ -1417,7 +1434,7 @@
             this.tb_dmg2_p.ReadOnly = true;
             this.tb_dmg2_p.Size = new System.Drawing.Size(56, 20);
             this.tb_dmg2_p.TabIndex = 116;
-            this.tb_dmg2_p.Text = "Оружие 2";
+            this.tb_dmg2_p.Text = "Weapon 2";
             this.tb_dmg2_p.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_dmg2_p_MouseClick);
             this.tb_dmg2_p.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_dmg2_p_KeyPress);
             // 
@@ -1431,7 +1448,7 @@
             this.pan_da.Controls.Add(this.tb_dmg1_p);
             this.pan_da.Location = new System.Drawing.Point(14, 59);
             this.pan_da.Name = "pan_da";
-            this.pan_da.Size = new System.Drawing.Size(227, 48);
+            this.pan_da.Size = new System.Drawing.Size(235, 48);
             this.pan_da.TabIndex = 117;
             this.pan_da.Visible = false;
             // 
@@ -1454,7 +1471,7 @@
             this.tb_ac2_p.ReadOnly = true;
             this.tb_ac2_p.Size = new System.Drawing.Size(56, 20);
             this.tb_ac2_p.TabIndex = 122;
-            this.tb_ac2_p.Text = "Оружие 2";
+            this.tb_ac2_p.Text = "Weapon 2";
             this.tb_ac2_p.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_ac2_p_MouseClick);
             this.tb_ac2_p.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_ac2_p_KeyPress);
             // 
@@ -1466,7 +1483,7 @@
             this.tb_ac1_p.ReadOnly = true;
             this.tb_ac1_p.Size = new System.Drawing.Size(56, 20);
             this.tb_ac1_p.TabIndex = 121;
-            this.tb_ac1_p.Text = "Оружие 1";
+            this.tb_ac1_p.Text = "Weapon 1";
             this.tb_ac1_p.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_ac1_p_MouseClick);
             this.tb_ac1_p.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_ac1_p_KeyPress);
             // 
@@ -1651,7 +1668,7 @@
             // 
             // pan_wep
             // 
-            this.pan_wep.Controls.Add(this.label4);
+            this.pan_wep.Controls.Add(this.lb_wep);
             this.pan_wep.Controls.Add(this.lb_elem_w);
             this.pan_wep.Controls.Add(this.nud_acp_w);
             this.pan_wep.Controls.Add(this.nud_elem_w);
@@ -1671,15 +1688,15 @@
             this.pan_wep.TabIndex = 99;
             this.pan_wep.Visible = false;
             // 
-            // label4
+            // lb_wep
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(15, 6);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(144, 13);
-            this.label4.TabIndex = 98;
-            this.label4.Text = "Расчёт изменения оружия:";
+            this.lb_wep.AutoSize = true;
+            this.lb_wep.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lb_wep.Location = new System.Drawing.Point(15, 6);
+            this.lb_wep.Name = "lb_wep";
+            this.lb_wep.Size = new System.Drawing.Size(144, 13);
+            this.lb_wep.TabIndex = 98;
+            this.lb_wep.Text = "Расчёт изменения оружия:";
             // 
             // lb_elem_w
             // 
@@ -2077,6 +2094,7 @@
             // 
             // pan_cdr
             // 
+            this.pan_cdr.Controls.Add(this.lb_cdr);
             this.pan_cdr.Controls.Add(this.lb_cooldown);
             this.pan_cdr.Controls.Add(this.nud_cdr1);
             this.pan_cdr.Controls.Add(this.nud_cdr5);
@@ -2100,21 +2118,31 @@
             this.pan_cdr.TabIndex = 70;
             this.pan_cdr.Visible = false;
             // 
+            // lb_cdr
+            // 
+            this.lb_cdr.AutoSize = true;
+            this.lb_cdr.Location = new System.Drawing.Point(160, 5);
+            this.lb_cdr.Name = "lb_cdr";
+            this.lb_cdr.Size = new System.Drawing.Size(41, 13);
+            this.lb_cdr.TabIndex = 130;
+            this.lb_cdr.Text = "CDR %";
+            this.lb_cdr.Visible = false;
+            // 
             // pan_roll
             // 
-            this.pan_roll.Controls.Add(this.label24);
+            this.pan_roll.Controls.Add(this.lb_statc);
             this.pan_roll.Controls.Add(this.nud_ac);
             this.pan_roll.Controls.Add(this.nud_main);
             this.pan_roll.Controls.Add(this.nud_cc);
             this.pan_roll.Controls.Add(this.nud_damage);
-            this.pan_roll.Controls.Add(this.label19);
+            this.pan_roll.Controls.Add(this.lb_acc);
             this.pan_roll.Controls.Add(this.nud_cd);
-            this.pan_roll.Controls.Add(this.label20);
-            this.pan_roll.Controls.Add(this.label30);
+            this.pan_roll.Controls.Add(this.lb_mainc);
+            this.pan_roll.Controls.Add(this.lb_damc);
             this.pan_roll.Controls.Add(this.nud_elem);
-            this.pan_roll.Controls.Add(this.label22);
-            this.pan_roll.Controls.Add(this.label23);
-            this.pan_roll.Controls.Add(this.label21);
+            this.pan_roll.Controls.Add(this.lb_ccc);
+            this.pan_roll.Controls.Add(this.lb_elemc);
+            this.pan_roll.Controls.Add(this.lb_cdc);
             this.pan_roll.Location = new System.Drawing.Point(447, 185);
             this.pan_roll.Name = "pan_roll";
             this.pan_roll.Size = new System.Drawing.Size(228, 183);
@@ -2151,11 +2179,138 @@
             this.pan_list.TabIndex = 124;
             this.pan_list.Visible = false;
             // 
+            // lb_adv
+            // 
+            this.lb_adv.AutoSize = true;
+            this.lb_adv.Location = new System.Drawing.Point(146, 351);
+            this.lb_adv.Name = "lb_adv";
+            this.lb_adv.Size = new System.Drawing.Size(22, 13);
+            this.lb_adv.TabIndex = 125;
+            this.lb_adv.Text = "def";
+            this.lb_adv.Visible = false;
+            // 
+            // lb_lang
+            // 
+            this.lb_lang.AutoSize = true;
+            this.lb_lang.Location = new System.Drawing.Point(222, 204);
+            this.lb_lang.Name = "lb_lang";
+            this.lb_lang.Size = new System.Drawing.Size(58, 13);
+            this.lb_lang.TabIndex = 126;
+            this.lb_lang.Text = "Language:";
+            // 
+            // bt_lang
+            // 
+            this.bt_lang.Location = new System.Drawing.Point(286, 199);
+            this.bt_lang.Name = "bt_lang";
+            this.bt_lang.Size = new System.Drawing.Size(54, 23);
+            this.bt_lang.TabIndex = 127;
+            this.bt_lang.Text = "ENG";
+            this.bt_lang.UseVisualStyleBackColor = true;
+            this.bt_lang.Click += new System.EventHandler(this.bt_lang_Click);
+            // 
+            // lb_stat
+            // 
+            this.lb_stat.AutoSize = true;
+            this.lb_stat.Location = new System.Drawing.Point(175, 351);
+            this.lb_stat.Name = "lb_stat";
+            this.lb_stat.Size = new System.Drawing.Size(21, 13);
+            this.lb_stat.TabIndex = 128;
+            this.lb_stat.Text = "hlp";
+            this.lb_stat.Visible = false;
+            // 
+            // lb_start
+            // 
+            this.lb_start.AutoSize = true;
+            this.lb_start.Location = new System.Drawing.Point(202, 351);
+            this.lb_start.Name = "lb_start";
+            this.lb_start.Size = new System.Drawing.Size(27, 13);
+            this.lb_start.TabIndex = 129;
+            this.lb_start.Text = "calc";
+            this.lb_start.Visible = false;
+            // 
+            // b_fileload
+            // 
+            this.b_fileload.Location = new System.Drawing.Point(352, 245);
+            this.b_fileload.Name = "b_fileload";
+            this.b_fileload.Size = new System.Drawing.Size(43, 20);
+            this.b_fileload.TabIndex = 130;
+            this.b_fileload.Text = "Open";
+            this.b_fileload.UseVisualStyleBackColor = true;
+            this.b_fileload.Click += new System.EventHandler(this.b_open_Click);
+            // 
+            // b_filesave
+            // 
+            this.b_filesave.Location = new System.Drawing.Point(352, 225);
+            this.b_filesave.Name = "b_filesave";
+            this.b_filesave.Size = new System.Drawing.Size(43, 20);
+            this.b_filesave.TabIndex = 131;
+            this.b_filesave.Text = "Save";
+            this.b_filesave.UseVisualStyleBackColor = true;
+            this.b_filesave.Click += new System.EventHandler(this.b_filesave_Click);
+            // 
+            // b_web
+            // 
+            this.b_web.Location = new System.Drawing.Point(398, 162);
+            this.b_web.Name = "b_web";
+            this.b_web.Size = new System.Drawing.Size(55, 23);
+            this.b_web.TabIndex = 132;
+            this.b_web.Text = "Web";
+            this.b_web.UseVisualStyleBackColor = true;
+            this.b_web.Click += new System.EventHandler(this.b_web_Click);
+            // 
+            // b_parse
+            // 
+            this.b_parse.Location = new System.Drawing.Point(352, 202);
+            this.b_parse.Name = "b_parse";
+            this.b_parse.Size = new System.Drawing.Size(43, 20);
+            this.b_parse.TabIndex = 133;
+            this.b_parse.Text = "parse";
+            this.b_parse.UseVisualStyleBackColor = true;
+            this.b_parse.Click += new System.EventHandler(this.b_Parse_Click);
+            // 
+            // tb_pers
+            // 
+            this.tb_pers.Location = new System.Drawing.Point(222, 164);
+            this.tb_pers.Name = "tb_pers";
+            this.tb_pers.ReadOnly = true;
+            this.tb_pers.Size = new System.Drawing.Size(173, 20);
+            this.tb_pers.TabIndex = 135;
+            this.tb_pers.Text = "Address \"http://\" from armory";
+            this.tb_pers.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_pers_MouseClick);
+            // 
+            // pb_load
+            // 
+            this.pb_load.Image = global::Dps_Diablo3.Properties.Resources.loading_bar;
+            this.pb_load.InitialImage = null;
+            this.pb_load.Location = new System.Drawing.Point(222, 185);
+            this.pb_load.Name = "pb_load";
+            this.pb_load.Size = new System.Drawing.Size(173, 11);
+            this.pb_load.TabIndex = 136;
+            this.pb_load.TabStop = false;
+            this.pb_load.Visible = false;
+            // 
+            // bw
+            // 
+            this.bw.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bw_DoWork);
+            this.bw.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bw_ProgressChanged);
+            this.bw.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bw_RunWorkerCompleted);
+            // 
             // dps_diablo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(675, 368);
+            this.Controls.Add(this.pb_load);
+            this.Controls.Add(this.tb_pers);
+            this.Controls.Add(this.b_parse);
+            this.Controls.Add(this.b_web);
+            this.Controls.Add(this.b_filesave);
+            this.Controls.Add(this.b_fileload);
+            this.Controls.Add(this.lb_start);
+            this.Controls.Add(this.lb_stat);
+            this.Controls.Add(this.bt_lang);
+            this.Controls.Add(this.lb_lang);
+            this.Controls.Add(this.lb_adv);
             this.Controls.Add(this.pan_list);
             this.Controls.Add(this.lb_state);
             this.Controls.Add(this.pan_cdr);
@@ -2166,7 +2321,7 @@
             this.Controls.Add(this.pan_da);
             this.Controls.Add(this.pan_wa);
             this.Controls.Add(this.lb_result_profile);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lb_dpsp);
             this.Controls.Add(this.pan_wddam);
             this.Controls.Add(this.pan_wd);
             this.Controls.Add(this.lb_auth);
@@ -2176,8 +2331,8 @@
             this.Controls.Add(this.b_clear);
             this.Controls.Add(this.b_load);
             this.Controls.Add(this.b_save);
-            this.Controls.Add(this.label26);
-            this.Controls.Add(this.label25);
+            this.Controls.Add(this.lb_dpsr);
+            this.Controls.Add(this.lb_dps);
             this.Controls.Add(this.lb_changed);
             this.Controls.Add(this.b_adv);
             this.Controls.Add(this.lb_Debug);
@@ -2222,9 +2377,10 @@
             this.Controls.Add(this.pan_roll);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "dps_diablo";
-            this.Text = "DPS - Diablo3 ver. 1.6";
+            this.Text = "DPS - Diablo3 ver. 1.7";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.dps_diablo_FormClosed);
             this.Load += new System.EventHandler(this.dps_diablo_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dps_diablo_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.nud_ac)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_main)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cc)).EndInit();
@@ -2279,6 +2435,7 @@
             this.pan_roll.PerformLayout();
             this.pan_list.ResumeLayout(false);
             this.pan_list.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_load)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2326,24 +2483,24 @@
         private System.Windows.Forms.Label lb_result;
         private System.Windows.Forms.ListBox lb_Debug;
         private System.Windows.Forms.NumericUpDown nud_ac;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label lb_acc;
+        private System.Windows.Forms.Label lb_mainc;
+        private System.Windows.Forms.Label lb_cdc;
+        private System.Windows.Forms.Label lb_ccc;
         private System.Windows.Forms.NumericUpDown nud_main;
         private System.Windows.Forms.NumericUpDown nud_cc;
         private System.Windows.Forms.NumericUpDown nud_cd;
-        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label lb_elemc;
         private System.Windows.Forms.NumericUpDown nud_elem;
-        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label lb_statc;
         private System.Windows.Forms.Label lb_changed;
-        private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label lb_dps;
+        private System.Windows.Forms.Label lb_dpsr;
+        private System.Windows.Forms.Label lb_elem_dps;
+        private System.Windows.Forms.Label lb_cd_dps;
+        private System.Windows.Forms.Label lb_cc_dps;
+        private System.Windows.Forms.Label lb_stat_dps;
+        private System.Windows.Forms.Label lb_as_dps;
         private System.Windows.Forms.Label lb_ac;
         private System.Windows.Forms.Label lb_main;
         private System.Windows.Forms.Label lb_cc;
@@ -2359,25 +2516,25 @@
         private System.Windows.Forms.Panel pan_stat;
         private System.Windows.Forms.Button b_stat;
         private System.Windows.Forms.NumericUpDown nud_damage;
-        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label lb_damc;
         private System.Windows.Forms.Panel pan_info;
-        private System.Windows.Forms.Label label31;
-        private System.Windows.Forms.Label label37;
-        private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.Label label35;
-        private System.Windows.Forms.Label label36;
-        private System.Windows.Forms.Label label33;
-        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label lb_help1;
+        private System.Windows.Forms.Label lb_help7;
+        private System.Windows.Forms.Label lb_help6;
+        private System.Windows.Forms.Label lb_help5;
+        private System.Windows.Forms.Label lb_help4;
+        private System.Windows.Forms.Label lb_help3;
+        private System.Windows.Forms.Label lb_help2;
         private System.Windows.Forms.Label lb_dmg;
-        private System.Windows.Forms.Label label39;
-        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.Label lb_dmg_dps;
+        private System.Windows.Forms.Label lb_help8;
         private System.Windows.Forms.Label lb_auth;
-        private System.Windows.Forms.Label label41;
-        private System.Windows.Forms.Label label42;
-        private System.Windows.Forms.Label label43;
-        private System.Windows.Forms.Label label44;
-        private System.Windows.Forms.Label label45;
-        private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.Label lb_spp;
+        private System.Windows.Forms.Label lb_damp;
+        private System.Windows.Forms.Label lb_fet;
+        private System.Windows.Forms.Label lb_dogs;
+        private System.Windows.Forms.Label lb_garg;
+        private System.Windows.Forms.Label lb_fizp;
         private System.Windows.Forms.NumericUpDown nud_elemp;
         private System.Windows.Forms.NumericUpDown nud_speedp;
         private System.Windows.Forms.NumericUpDown nud_damp;
@@ -2385,10 +2542,10 @@
         private System.Windows.Forms.NumericUpDown nud_dogs;
         private System.Windows.Forms.NumericUpDown nud_garg;
         private System.Windows.Forms.Panel pan_wd;
-        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.Label lb_dpspets;
         private System.Windows.Forms.Panel pan_wddam;
         private System.Windows.Forms.Label lb_result_wd;
-        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.Label lb_wd;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolTip toolTip2;
         private System.Windows.Forms.ToolTip toolTip3;
@@ -2404,7 +2561,7 @@
         private System.Windows.Forms.ToolTip toolTip14;
         private System.Windows.Forms.ToolTip toolTip15;
         private System.Windows.Forms.ToolTip toolTip16;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lb_dpsp;
         private System.Windows.Forms.Label lb_result_profile;
         private System.Windows.Forms.Button b_adv;
         private System.Windows.Forms.Panel pan_wa;
@@ -2444,7 +2601,7 @@
         private System.Windows.Forms.ToolTip toolTip22;
         private System.Windows.Forms.Button b_wep;
         private System.Windows.Forms.Panel pan_wep;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lb_wep;
         private System.Windows.Forms.Label lb_elem_w;
         private System.Windows.Forms.NumericUpDown nud_acp_w;
         private System.Windows.Forms.NumericUpDown nud_elem_w;
@@ -2493,6 +2650,22 @@
         private System.Windows.Forms.ToolTip toolTip33;
         private System.Windows.Forms.ToolTip toolTip34;
         private System.Windows.Forms.ToolTip toolTip35;
+        private System.Windows.Forms.Label lb_adv;
+        private System.Windows.Forms.Label lb_lang;
+        private System.Windows.Forms.Button bt_lang;
+        private System.Windows.Forms.Label lb_stat;
+        private System.Windows.Forms.Label lb_start;
+        private System.Windows.Forms.Label lb_cdr;
+        private System.Windows.Forms.Button b_fileload;
+        private System.Windows.Forms.Button b_filesave;
+        private System.Windows.Forms.ToolTip tt_filesave;
+        private System.Windows.Forms.ToolTip tt_fileload;
+        private System.Windows.Forms.Button b_web;
+        private System.Windows.Forms.Button b_parse;
+        private System.Windows.Forms.TextBox tb_pers;
+        private System.Windows.Forms.PictureBox pb_load;
+        private System.ComponentModel.BackgroundWorker bw;
+        private System.Windows.Forms.ToolTip toolTip36;
 
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPS_Diablo3", "DPS_Diablo3\DPS_Diablo3.csproj", "{7C6579ED-9B96-492F-AE75-4C022830AFF5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dps_Diablo3", "DPS_Diablo3\Dps_Diablo3.csproj", "{7C6579ED-9B96-492F-AE75-4C022830AFF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
