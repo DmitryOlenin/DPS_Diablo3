@@ -159,7 +159,7 @@ namespace Dps_Diablo3
             tb_ac1_pt = "Weapon 1";
             tb_dmg2_pt = "Weapon 2";
             tb_ac2_pt = "Weapon 2";
-            lb_toskill_at = "+% to skill";
+            lb_toskill_at = "+% Skill increase";
             lb_elem_at = "+% Elemental Damage";
             lb_skill_at = "% Weapon Skill Damage";
             lb_skill_usage_at = "% Skill usage";

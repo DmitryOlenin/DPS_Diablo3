@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>diablo3.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\diablo3.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -50,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class_keys.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Class_lang.cs" />
     <Compile Include="Class_parse.cs" />
     <Compile Include="dps_diablo.cs">
@@ -86,7 +89,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="diablo3.ico" />
     <None Include="Resources\loading_bar.gif" />
     <None Include="Resources\diablo3.ico" />
   </ItemGroup>

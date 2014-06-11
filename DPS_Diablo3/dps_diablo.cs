@@ -326,143 +326,39 @@ namespace Dps_Diablo3
 
         private void b_load_Click(object sender, EventArgs e)
         {
-            if (tb_damage1.Text == "") tb_damage1.Text = Settings.Default.tb_damage1;
-            if ((tb_damage2.Text == "" || tb_damage2.Text == "Weapon 2") && (Settings.Default.tb_damage2 != "" && Settings.Default.tb_damage2 != "Weapon 2"))
+
+            List<TextBox> form_box = new List<TextBox> { tb_damage1, tb_ac1, tb_main, tb_acincr, tb_cc, tb_cd, tb_off_min, tb_off_max, tb_am_min, tb_am_max, tb_r1_min, tb_r1_max, tb_r2_min, tb_r2_max, tb_fromskills, tb_elem, tb_toskill, tb_elite, tb_skill, tb_dmg1_1_a, tb_dmg1_2_a, tb_skill1, tb_elem1, tb_toskill1, tb_dmg1_w, tb_dmg2_w };
+            List<string> set_box = new List<string> { Settings.Default.tb_damage1, Settings.Default.tb_ac1, Settings.Default.tb_main, Settings.Default.tb_acincr, Settings.Default.tb_cc, Settings.Default.tb_cd, Settings.Default.tb_off_min, Settings.Default.tb_off_max, Settings.Default.tb_am_min, Settings.Default.tb_am_max, Settings.Default.tb_r1_min, Settings.Default.tb_r1_max, Settings.Default.tb_r2_min, Settings.Default.tb_r2_max, Settings.Default.tb_fromskills, Settings.Default.tb_elem, Settings.Default.tb_toskill, Settings.Default.tb_elite, Settings.Default.tb_skill, Settings.Default.tb_dmg1_1_a, Settings.Default.tb_dmg1_2_a, Settings.Default.tb_skill1, Settings.Default.tb_elem1, Settings.Default.tb_toskill1, Settings.Default.tb_dmg1_w, Settings.Default.tb_dmg2_w };
+            for (int i = 0; i < form_box.Count; i++)
             {
-                tb_damage2.Text = Settings.Default.tb_damage2;
-                tb_damage2.BackColor = Color.White;
+                Readonly_insert(form_box[i], set_box[i], 0, "Normal");
             }
-            if (tb_ac1.Text == "") tb_ac1.Text = Settings.Default.tb_ac1;
-            if ((tb_ac2.Text == "" || tb_ac2.Text == "Weapon 2") && (Settings.Default.tb_ac2 != "" && Settings.Default.tb_ac2 != "Weapon 2"))
+
+            List<TextBox> form_box_ro = new List<TextBox> { tb_ac2_p, tb_ac1_p, tb_toskill2, tb_elem2, tb_skill2_usage, tb_skill1_usage, tb_dmg2_p, tb_dmg1_p, tb_dmg2_2_a, tb_dmg2_1_a, tb_skill2, tb_damage2, tb_ac2 };
+            List<string> set_box_ro = new List<string> { Settings.Default.tb_ac2_p, Settings.Default.tb_ac1_p, Settings.Default.tb_toskill2, Settings.Default.tb_elem2, Settings.Default.tb_skill2_usage, Settings.Default.tb_skill1_usage, Settings.Default.tb_dmg2_p, Settings.Default.tb_dmg1_p, Settings.Default.tb_dmg2_2_a, Settings.Default.tb_dmg2_1_a, Settings.Default.tb_skill2, Settings.Default.tb_damage2, Settings.Default.tb_ac2 };
+            for (int i = 0; i < form_box_ro.Count; i++)
             {
-                tb_ac2.Text = Settings.Default.tb_ac2;
-                tb_ac2.BackColor = Color.White;
+                Readonly_insert(form_box_ro[i], set_box_ro[i], 0, "ReadOnly");
             }
-            if (tb_main.Text == "") tb_main.Text = Settings.Default.tb_main;
-            if (tb_acincr.Text == "") tb_acincr.Text = Settings.Default.tb_acincr;
-            if (tb_cc.Text == "") tb_cc.Text = Settings.Default.tb_cc;
-            if (tb_cd.Text == "") tb_cd.Text = Settings.Default.tb_cd;
-            if (tb_off_min.Text == "") tb_off_min.Text = Settings.Default.tb_off_min;
-            if (tb_off_max.Text == "") tb_off_max.Text = Settings.Default.tb_off_max;
-            if (tb_am_min.Text == "") tb_am_min.Text = Settings.Default.tb_am_min;
-            if (tb_am_max.Text == "") tb_am_max.Text = Settings.Default.tb_am_max;
-            if (tb_r1_min.Text == "") tb_r1_min.Text = Settings.Default.tb_r1_min;
-            if (tb_r1_max.Text == "") tb_r1_max.Text = Settings.Default.tb_r1_max;
-            if (tb_r2_min.Text == "") tb_r2_min.Text = Settings.Default.tb_r2_min;
-            if (tb_r2_max.Text == "") tb_r2_max.Text = Settings.Default.tb_r2_max;
-            //if (tb_other_min.Text == "") tb_other_min.Text = Settings.Default.tb_other_min;
-            //if (tb_other_max.Text == "") tb_other_max.Text = Settings.Default.tb_other_max;
-            if (tb_fromskills.Text == "") tb_fromskills.Text = Settings.Default.tb_fromskills;
-            if (tb_elem.Text == "") tb_elem.Text = Settings.Default.tb_elem;
-            if (tb_toskill.Text == "") tb_toskill.Text = Settings.Default.tb_toskill;
-            if (tb_elite.Text == "") tb_elite.Text = Settings.Default.tb_elite;
-            if (tb_skill.Text == "") tb_skill.Text = Settings.Default.tb_skill;
-            if (nud_garg.Value == 0) nud_garg.Value = Settings.Default.nud_garg;
-            if (nud_dogs.Value == 0) nud_dogs.Value = Settings.Default.nud_dogs;
-            if (nud_fet.Value == 0) nud_fet.Value = Settings.Default.nud_fet;
-            if (nud_elemp.Value == 0) nud_elemp.Value = Settings.Default.nud_elemp;
-            if (nud_damp.Value == 0) nud_damp.Value = Settings.Default.nud_damp;
-            if (nud_speedp.Value == 0) nud_speedp.Value = Settings.Default.nud_speedp;
+
+            List<NumericUpDown> form_nud = new List<NumericUpDown> { nud_garg, nud_dogs, nud_fet, nud_elemp, nud_damp, nud_speedp, nud_main_w, nud_damp_w, nud_acp_w, nud_cd_w, nud_elem_w, nud_cooldown, nud_cdr1, nud_cdr2, nud_cdr3, nud_cdr4, nud_cdr5, nud_cdr6, nud_cdr7, nud_cdr8, nud_cdr9, nud_cdr10 };
+            List<decimal> set_nud = new List<decimal> { Settings.Default.nud_garg, Settings.Default.nud_dogs, Settings.Default.nud_fet, Settings.Default.nud_elemp, Settings.Default.nud_damp, Settings.Default.nud_speedp, Settings.Default.nud_main_w, Settings.Default.nud_damp_w, Settings.Default.nud_acp_w, Settings.Default.nud_cd_w, Settings.Default.nud_elem_w, Settings.Default.nud_cooldown, Settings.Default.nud_cdr1, Settings.Default.nud_cdr2, Settings.Default.nud_cdr3, Settings.Default.nud_cdr4, Settings.Default.nud_cdr5, Settings.Default.nud_cdr6, Settings.Default.nud_cdr7, Settings.Default.nud_cdr8, Settings.Default.nud_cdr9, Settings.Default.nud_cdr10 };
+
+            for (int i = 0; i < form_nud.Count; i++)
+            {
+                Readonly_insert(form_nud[i], null, set_nud[i], "NumericUpDown");
+            }
+
             if (nud_garg.Value != 0 || nud_dogs.Value != 0 || nud_fet.Value != 0 || nud_elemp.Value != 0 || nud_damp.Value != 0 || nud_speedp.Value != 0)
             {
-                //b_wd.Enabled = true;
                 pan_wd.Visible = true;
                 pan_roll.Visible = false;
                 pan_wep.Visible = false;
                 pan_wddam.Visible = true;
                 b_wep.Text = lng.b_wept_skill;
                 cb_wd.Checked = true;
-                //b_wd.Text = "Изменение статов и DPS";
             }
-            if (tb_dmg1_1_a.Text == "") tb_dmg1_1_a.Text = Settings.Default.tb_dmg1_1_a;
-            if (tb_dmg1_2_a.Text == "") tb_dmg1_2_a.Text = Settings.Default.tb_dmg1_2_a;
-            if (tb_skill1.Text == "") tb_skill1.Text = Settings.Default.tb_skill1;
-            if ((tb_dmg2_1_a.Text == "" || tb_dmg2_1_a.Text == "min2") && (Settings.Default.tb_dmg2_1_a != "" && Settings.Default.tb_dmg2_1_a != "min2"))
-            {
-                tb_dmg2_1_a.Text = Settings.Default.tb_dmg2_1_a;
-                tb_dmg2_1_a.ReadOnly = false;
-                tb_dmg2_1_a.BackColor = Color.White;
-            }
-            if ((tb_dmg2_2_a.Text == "" || tb_dmg2_2_a.Text == "max2") && (Settings.Default.tb_dmg2_2_a != "" && Settings.Default.tb_dmg2_2_a != "max2"))
-            {
-                tb_dmg2_2_a.Text = Settings.Default.tb_dmg2_2_a;
-                tb_dmg2_2_a.ReadOnly = false;
-                tb_dmg2_2_a.BackColor = Color.White;
-            }
-            if ((tb_dmg1_p.Text == "" || tb_dmg1_p.Text == "Weapon 1") && (Settings.Default.tb_dmg1_p != "" && Settings.Default.tb_dmg1_p != "Weapon 1"))
-            {
-                tb_dmg1_p.Text = Settings.Default.tb_dmg1_p;
-                tb_dmg1_p.ReadOnly = false;
-                tb_dmg1_p.BackColor = Color.White;
-            }
-            if ((tb_dmg2_p.Text == "" || tb_dmg2_p.Text == "Weapon 2") && (Settings.Default.tb_dmg2_p != "" && Settings.Default.tb_dmg2_p != "Weapon 2"))
-            {
-                tb_dmg2_p.Text = Settings.Default.tb_dmg2_p;
-                tb_dmg2_p.ReadOnly = false;
-                tb_dmg2_p.BackColor = Color.White;
-            }
-            if ((tb_skill2.Text == "" || tb_skill2.Text == "skill2") && (Settings.Default.tb_skill2 != "" && Settings.Default.tb_skill2 != "skill2"))
-            {
-                tb_skill2.Text = Settings.Default.tb_skill2;
-                tb_skill2.ReadOnly = false;
-                tb_skill2.BackColor = Color.White;
-            }
-            if ((tb_skill1_usage.Text == "" || tb_skill1_usage.Text == "100%") && (Settings.Default.tb_skill1_usage != "" && Settings.Default.tb_skill1_usage != "100%"))
-            {
-                tb_skill1_usage.Text = Settings.Default.tb_skill1_usage;
-                tb_skill1_usage.ReadOnly = false;
-                tb_skill1_usage.BackColor = Color.White;
-            }
-            if ((tb_skill2_usage.Text == "" || tb_skill2_usage.Text == "skill2") && (Settings.Default.tb_skill2_usage != "" && Settings.Default.tb_skill2_usage != "skill2"))
-            {
-                tb_skill2_usage.Text = Settings.Default.tb_skill2_usage;
-                tb_skill2_usage.ReadOnly = false;
-                tb_skill2_usage.BackColor = Color.White;
-            }
-            if (tb_elem1.Text == "") tb_elem1.Text = Settings.Default.tb_elem1;
-            if ((tb_elem2.Text == "" || tb_elem2.Text == "skill2") && (Settings.Default.tb_elem2 != "" && Settings.Default.tb_elem2 != "skill2"))
-            {
-                tb_elem2.Text = Settings.Default.tb_elem2;
-                tb_elem2.ReadOnly = false;
-                tb_elem2.BackColor = Color.White;
-            }
-            if (tb_toskill1.Text == "") tb_toskill1.Text = Settings.Default.tb_toskill1;
-            if ((tb_toskill2.Text == "" || tb_toskill2.Text == "skill2") && (Settings.Default.tb_toskill2 != "" && Settings.Default.tb_toskill2 != "skill2"))
-            {
-                tb_toskill2.Text = Settings.Default.tb_toskill2;
-                tb_toskill2.ReadOnly = false;
-                tb_toskill2.BackColor = Color.White;
-            }
-            if ((tb_ac1_p.Text == "" || tb_ac1_p.Text == "Weapon 1") && (Settings.Default.tb_ac1_p != "" && Settings.Default.tb_ac1_p != "Weapon 1"))
-            {
-                tb_ac1_p.Text = Settings.Default.tb_ac1_p;
-                tb_ac1_p.ReadOnly = false;
-                tb_ac1_p.BackColor = Color.White;
-            }
-            if ((tb_ac2_p.Text == "" || tb_ac2_p.Text == "Weapon 2") && (Settings.Default.tb_ac2_p != "" && Settings.Default.tb_ac2_p != "Weapon 2"))
-            {
-                tb_ac2_p.Text = Settings.Default.tb_ac2_p;
-                tb_ac2_p.ReadOnly = false;
-                tb_ac2_p.BackColor = Color.White;
-            }
-            if (tb_dmg1_w.Text == "") tb_dmg1_w.Text = Settings.Default.tb_dmg1_w;
-            if (tb_dmg2_w.Text == "") tb_dmg2_w.Text = Settings.Default.tb_dmg2_w;
-            if (nud_main_w.Value == 0) nud_main_w.Value = Settings.Default.nud_main_w;
-            if (nud_damp_w.Value == 0) nud_damp_w.Value = Settings.Default.nud_damp_w;
-            if (nud_acp_w.Value == 0) nud_acp_w.Value = Settings.Default.nud_acp_w;
-            if (nud_cd_w.Value == 0) nud_cd_w.Value = Settings.Default.nud_cd_w;
-            if (nud_elem_w.Value == 0) nud_elem_w.Value = Settings.Default.nud_elem_w;
-            if (nud_cooldown.Value == 0) nud_cooldown.Value = Settings.Default.nud_cooldown;
-            if (nud_cdr1.Value == 0) nud_cdr1.Value = Settings.Default.nud_cdr1;
-            if (nud_cdr2.Value == 0) nud_cdr2.Value = Settings.Default.nud_cdr2;
-            if (nud_cdr3.Value == 0) nud_cdr3.Value = Settings.Default.nud_cdr3;
-            if (nud_cdr4.Value == 0) nud_cdr4.Value = Settings.Default.nud_cdr4;
-            if (nud_cdr5.Value == 0) nud_cdr5.Value = Settings.Default.nud_cdr5;
-            if (nud_cdr6.Value == 0) nud_cdr6.Value = Settings.Default.nud_cdr6;
-            if (nud_cdr7.Value == 0) nud_cdr7.Value = Settings.Default.nud_cdr7;
-            if (nud_cdr8.Value == 0) nud_cdr8.Value = Settings.Default.nud_cdr8;
-            if (nud_cdr9.Value == 0) nud_cdr9.Value = Settings.Default.nud_cdr9;
-            if (nud_cdr10.Value == 0) nud_cdr10.Value = Settings.Default.nud_cdr10;
+
             White();
             if ((tb_dmg1_1_a.Text != "" || tb_dmg1_2_a.Text != "" || tb_skill1.Text != "") && (lb_adv.Text == "def")) b_adv.PerformClick();
             b_start.PerformClick();
@@ -481,8 +377,6 @@ namespace Dps_Diablo3
                     numud.Value = 1;
                     numud.Value = 0;
                 }
-
-
             }
             tb_damage2.Text = "Weapon 2";
             tb_damage2.ReadOnly = true;
@@ -857,17 +751,6 @@ namespace Dps_Diablo3
             result_wd = overdamage_wd * skill_wd / 100 * speedtotal_wd * (Convert.ToSingle(nud_damp.Value) / 100 + 1);
         }
 
-        private void Input_dot (object sender, KeyPressEventArgs e)
-        {
-	        if (e.KeyChar != 8 && e.KeyChar != 46 && (e.KeyChar < 48 || e.KeyChar > 57)) e.Handled = true;
-        }
-
-        private void Input_norm(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57)) e.Handled = true;
-        }
-
-        //Закончили обрабатывать введённые в текстовые поля данные
 
         private void b_stat_Click(object sender, EventArgs e)
         {
@@ -908,7 +791,6 @@ namespace Dps_Diablo3
                 pan_skill.Visible = true;
                 pan_skillusage.Visible = true;
                 pan_skillup.Visible = true;
-                //b_wep.Enabled = true;
                 pan_list.Visible = true;
                 b_adv.Text = lng.b_advt_def;
                 lb_adv.Text = "adv";
@@ -920,7 +802,6 @@ namespace Dps_Diablo3
                 pan_skill.Visible = false;
                 pan_skillusage.Visible = false;
                 pan_skillup.Visible = false;
-                //b_wep.Enabled = false;
                 pan_list.Visible = false;
                 pan_wep.Visible = false;
                 pan_wd.Visible = false;
@@ -929,16 +810,6 @@ namespace Dps_Diablo3
             }
         }
 
-        private void Readonly_clear(object sender, MouseEventArgs e)
-        {
-            ((TextBox)sender).ReadOnly = false;
-            ((TextBox)sender).BackColor = Color.White;
-            if (((TextBox)sender).Text == "" || ((TextBox)sender).Text == "min2" || ((TextBox)sender).Text == "Weapon 2" || ((TextBox)sender).Text == "Weapon 1" || ((TextBox)sender).Text == "max2" || ((TextBox)sender).Text == "skill2" || ((TextBox)sender).Text == "100%" || ((TextBox)sender).Text.Contains("http"))
-                ((TextBox)sender).Text = "";
-        }
-
-
-        //Закончили обрабатывать щелчки по ReadOnly полям
 
         private void b_wep_Click(object sender, EventArgs e)
         {
