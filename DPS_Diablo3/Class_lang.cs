@@ -24,10 +24,6 @@ namespace Dps_Diablo3
             lb_dmg_at = "Урон оружия";
             lb_perc_at = "+% урона оружия";
             lb_speed_at = "+% скорости оружия";
-            //tb_dmg1_pt = "Weapon 1";
-            //tb_ac1_pt = "Weapon 1";
-            //tb_dmg2_pt = "Weapon 2";
-            //tb_ac2_pt = "Weapon 2";
             lb_toskill_at = "+% к скиллу";
             lb_elem_at = "+% элементального урона";
             lb_skill_at = "% урона от оружия скилла";
@@ -63,7 +59,6 @@ namespace Dps_Diablo3
             lb_help8t = "Weapon 2 - для данных по оружию 2.";
             lb_idmg1t = "Урон/сек оружие";
             lb_iac1t = "Скорость оружия";
-            //tb_damage2t = "Weapon 2";
             lb_icct = "Критшанс";
             lb_icdt = "Критурон";
             lb_imaint = "Основной параметр";

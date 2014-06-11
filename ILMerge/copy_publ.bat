@@ -5,6 +5,8 @@ set target_path=%2
 set target_file=%~nx2
 set target_dir=%~dp2
 
+REM set rel = c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\DPS_Diablo3.exe
+REM If exist c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Release\DPS_Diablo3.exe set rel = c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Release\DPS_Diablo3.exe
 
 echo %target_path%
 echo %target_file%
@@ -37,6 +39,9 @@ IF %ErrorLevel% EQU 0 (
     )
 
 @echo Merge %status%
+
+REM del /F/Q c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Release\*.*
+
 exit %errlvl% 
 
 REM copy_publ "c:\GitHub\DPS_Diablo3\" "c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\DPS_Diablo3.exe"

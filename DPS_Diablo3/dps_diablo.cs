@@ -23,8 +23,6 @@ using System.Diagnostics;
 namespace Dps_Diablo3
 {
 
-    //public delegate void ChangedEventHandler(object sender, EventArgs e);
-
     public partial class dps_diablo : Form
     {
 
@@ -35,7 +33,7 @@ namespace Dps_Diablo3
             , sep = Convert.ToChar(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator).ToString()
             , skill_damage = "", phys_up = "", dps_min = "", aps_item = "", dps_min_off = "", phys_up_off = "", aps_item_off = ""
             ;
-
+        
         public double wepdamage, otherdamage, cleardamage, critdamage, overdamage, speedtotal, result, result_profile,
             wepdamage_wd, otherdamage_wd, cleardamage_wd, critdamage_wd, overdamage_wd, speedtotal_wd, result_wd, petdamage_wd, skill_wd,
               damage1, damage2, ac1, ac2, main, acincr, cc, cd, off_min, off_max, am_min, am_max,
@@ -53,13 +51,17 @@ namespace Dps_Diablo3
               ;
         public Class_lang lng = new Class_lang();
         
-        public int mainstat;
+        public int mainstat = 0;
 
         public static SettingsTable overview;
 
         public dps_diablo()
         {
             InitializeComponent();
+
+            #if DEBUG
+            b_parse.Visible = true;
+            #endif
 
             //comb_region.SelectedIndex = 0;
             this.KeyPreview = true;
@@ -75,16 +77,28 @@ namespace Dps_Diablo3
                 Settings.Default.Save();
             }
 
+            List<string> ro = new List<string> { "tb_dmg2_1_a", "tb_dmg2_p", "tb_dmg1_p", "tb_dmg2_2_a", "tb_skill2", "tb_skill1_usage", "tb_skill2_usage", "tb_damage2", "tb_ac2", "tb_toskill2", "tb_elem2", "tb_ac1_p", "tb_ac2_p", "tb_pers" };
+            List<string> click_dot = new List<string> { "tb_damage1", "tb_damage2", "tb_ac1", "tb_ac2", "tb_acincr", "tb_cc", "tb_cd" };
+            List<string> click = new List<string> { "tb_fromskills", "tb_elem", "tb_toskill", "tb_elite", "tb_skill", "tb_main", "tb_off_min", "tb_off_max", "tb_am_min", "tb_am_max", "tb_r1_min", "tb_r1_max", "tb_r2_min", "tb_r2_max", "tb_dmg1_1_a", "tb_dmg1_2_a", "tb_dmg2_1_a", "tb_dmg2_2_a", "tb_dmg1_p", "tb_dmg2_p", "tb_skill_usage", "tb_skill2_usage", "tb_skill1", "tb_skill2", "tb_toskill2", "tb_elem2", "tb_toskill1", "tb_elem1", "tb_ac1_p", "tb_ac2_p", "tb_dmg1_w", "tb_dmg2_w" };
+
             foreach (Control control in this.Controls.OfType<TextBox>())
+            {
+                if (ro.Contains(control.Name)) control.MouseClick += Readonly_clear;
+                if (click_dot.Contains(control.Name)) control.KeyPress += Input_dot;
+                if (click.Contains(control.Name)) control.KeyPress += Input_norm;
                 if (control.Name != "tb_pers") control.KeyDown += Key_Test;
+                control.ContextMenu = new ContextMenu();
+            }
 
             foreach (Control control in this.Controls.OfType<Panel>())
-                foreach (Control control1 in control.Controls.OfType<TextBox>()) control1.KeyDown += Key_Test;
-
-            foreach (Control control in this.Controls.OfType<TextBox>()) control.ContextMenu = new ContextMenu();
-
-            foreach (Control control in this.Controls.OfType<Panel>())
-                foreach (Control control1 in control.Controls.OfType<TextBox>()) control1.ContextMenu = new ContextMenu();
+                foreach (Control control1 in control.Controls.OfType<TextBox>())
+                {
+                    if (ro.Contains(control1.Name.ToString().Trim())) control1.MouseClick += Readonly_clear;
+                    if (click_dot.Contains(control1.Name)) control1.KeyPress += Input_dot;
+                    if (click.Contains(control1.Name)) control1.KeyPress += Input_norm;
+                    control1.KeyDown += Key_Test;
+                    control1.ContextMenu = new ContextMenu();
+                }
 
             foreach (NumericUpDown nud in pan_cdr.Controls.OfType<NumericUpDown>())
                 if (nud.Name != "nud_cooldown")
@@ -119,8 +133,6 @@ namespace Dps_Diablo3
             Settings.Default.tb_r1_max = tb_r1_max.Text;
             Settings.Default.tb_r2_min = tb_r2_min.Text;
             Settings.Default.tb_r2_max = tb_r2_max.Text;
-            //Settings.Default.tb_other_min = tb_other_min.Text;
-            //Settings.Default.tb_other_max = tb_other_max.Text;
             Settings.Default.tb_fromskills = tb_fromskills.Text;
             Settings.Default.tb_elem = tb_elem.Text;
             Settings.Default.tb_toskill = tb_toskill.Text;
@@ -214,7 +226,6 @@ namespace Dps_Diablo3
 
             XmlSerializer writer = new XmlSerializer(typeof(SettingsTable));
             //var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "//SerializationOverview.xml";
-            //var path = "C://SerializationOverview.xml";
             System.IO.FileStream file = System.IO.File.Create(path);
             writer.Serialize(file, overview);
             file.Close();
@@ -223,9 +234,7 @@ namespace Dps_Diablo3
 
         public void ReadXML(string path)
         {
-            //var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "//SerializationOverview.xml";
-            System.Xml.Serialization.XmlSerializer reader =
-                new System.Xml.Serialization.XmlSerializer(typeof(SettingsTable));
+            System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(SettingsTable));
             System.IO.StreamReader file = new System.IO.StreamReader(path);
             SettingsTable overview = new SettingsTable();
             overview = (SettingsTable)reader.Deserialize(file);
@@ -482,15 +491,11 @@ namespace Dps_Diablo3
             pan_stat.Visible = false;
             pan_info.Visible = true;
             b_stat.Text = lng.b_statt;
-            //b_stat.Enabled = false;
             lb_result.Text = lng.lb_resultt;
             lb_result_profile.Text = lng.lb_result_profilet;
             lb_changed.Text = lng.lb_changedt;
-            //b_wd.Enabled = false;
             pan_wd.Visible = false;
             pan_wddam.Visible = false;
-            //cb_wd.CheckState = 0;
-            //b_wd.Text = "Расчёт урона от питомцев (WD)";
             tb_skill1_usage.Text = "100%";
             tb_skill1_usage.ReadOnly = true;
             tb_skill2_usage.Text = "skill2";
@@ -515,7 +520,6 @@ namespace Dps_Diablo3
             tb_ac2_p.ReadOnly = true;
             tb_pers.Text = "Address \"http://\" from armory";
             tb_pers.ReadOnly = true;
-            //b_wep.Enabled = false;
             lb_state.Text = "roll";
             lb_stat.Text = "hlp";
             lb_start.Text = "calc";
@@ -636,9 +640,6 @@ namespace Dps_Diablo3
                     lb_cdr.Visible = true;
                 }
 
-
-                //MessageBox.Show(coold.ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
-
                 //Считаем DPS при продвинутом расчёте
 
                 if (lb_adv.Text == "adv")
@@ -657,7 +658,6 @@ namespace Dps_Diablo3
                     dmg1_2 = Math.Round(Convert.ToSingle(tb_dmg1_2_a.Text.Replace(".", sep)) / (dmg1_p / 100 + 1));
                     damage1 = (dmg1_1 + dmg1_2) / 2 * ac1 * (dmg1_p / 100 + 1);
                     damage2 = damage1;
-                    //MessageBox.Show(damage1.ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     ac2 = ac1;
                     if (tb_dmg2_1_a.Text != "" && tb_dmg2_1_a.Text != "min2" && tb_dmg2_2_a.Text != "" && tb_dmg2_2_a.Text != "max2" && tb_ac2.Text != "" && tb_ac2.Text != "Weapon 2" && tb_ac2.Text != "0" && tb_dmg2_1_a.Text != "0" && tb_dmg2_2_a.Text != "0")
                     {
@@ -720,8 +720,6 @@ namespace Dps_Diablo3
                 if (tb_r1_max.Text != "") r1_max = Convert.ToSingle(tb_r1_max.Text.Replace(".", sep));
                 if (tb_r2_min.Text != "") r2_min = Convert.ToSingle(tb_r2_min.Text.Replace(".", sep));
                 if (tb_r2_max.Text != "") r2_max = Convert.ToSingle(tb_r2_max.Text.Replace(".", sep));
-                //if (tb_other_min.Text != "") other_min = Convert.ToSingle(tb_other_min.Text.Replace(".", b));
-                //if (tb_other_max.Text != "") other_max = Convert.ToSingle(tb_other_max.Text.Replace(".", b));
                 other_min = 0; other_max = 0;
 
                 fromskills = 0; elem = 0; toskill = 0; elite = 0;
@@ -747,15 +745,6 @@ namespace Dps_Diablo3
                     lb_start.Text = lb_start.Text + "wd";
                 }
 
-
-                //b_stat.Enabled = true;
-                //if (pan_stat.Visible == false)
-                //{
-                //    pan_stat.Visible = true;
-                //    pan_info.Visible = false;
-                //    b_stat.Text = "Учёт умения с кулдауном";
-                //}
-
                 acincr = acincr + 1; lb_ac.Visible = true; Calculate(); lb_ac.Text = (result - result_old).ToString("N0"); acincr = acincr - 1;
                 main = main + 100; lb_main.Visible = true; Calculate(); lb_main.Text = (result - result_old).ToString("N0"); main = main - 100;
                 cc = cc + 1; lb_cc.Visible = true; Calculate(); lb_cc.Text = (result - result_old).ToString("N0"); cc = cc - 1;
@@ -768,9 +757,6 @@ namespace Dps_Diablo3
                     skill_other = (skill2 * skill2_usage / 100 * (elem2 / 100 + 1) * (toskill2 / 100 + 1));
                     skill = (skill1 * skill1_usage / 100 * (elem1 / 100 + 1) * (toskill1 / 100 + 1)) + (skill2 * skill2_usage / 100 * (elem2 / 100 + 1) * (toskill2 / 100 + 1));
                     Calculate();
-                    //MessageBox.Show(elem1.ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
-                    //MessageBox.Show(result.ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
-                    //MessageBox.Show(result_old.ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     lb_elem.Text = (result - result_old).ToString("N0");
                     elem1 = elem1 - 1;
                 }
@@ -795,7 +781,6 @@ namespace Dps_Diablo3
                     main = main + Convert.ToSingle(nud_main_w.Value);
                     cd = cd + Convert.ToSingle(nud_cd_w.Value);
                     elem1 = elem1 + Convert.ToSingle(nud_elem_w.Value);
-                    //MessageBox.Show(ac1w.ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     skill = (skill1 * skill1_usage / 100 * (elem1 / 100 + 1) * (toskill1 / 100 + 1)) + (skill2 * skill2_usage / 100 * (elem2 / 100 + 1) * (toskill2 / 100 + 1));
                     Calculate();
                     lb_changed.Text = result.ToString("N0") + " (" + (result * 100 / result_old - 100).ToString("N2") + "%)";
@@ -815,8 +800,6 @@ namespace Dps_Diablo3
                         }
 
                         else elem = elem + Convert.ToSingle(nud_elem.Value);
-                        //MessageBox.Show(skill.ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
-                        //MessageBox.Show((elem1 + Convert.ToSingle(nud_elem.Value)).ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
                         other_min = other_min + Convert.ToSingle(nud_damage.Value);
                         other_max = other_max + Convert.ToSingle(nud_damage.Value);
                         //if (cb_wd.Checked)
@@ -874,240 +857,14 @@ namespace Dps_Diablo3
             result_wd = overdamage_wd * skill_wd / 100 * speedtotal_wd * (Convert.ToSingle(nud_damp.Value) / 100 + 1);
         }
 
-        private void tb_damage1_KeyPress(object sender, KeyPressEventArgs e)
+        private void Input_dot (object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar != 8 && e.KeyChar != 46 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
+	        if (e.KeyChar != 8 && e.KeyChar != 46 && (e.KeyChar < 48 || e.KeyChar > 57)) e.Handled = true;
         }
 
-        private void tb_damage2_KeyPress(object sender, KeyPressEventArgs e)
+        private void Input_norm(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar != 8 && e.KeyChar != 46 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_ac1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && e.KeyChar != 46 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_ac2_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && e.KeyChar != 46 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_main_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_acincr_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && e.KeyChar != 46 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_cc_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && e.KeyChar != 46 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_cd_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && e.KeyChar != 46 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_off_min_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_off_max_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_am_min_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_am_max_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_r1_min_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_r1_max_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_r2_min_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_r2_max_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_fromskills_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && e.KeyChar != 46 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_elem_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && e.KeyChar != 46 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_toskill_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && e.KeyChar != 46 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_elite_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && e.KeyChar != 46 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_skill_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && e.KeyChar != 46 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-
-        private void tb_dmg1_1_a_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_dmg1_2_a_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_dmg2_1_a_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_dmg2_2_a_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_dmg1_p_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_dmg2_p_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_skill_usage_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_skill2_usage_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_skill1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_skill2_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-
-        private void tb_toskill2_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_elem2_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_toskill1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_elem1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_ac1_p_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_ac2_p_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_dmg1_w_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
-        }
-
-        private void tb_dmg2_w_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57))
-                e.Handled = true;
+            if (e.KeyChar != 8 && (e.KeyChar < 48 || e.KeyChar > 57)) e.Handled = true;
         }
 
         //Закончили обрабатывать введённые в текстовые поля данные
@@ -1172,104 +929,16 @@ namespace Dps_Diablo3
             }
         }
 
-        private void tb_dmg2_1_a_MouseClick(object sender, MouseEventArgs e)
+        private void Readonly_clear(object sender, MouseEventArgs e)
         {
-            tb_dmg2_1_a.ReadOnly = false;
-            tb_dmg2_1_a.BackColor = Color.White;
-            if (tb_dmg2_1_a.Text == "" || tb_dmg2_1_a.Text == "min2") tb_dmg2_1_a.Text = "";
+            ((TextBox)sender).ReadOnly = false;
+            ((TextBox)sender).BackColor = Color.White;
+            if (((TextBox)sender).Text == "" || ((TextBox)sender).Text == "min2" || ((TextBox)sender).Text == "Weapon 2" || ((TextBox)sender).Text == "Weapon 1" || ((TextBox)sender).Text == "max2" || ((TextBox)sender).Text == "skill2" || ((TextBox)sender).Text == "100%" || ((TextBox)sender).Text.Contains("http"))
+                ((TextBox)sender).Text = "";
         }
 
-        private void tb_dmg2_p_MouseClick(object sender, MouseEventArgs e)
-        {
-            tb_dmg2_p.ReadOnly = false;
-            tb_dmg2_p.BackColor = Color.White;
-            if (tb_dmg2_p.Text == "" || tb_dmg2_p.Text == "Weapon 2") tb_dmg2_p.Text = "";
-        }
 
-        private void tb_dmg1_p_MouseClick_1(object sender, MouseEventArgs e)
-        {
-            tb_dmg1_p.ReadOnly = false;
-            tb_dmg1_p.BackColor = Color.White;
-            if (tb_dmg1_p.Text == "" || tb_dmg1_p.Text == "Weapon 1") tb_dmg1_p.Text = "";
-        }
-
-        private void tb_dmg2_2_a_MouseClick(object sender, MouseEventArgs e)
-        {
-            tb_dmg2_2_a.ReadOnly = false;
-            tb_dmg2_2_a.BackColor = Color.White;
-            if (tb_dmg2_2_a.Text == "" || tb_dmg2_2_a.Text == "max2") tb_dmg2_2_a.Text = "";
-        }
-
-        private void tb_skill2_MouseClick(object sender, MouseEventArgs e)
-        {
-            tb_skill2.ReadOnly = false;
-            tb_skill2.BackColor = Color.White;
-            if (tb_skill2.Text == "" || tb_skill2.Text == "skill2") tb_skill2.Text = "";
-        }
-
-        private void tb_skill_usage_MouseClick(object sender, MouseEventArgs e)
-        {
-            tb_skill1_usage.ReadOnly = false;
-            tb_skill1_usage.BackColor = Color.White;
-            if (tb_skill1_usage.Text == "" || tb_skill1_usage.Text == "100%") tb_skill1_usage.Text = "";
-        }
-
-        private void tb_skill2_usage_MouseClick(object sender, MouseEventArgs e)
-        {
-            tb_skill2_usage.ReadOnly = false;
-            tb_skill2_usage.BackColor = Color.White;
-            if (tb_skill2_usage.Text == "" || tb_skill2_usage.Text == "skill2") tb_skill2_usage.Text = "";
-        }
-
-        private void tb_damage2_MouseClick(object sender, MouseEventArgs e)
-        {
-            tb_damage2.ReadOnly = false;
-            tb_damage2.BackColor = Color.White;
-            if (tb_damage2.Text == "" || tb_damage2.Text == "Weapon 2") tb_damage2.Text = "";
-        }
-
-        private void tb_ac2_MouseClick(object sender, MouseEventArgs e)
-        {
-            tb_ac2.ReadOnly = false;
-            tb_ac2.BackColor = Color.White;
-            if (tb_ac2.Text == "" || tb_ac2.Text == "Weapon 2") tb_ac2.Text = "";
-        }
-
-        private void tb_toskill2_MouseClick(object sender, MouseEventArgs e)
-        {
-            tb_toskill2.ReadOnly = false;
-            tb_toskill2.BackColor = Color.White;
-            if (tb_toskill2.Text == "" || tb_toskill2.Text == "skill2") tb_toskill2.Text = "";
-        }
-
-        private void tb_elem2_MouseClick(object sender, MouseEventArgs e)
-        {
-            tb_elem2.ReadOnly = false;
-            tb_elem2.BackColor = Color.White;
-            if (tb_elem2.Text == "" || tb_elem2.Text == "skill2") tb_elem2.Text = "";
-        }
-
-        private void tb_ac1_p_MouseClick(object sender, MouseEventArgs e)
-        {
-            tb_ac1_p.ReadOnly = false;
-            tb_ac1_p.BackColor = Color.White;
-            if (tb_ac1_p.Text == "" || tb_ac1_p.Text == "Weapon 1") tb_ac1_p.Text = "";
-        }
-
-        private void tb_ac2_p_MouseClick(object sender, MouseEventArgs e)
-        {
-            tb_ac2_p.ReadOnly = false;
-            tb_ac2_p.BackColor = Color.White;
-            if (tb_ac2_p.Text == "" || tb_ac2_p.Text == "Weapon 2") tb_ac2_p.Text = "";
-        }
-
-        private void tb_pers_MouseClick(object sender, MouseEventArgs e)
-        {
-            tb_pers.ReadOnly = false;
-            tb_pers.BackColor = Color.White;
-            //if (tb_pers.Text == "" || tb_pers.Text == "Address \"http://\" from armory") 
-                tb_pers.Text = "";
-        }
+        //Закончили обрабатывать щелчки по ReadOnly полям
 
         private void b_wep_Click(object sender, EventArgs e)
         {
@@ -1301,8 +970,6 @@ namespace Dps_Diablo3
 
         }
 
-        //Закончили обрабатывать щелчки по ReadOnly полям
-
         private void dps_diablo_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Dispose();
@@ -1316,7 +983,6 @@ namespace Dps_Diablo3
         private void lb_auth_MouseHover(object sender, EventArgs e)
         {
             this.Cursor = Cursors.Hand;
-            //lb_auth.Font = new Font(FontFamily.GenericSansSerif, 8.25F, FontStyle.Underline);
         }
 
         private void lb_auth_MouseLeave(object sender, EventArgs e)
@@ -1329,10 +995,6 @@ namespace Dps_Diablo3
             lb_dmg_a.Text = lng.lb_dmg_at;
             lb_perc_a.Text = lng.lb_perc_at;
             lb_speed_a.Text = lng.lb_speed_at;
-            //tb_dmg1_p.Text = tb_dmg1_pt;
-            //tb_ac1_p.Text = tb_ac1_pt;
-            //tb_dmg2_p.Text = tb_dmg2_pt;
-            //tb_ac2_p.Text = tb_ac2_pt;
             lb_toskill_a.Text = lng.lb_toskill_at;
             lb_elem_a.Text = lng.lb_elem_at;
             lb_skill_a.Text = lng.lb_skill_at;
@@ -1368,7 +1030,6 @@ namespace Dps_Diablo3
             lb_help8.Text = lng.lb_help8t;
             lb_idmg1.Text = lng.lb_idmg1t;
             lb_iac1.Text = lng.lb_iac1t;
-            //tb_damage2.Text = tb_damage2t;
             lb_icc.Text = lng.lb_icct;
             lb_icd.Text = lng.lb_icdt;
             lb_imain.Text = lng.lb_imaint;
@@ -1538,7 +1199,6 @@ namespace Dps_Diablo3
         {
             string host = "eu.battle.net";
             if (tb_pers.Text.Contains("us.")) host = "us.battle.net";
-            //if (comb_region.Text != "EU")  host = "us.battle.net";
             System.Net.WebRequest req_item = System.Net.WebRequest.Create(@"http://" + host + "/api/d3/data/" + param);
 
             if (b_parse.Visible)
@@ -1625,13 +1285,9 @@ namespace Dps_Diablo3
                         {
                             int kkk = pars_hero[i].IndexOf("% weapon damage");
                             skill_damage = pars_hero[i].Substring(kkk - 3, 3);
-                            //MessageBox.Show(pars_hero[i].Substring(kkk - 3, 3).ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
                             break;
                         }
                     }
-
-                    //tb_skill1.Text = skill_damage;
-                    //tb_skill.Text = skill_damage;
 
                     byte[] byteArray = Encoding.UTF8.GetBytes(hero_parse);
                     MemoryStream TheStream = new MemoryStream(byteArray);
@@ -1752,8 +1408,6 @@ namespace Dps_Diablo3
                         offh(neck_parse);
                     }
 
-                    //b_start.PerformClick();
-
                     if (b_parse.Visible)
                     {
                         string path = @"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\WriteText1.txt";
@@ -1793,7 +1447,6 @@ namespace Dps_Diablo3
 
             }
         }
-        //MessageBox.Show(hero.ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
 
         public void mh()
         {
@@ -1802,10 +1455,6 @@ namespace Dps_Diablo3
             MemoryStream TheStream = new MemoryStream(byteArray);
             DataContractJsonSerializer json = new DataContractJsonSerializer(typeof(MainHand));
             MainHand mh = (MainHand)json.ReadObject(TheStream);
-
-            //System.IO.File.WriteAllText(@"c:\mh_parse.txt", mainHand_parse.Replace('#', '_'));
-
-            //if (lb_adv.Text == "def") b_adv.PerformClick();
 
             //----------Weapon(min/max)----------//
 
@@ -1836,13 +1485,7 @@ namespace Dps_Diablo3
                 phys_up = mh.attributesRaw.Damage_Weapon_Percent_Bonus_Physical.min;
                 damage_min = Math.Round(damage_min * (1 + Math.Round(Convert.ToDouble(phys_up.Replace(".", sep)), 2)));
                 damage_max = Math.Round(damage_max * (1 + Math.Round(Convert.ToDouble(phys_up.Replace(".", sep)), 2)));
-                //tb_dmg1_p.Text = (Math.Round(Convert.ToDouble(phys_up.Replace(".", sep)), 2)*100).ToString().Replace(sep, ".");
-                //tb_dmg1_p_MouseClick_1(null, null);
             }
-
-            //if (damage_min != 0) tb_dmg1_1_a.Text = damage_min.ToString().Replace(sep, ".");
-            //if (damage_max != 0) tb_dmg1_2_a.Text = damage_max.ToString().Replace(sep, ".");
-            //if (mh.dps != null) tb_damage1.Text = Math.Round(Convert.ToDouble(mh.dps.min.Replace(".", sep)), 2).ToString().Replace(sep, ".");
 
             //----------Elemental damage up----------//
 
@@ -1855,34 +1498,19 @@ namespace Dps_Diablo3
             if (mh.attributesRaw.Damage_Dealt_Percent_Bonus_Holy != null) elem_Holy = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Dealt_Percent_Bonus_Holy.min.Replace(".", sep)), 2);
 
             elem_all = Math.Round((elem_Physical + elem_Fire + elem_Cold + elem_Lightning + elem_Poison + elem_Arcane + elem_Holy) * 100);
-            //MessageBox.Show(elem_all.ToString());
-
-            if (elem_all != 0)
-            {
-                //tb_elem1.Text = elem_all.ToString().Replace(sep, ".");
-                //tb_elem.Text = elem_all.ToString().Replace(sep, ".");
-            }
 
             //----------Attacks Per Second----------//
 
             if (mh.attacksPerSecond != null) aps = Math.Round(Convert.ToDouble(mh.attacksPerSecond.min.Replace(".", sep)), 2);
-            //if (aps != 0) tb_ac1.Text = aps.ToString().Replace(sep, ".");
-            if (mh.attributesRaw.Attacks_Per_Second_Item_Percent != null)
-            {
-                aps_item = mh.attributesRaw.Attacks_Per_Second_Item_Percent.min;
-                //tb_ac1_p.Text = (Math.Round(Convert.ToDouble(mh.attributesRaw.Attacks_Per_Second_Item_Percent.min.Replace(".", sep)), 2) * 100).ToString().Replace(sep, ".");
-                //tb_ac1_p_MouseClick(null, null);
-            }
+            if (mh.attributesRaw.Attacks_Per_Second_Item_Percent != null)  aps_item = mh.attributesRaw.Attacks_Per_Second_Item_Percent.min;
 
             //----------Critical damage----------//
 
             if (mh.attributesRaw.Crit_Damage_Percent != null) crit_damage = crit_damage + Math.Round(Convert.ToDouble(mh.attributesRaw.Crit_Damage_Percent.min.Replace(".", sep)), 2);
-            //if (crit_damage != 0) tb_cd.Text = crit_damage.ToString().Replace(sep, ".");
 
             //----------Damage vs elites----------//
 
             if (mh.attributesRaw.Damage_Percent_Bonus_Vs_Elites != null) elite_damage = elite_damage + Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Percent_Bonus_Vs_Elites.min.Replace(".", sep))*100, 2);
-            //if (elite_damage != 0) tb_elite.Text = elite_damage.ToString().Replace(sep, ".");
 
             del_Physical = 0; del_X1_Physical = 0; del_Fire = 0; del_Cold = 0; del_Lightning = 0; del_Poison = 0; del_Arcane = 0; del_Holy = 0;
             min_Physical = 0; min_X1_Physical = 0; min_Fire = 0; min_Cold = 0; min_Lightning = 0; min_Poison = 0; min_Arcane = 0; min_Holy = 0;
@@ -1900,8 +1528,6 @@ namespace Dps_Diablo3
             MemoryStream TheStream = new MemoryStream(byteArray);
             DataContractJsonSerializer json = new DataContractJsonSerializer(typeof(MainHand));
             MainHand mh = (MainHand)json.ReadObject(TheStream);
-
-            //System.IO.File.WriteAllText(@"c:\mh_parse.txt", mainHand_parse.Replace('#', '_'));
 
             //----------Weapon(min/max)----------//
 
@@ -1926,31 +1552,13 @@ namespace Dps_Diablo3
             damage_min_off = Math.Round(min_Physical + min_X1_Physical + min_Fire + min_Cold + min_Lightning + min_Poison + min_Arcane + min_Holy);
             damage_max_off = Math.Round(del_Physical + del_X1_Physical + del_Fire + del_Cold + del_Lightning + del_Poison + del_Arcane + del_Holy + min_Physical + min_X1_Physical + min_Fire + min_Cold + min_Lightning + min_Poison + min_Arcane + min_Holy);
 
-            //MessageBox.Show(damage_min_off.ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
-
             if (mh.dps != null) dps_min_off = mh.dps.min;
             if (mh.attributesRaw.Damage_Weapon_Percent_Bonus_Physical != null)
             {
                 phys_up_off = mh.attributesRaw.Damage_Weapon_Percent_Bonus_Physical.min;
                 damage_min_off = Math.Round(damage_min * (1 + Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Percent_Bonus_Physical.min.Replace(".", sep)), 2)));
                 damage_max_off = Math.Round(damage_max * (1 + Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Percent_Bonus_Physical.min.Replace(".", sep)), 2)));
-                //tb_dmg2_p.Text = (1 + Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Percent_Bonus_Physical.min.Replace(".", sep)), 2)).ToString().Replace(sep, ".");
-                //tb_dmg2_p_MouseClick(null, null);
             }
-
-            if (damage_min_off != 0 && damage_max_off != 0)
-            {
-                //tb_dmg2_1_a.Text = damage_min.ToString().Replace(sep, ".");
-                //tb_dmg2_2_a.Text = damage_max.ToString().Replace(sep, ".");
-                //tb_dmg2_1_a_MouseClick(null, null);
-                //tb_dmg2_2_a_MouseClick(null, null);
-            }
-            if (mh.dps != null)
-            {
-                //tb_damage2.Text = Math.Round(Convert.ToDouble(mh.dps.min.Replace(".", sep)), 2).ToString().Replace(sep, ".");
-                //tb_damage2_MouseClick(null, null);
-            }
-
 
             //----------Elemental damage up----------//
 
@@ -1963,49 +1571,24 @@ namespace Dps_Diablo3
             if (mh.attributesRaw.Damage_Dealt_Percent_Bonus_Holy != null) elem_Holy = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Dealt_Percent_Bonus_Holy.min.Replace(".", sep)), 2);
 
             if (Math.Round((elem_Physical + elem_Fire + elem_Cold + elem_Lightning + elem_Poison + elem_Arcane + elem_Holy) * 100) > 0 ) elem_all = elem_all + Math.Round((elem_Physical + elem_Fire + elem_Cold + elem_Lightning + elem_Poison + elem_Arcane + elem_Holy) * 100);
-            //MessageBox.Show(elem_all.ToString());
-
-            if (elem_all != 0)
-            {
-                //tb_elem1.Text = elem_all.ToString().Replace(sep, ".");
-                //tb_elem.Text = elem_all.ToString().Replace(sep, ".");
-            }
 
             //----------Attacks Per Second----------//
 
             if (mh.attacksPerSecond != null) aps_off = Math.Round(Convert.ToDouble(mh.attacksPerSecond.min.Replace(".", sep)), 2);
-            if (aps_off != 0)
-            {
-                //tb_ac2.Text = aps.ToString().Replace(sep, ".");
-                //tb_ac2_MouseClick(null, null);
-            }
-            if (mh.attributesRaw.Attacks_Per_Second_Item_Percent != null)
-            {
-                aps_item_off = mh.attributesRaw.Attacks_Per_Second_Item_Percent.min;
-                //tb_ac1_p.Text = (Math.Round(Convert.ToDouble(mh.attributesRaw.Attacks_Per_Second_Item_Percent.min.Replace(".", sep)), 2) * 100).ToString().Replace(sep, ".");
-                //tb_ac1_p_MouseClick(null, null);
-            }
-            if (mh.attributesRaw.Attacks_Per_Second_Percent != null)
-            {
-                aps_up = aps_up + Math.Round(Convert.ToDouble(mh.attributesRaw.Attacks_Per_Second_Percent.min.Replace(".", sep)), 2) * 100;
-                //tb_acincr.Text = aps_up.ToString().Replace(sep, ".");
-                //tb_ac2_p_MouseClick(null, null);
-            }
+            if (mh.attributesRaw.Attacks_Per_Second_Item_Percent != null) aps_item_off = mh.attributesRaw.Attacks_Per_Second_Item_Percent.min;
+            if (mh.attributesRaw.Attacks_Per_Second_Percent != null) aps_up = aps_up + Math.Round(Convert.ToDouble(mh.attributesRaw.Attacks_Per_Second_Percent.min.Replace(".", sep)), 2) * 100;
 
             //----------Critical damage----------//
 
             if (mh.attributesRaw.Crit_Damage_Percent != null) crit_damage = crit_damage + Math.Round(Convert.ToDouble(mh.attributesRaw.Crit_Damage_Percent.min.Replace(".", sep)), 2)*100;
-            //if (crit_damage != 0) tb_cd.Text = crit_damage.ToString().Replace(sep, ".");
 
             //----------Damage vs elites----------//
 
             if (mh.attributesRaw.Damage_Percent_Bonus_Vs_Elites != null) elite_damage = elite_damage + Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Percent_Bonus_Vs_Elites.min.Replace(".", sep)) * 100, 2);
-            //if (elite_damage != 0) tb_elite.Text = elite_damage.ToString().Replace(sep, ".");
 
             //----------OffHand Crit Chance----------//
 
             if (mh.attributesRaw.Crit_Percent_Bonus_Capped != null) off_crit_chance = off_crit_chance + Math.Round(Convert.ToDouble(mh.attributesRaw.Crit_Percent_Bonus_Capped.min.Replace(".", sep)) * 100, 2);
-            //if (off_crit_chance != 0) tb_cc.Text = off_crit_chance.ToString().Replace(sep, ".");
 
             //----------OffHand Damage----------//
 
@@ -2013,42 +1596,22 @@ namespace Dps_Diablo3
             {
                 if (mh.attributesRaw.Damage_Min_Physical != null) off_min_Physical = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Min_Physical.min.Replace(".", sep)), 2);
                 if (mh.attributesRaw.Damage_Delta_Physical != null) off_del_Physical = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Delta_Physical.min.Replace(".", sep)), 2);
-                if (off_min_Physical != 0 && off_del_Physical != 0)
-                {
-                    //tb_off_min.Text = off_min_Physical.ToString().Replace(sep, ".");
-                    //tb_off_max.Text = (off_min_Physical + off_del_Physical).ToString().Replace(sep, ".");
-                }
             }
             if (forparse.Contains("\"id\" : \"Ring\"") && rings_count != 0)
             {
                 if (mh.attributesRaw.Damage_Min_Physical != null) r2_min_Physical = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Min_Physical.min.Replace(".", sep)), 2);
                 if (mh.attributesRaw.Damage_Delta_Physical != null) r2_del_Physical = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Delta_Physical.min.Replace(".", sep)), 2);
-                if (r2_min_Physical != 0 && r2_del_Physical != 0)
-                {
-                    //tb_r2_min.Text = r2_min_Physical.ToString().Replace(sep, ".");
-                    //tb_r2_max.Text = (r2_min_Physical + r2_del_Physical).ToString().Replace(sep, ".");
-                }
             }
             if (forparse.Contains("\"id\" : \"Ring\"") && rings_count == 0)
             {
                 rings_count = rings_count + 1;
                 if (mh.attributesRaw.Damage_Min_Physical != null) r1_min_Physical = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Min_Physical.min.Replace(".", sep)), 2);
                 if (mh.attributesRaw.Damage_Delta_Physical != null) r1_del_Physical = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Delta_Physical.min.Replace(".", sep)), 2);
-                if (r1_min_Physical != 0 && r1_del_Physical != 0)
-                {
-                    //tb_r1_min.Text = r1_min_Physical.ToString().Replace(sep, ".");
-                    //tb_r1_max.Text = (r1_min_Physical + r1_del_Physical).ToString().Replace(sep, ".");
-                }
             }
             if (forparse.Contains("\"id\" : \"Amulet\""))
             {
                 if (mh.attributesRaw.Damage_Min_Physical != null) am_min_Physical = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Min_Physical.min.Replace(".", sep)), 2);
                 if (mh.attributesRaw.Damage_Delta_Physical != null) am_del_Physical = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Delta_Physical.min.Replace(".", sep)), 2);
-                if (am_min_Physical != 0 && am_del_Physical != 0)
-                {
-                    //tb_am_min.Text = am_min_Physical.ToString().Replace(sep, ".");
-                    //tb_am_max.Text = (am_min_Physical + am_del_Physical).ToString().Replace(sep, ".");
-                }
             }
 
         }
@@ -2064,7 +1627,7 @@ namespace Dps_Diablo3
             if (skill_damage != "") tb_skill.Text = skill_damage;
             if (mainstat != 0) tb_main.Text = mainstat.ToString();
             if (phys_up != "") tb_dmg1_p.Text = (Math.Round(Convert.ToDouble(phys_up.Replace(".", sep)), 2) * 100).ToString().Replace(sep, ".");
-            if (phys_up != "") tb_dmg1_p_MouseClick_1(null, null);
+            if (phys_up != "") Readonly_clear(tb_dmg1_p, null);//tb_dmg1_p_MouseClick_1(null, null);
             if (damage_min != 0) tb_dmg1_1_a.Text = damage_min.ToString().Replace(sep, ".");
             if (damage_max != 0) tb_dmg1_2_a.Text = damage_max.ToString().Replace(sep, ".");
             if (dps_min != "") tb_damage1.Text = Math.Round(Convert.ToDouble(dps_min.Replace(".", sep)), 2).ToString().Replace(sep, ".");
@@ -2072,22 +1635,22 @@ namespace Dps_Diablo3
             if (elem_all != 0) tb_elem.Text = elem_all.ToString().Replace(sep, ".");
             if (aps != 0) tb_ac1.Text = aps.ToString().Replace(sep, ".");
             if (aps_off != 0) tb_ac2.Text = aps_off.ToString().Replace(sep, ".");
-            if (aps_off != 0) tb_ac2_MouseClick(null, null);
+            if (aps_off != 0) Readonly_clear(tb_ac2, null);//tb_ac2_MouseClick(null, null);
             if (aps_item != "") tb_ac1_p.Text = (Math.Round(Convert.ToDouble(aps_item.Replace(".", sep)), 2) * 100).ToString().Replace(sep, ".");
-            if (aps_item != "") tb_ac1_p_MouseClick(null, null);
+            if (aps_item != "") Readonly_clear(tb_ac1_p, null);//tb_ac1_p_MouseClick(null, null);
             if (crit_damage != 0) tb_cd.Text = (crit_damage+50).ToString().Replace(sep, ".");
             if (elite_damage != 0) tb_elite.Text = elite_damage.ToString().Replace(sep, ".");
             if (phys_up_off != "") tb_dmg2_p.Text = (1 + Math.Round(Convert.ToDouble(phys_up_off.Replace(".", sep)), 2)).ToString().Replace(sep, ".");
-            if (phys_up_off != "") tb_dmg2_p_MouseClick(null, null);
+            if (phys_up_off != "") Readonly_clear(tb_dmg2_p, null);//tb_dmg2_p_MouseClick(null, null);
             if (damage_min_off != 0) tb_dmg2_1_a.Text = damage_min_off.ToString().Replace(sep, ".");
             if (damage_max_off != 0) tb_dmg2_2_a.Text = damage_max_off.ToString().Replace(sep, ".");
-            if (damage_min_off != 0) tb_dmg2_1_a_MouseClick(null, null);
-            if (damage_max_off != 0) tb_dmg2_2_a_MouseClick(null, null);
+            if (damage_min_off != 0) Readonly_clear(tb_dmg2_1_a, null);//tb_dmg2_1_a_MouseClick(null, null);
+            if (damage_max_off != 0) Readonly_clear(tb_dmg2_2_a, null);//tb_dmg2_2_a_MouseClick(null, null);
             if (dps_min_off != "") tb_damage2.Text = Math.Round(Convert.ToDouble(dps_min_off.Replace(".", sep)), 2).ToString().Replace(sep, ".");
-            if (dps_min_off != "") tb_damage2_MouseClick(null, null);
+            if (dps_min_off != "") Readonly_clear(tb_damage2, null);//tb_damage2_MouseClick(null, null);
             if (aps_up != 0) tb_acincr.Text = aps_up.ToString().Replace(sep, ".");
             if (aps_item_off != "") tb_ac2_p.Text = (Math.Round(Convert.ToDouble(aps_item_off.Replace(".", sep)), 2) * 100).ToString().Replace(sep, ".");
-            if (aps_item_off != "") tb_ac2_p_MouseClick(null, null);
+            if (aps_item_off != "") Readonly_clear(tb_ac2_p, null);//tb_ac2_p_MouseClick(null, null);
             if (off_crit_chance != 0) tb_cc.Text = (off_crit_chance+5).ToString().Replace(sep, ".");
             if (off_min_Physical != 0) tb_off_min.Text = off_min_Physical.ToString().Replace(sep, ".");
             if ((off_min_Physical + off_del_Physical) != 0) tb_off_max.Text = (off_min_Physical + off_del_Physical).ToString().Replace(sep, ".");
@@ -2128,140 +1691,58 @@ namespace Dps_Diablo3
         private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             pb_load.Visible = false;
-            import();
+            if (mainstat != 0) import();
         }
 
         private void b_Parse_Click(object sender, EventArgs e)
         {
-            string mh_path = @"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\mainHand.txt";
-            string off_path = @"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\offHand.txt";
-            //hero_parse = System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\WriteText1.txt");
+            //string mh_path = @"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\mainHand.txt";
+            //string off_path = @"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\offHand.txt";
+            ////hero_parse = System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\WriteText1.txt");
 
-            //string json1 = "{\"p1\": [123, true], \"p2\":[456, false]}";
+            ////string json1 = "{\"p1\": [123, true], \"p2\":[456, false]}";
 
-            string json2 = System.IO.File.ReadAllText(mh_path);
+            //string json2 = System.IO.File.ReadAllText(mh_path);
 
-            string[] parsedArray = json2.Split('\n');  //парсим строку и получаем стринговый массив
+            //string[] parsedArray = json2.Split('\n');  //парсим строку и получаем стринговый массив
 
-            for (int i = 0; i < parsedArray.Length; i++)
-            {
-                //MessageBox.Show(parsedArray[i].Trim().ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
-            }
-            //int fl=0;
-            Primary[] arr_primary = new Primary[3];
-
-            rings_count = 0; crit_damage = 0; off_crit_chance = 0; aps_up = 0;
-            mainHand_parse = System.IO.File.ReadAllText(mh_path);
-            offHand_parse = System.IO.File.ReadAllText(off_path);
-
-            if (mainHand_parse.Contains("Critical Hit Damage Increased by 130")) crit_damage = crit_damage + 130;
-            if (mainHand_parse.Contains("Critical Hit Damage Increased by 125")) crit_damage = crit_damage + 125;
-            if (mainHand_parse.Contains("Critical Hit Damage Increased by 120")) crit_damage = crit_damage + 120;
-            if (mainHand_parse.Contains("Critical Hit Damage Increased by 115")) crit_damage = crit_damage + 115;
-            if (mainHand_parse.Contains("Critical Hit Damage Increased by 110")) crit_damage = crit_damage + 110;
-
-            if (offHand_parse.Contains("Critical Hit Damage Increased by 130")) crit_damage = crit_damage + 130;
-            if (offHand_parse.Contains("Critical Hit Damage Increased by 125")) crit_damage = crit_damage + 125;
-            if (offHand_parse.Contains("Critical Hit Damage Increased by 120")) crit_damage = crit_damage + 120;
-            if (offHand_parse.Contains("Critical Hit Damage Increased by 115")) crit_damage = crit_damage + 115;
-            if (offHand_parse.Contains("Critical Hit Damage Increased by 110")) crit_damage = crit_damage + 110;
-
-            mh();
-            offh(offHand_parse);
-            offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\leftFinger.txt"));
-            offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\neck.txt"));
-            offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\rightFinger.txt"));
-            offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\waist.txt"));
-            offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\bracers.txt"));
-            offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\legs.txt"));
-            offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\shoulders.txt"));
-            offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\hands.txt"));
-            offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\feet.txt"));
-            offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\torso.txt"));
-            offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\head.txt"));
-
-            //JDocument jDoc = JDocument.Load(path);
-            //var gl_members = from gl_member in jDoc.GetMembers() select gl_member;
-            //foreach (var gl_member in gl_members)
+            //for (int i = 0; i < parsedArray.Length; i++)
             //{
-            //    JDocument jDoc1;
-            //    if (gl_member.Name == "minDamage")
-            //    {
-            //        MessageBox.Show(gl_member.Value.ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
-            //        //System.IO.File.WriteAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\mh.txt", gl_member.Value.ToString());
-            //        if (gl_member.Value is JNumber) MessageBox.Show("123", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
-
-            //        jDoc1 = JDocument.Parse(gl_member.Value.ToString());
-            //        var members = from member in jDoc1.GetMembers() select member;
-            //        foreach (var member in members)
-            //        {
-            //            if (member.Name == "Damage_Weapon_Delta#Physical") { dam_Physical = Math.Round(Convert.ToDecimal(member.Value.ToString()), 2); }
-            //            if (member.Name == "Damage_Weapon_Delta#Fire") { dam_Fire = Math.Round(Convert.ToDecimal(member.Value.ToString()), 2); }
-            //            if (member.Name == "Damage_Weapon_Delta#Cold") { dam_Cold = Math.Round(Convert.ToDecimal(member.Value.ToString()), 2); }
-            //            if (member.Name == "Damage_Weapon_Delta#Lightning") { dam_Lightning = Math.Round(Convert.ToDecimal(member.Value.ToString()), 2); }
-            //            if (member.Name == "Damage_Weapon_Delta#Poison") { dam_Poison = Math.Round(Convert.ToDecimal(member.Value.ToString()), 2); }
-            //            if (member.Name == "Damage_Weapon_Delta#Arcane") { dam_Arcane = Math.Round(Convert.ToDecimal(member.Value.ToString()), 2); }
-            //            if (member.Name == "Damage_Weapon_Delta#Holy") { dam_Holy = Math.Round(Convert.ToDecimal(member.Value.ToString()), 2); }
-            //            if (member.Name == "Damage_Weapon_Min#Physical") { min_Physical = Math.Round(Convert.ToDecimal(member.Value.ToString()), 2); }
-            //            if (member.Name == "Damage_Weapon_Min#Fire") { min_Fire = Math.Round(Convert.ToDecimal(member.Value.ToString()), 2); }
-            //            if (member.Name == "Damage_Weapon_Min#Cold") { min_Cold = Math.Round(Convert.ToDecimal(member.Value.ToString()), 2); }
-            //            if (member.Name == "Damage_Weapon_Min#Lightning") { min_Lightning = Math.Round(Convert.ToDecimal(member.Value.ToString()), 2); }
-            //            if (member.Name == "Damage_Weapon_Min#Poison") { min_Poison = Math.Round(Convert.ToDecimal(member.Value.ToString()), 2); }
-            //            if (member.Name == "Damage_Weapon_Min#Arcane") { min_Arcane = Math.Round(Convert.ToDecimal(member.Value.ToString()), 2); }
-            //            if (member.Name == "Damage_Weapon_Min#Holy") { min_Holy = Math.Round(Convert.ToDecimal(member.Value.ToString()), 2); }
-            //        }
-            //    }
+            //    //MessageBox.Show(parsedArray[i].Trim().ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
             //}
+            ////int fl=0;
+            //Primary[] arr_primary = new Primary[3];
 
+            //rings_count = 0; crit_damage = 0; off_crit_chance = 0; aps_up = 0;
+            //mainHand_parse = System.IO.File.ReadAllText(mh_path);
+            //offHand_parse = System.IO.File.ReadAllText(off_path);
 
-            //MessageBox.Show(damage_min.ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
-            //MessageBox.Show(damage_max.ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
+            //if (mainHand_parse.Contains("Critical Hit Damage Increased by 130")) crit_damage = crit_damage + 130;
+            //if (mainHand_parse.Contains("Critical Hit Damage Increased by 125")) crit_damage = crit_damage + 125;
+            //if (mainHand_parse.Contains("Critical Hit Damage Increased by 120")) crit_damage = crit_damage + 120;
+            //if (mainHand_parse.Contains("Critical Hit Damage Increased by 115")) crit_damage = crit_damage + 115;
+            //if (mainHand_parse.Contains("Critical Hit Damage Increased by 110")) crit_damage = crit_damage + 110;
 
-            //for (int i = 0; i <= fl; i++)
-            //{
-            //    MessageBox.Show(arr_primary[i].text.ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
-            //}
+            //if (offHand_parse.Contains("Critical Hit Damage Increased by 130")) crit_damage = crit_damage + 130;
+            //if (offHand_parse.Contains("Critical Hit Damage Increased by 125")) crit_damage = crit_damage + 125;
+            //if (offHand_parse.Contains("Critical Hit Damage Increased by 120")) crit_damage = crit_damage + 120;
+            //if (offHand_parse.Contains("Critical Hit Damage Increased by 115")) crit_damage = crit_damage + 115;
+            //if (offHand_parse.Contains("Critical Hit Damage Increased by 110")) crit_damage = crit_damage + 110;
 
+            //mh();
+            //offh(offHand_parse);
+            //offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\leftFinger.txt"));
+            //offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\neck.txt"));
+            //offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\rightFinger.txt"));
+            //offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\waist.txt"));
+            //offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\bracers.txt"));
+            //offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\legs.txt"));
+            //offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\shoulders.txt"));
+            //offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\hands.txt"));
+            //offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\feet.txt"));
+            //offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\torso.txt"));
+            //offh(System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\head.txt"));
 
-            //var gl_members = from gl_member in jDoc.GetMembers() select gl_member;
-            //foreach (var gl_member in gl_members)
-            //{
-            //    JDocument jDoc1;
-            //    if (gl_member.Name == "attributes")
-            //    {
-            //        jDoc1 = JDocument.Parse(gl_member.Value.ToString());
-            //        var members = from member in jDoc1.GetMembers() select member;
-            //        foreach (var member in members)
-            //        {
-
-            //            if (member.Value is JArray && member.Name == "primary")
-            //            {
-            //                JArray arr = member.Value as JArray;
-            //                for (int i = 0; i < arr.Count; i++)
-            //                {
-            //                    MessageBox.Show(arr[i].ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
-
-            //                    byte[] byteArray = Encoding.UTF8.GetBytes(arr[i].ToString());
-            //                    MemoryStream TheStream = new MemoryStream(byteArray);
-            //                    DataContractJsonSerializer json = new DataContractJsonSerializer(typeof(Primary));
-            //                    Primary at = (Primary)json.ReadObject(TheStream);
-            //                    //MessageBox.Show(at.text.ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question); 
-            //                    arr_primary[i] = at;
-            //                    fl = i;
-            //                }
-            //            }
-
-            //            //MessageBox.Show(member.Name, "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
-            //            //MessageBox.Show(member.Value.ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
-            //        }
-            //    }
-            //}
-
-
-            //for (int i = 0; i <= fl; i++)
-            //{
-            //    MessageBox.Show(arr_primary[i].text.ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Question);
-            //}
         }
 
 

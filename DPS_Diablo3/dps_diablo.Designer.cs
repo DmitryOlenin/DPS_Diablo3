@@ -440,7 +440,6 @@
             this.tb_damage1.Name = "tb_damage1";
             this.tb_damage1.Size = new System.Drawing.Size(56, 20);
             this.tb_damage1.TabIndex = 18;
-            this.tb_damage1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_damage1_KeyPress);
             // 
             // tb_damage2
             // 
@@ -451,8 +450,6 @@
             this.tb_damage2.Size = new System.Drawing.Size(56, 20);
             this.tb_damage2.TabIndex = 19;
             this.tb_damage2.Text = "Weapon 2";
-            this.tb_damage2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_damage2_MouseClick);
-            this.tb_damage2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_damage2_KeyPress);
             // 
             // tb_ac2
             // 
@@ -463,8 +460,6 @@
             this.tb_ac2.Size = new System.Drawing.Size(56, 20);
             this.tb_ac2.TabIndex = 21;
             this.tb_ac2.Text = "Weapon 2";
-            this.tb_ac2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_ac2_MouseClick);
-            this.tb_ac2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_ac2_KeyPress);
             // 
             // tb_ac1
             // 
@@ -473,7 +468,6 @@
             this.tb_ac1.Name = "tb_ac1";
             this.tb_ac1.Size = new System.Drawing.Size(56, 20);
             this.tb_ac1.TabIndex = 20;
-            this.tb_ac1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_ac1_KeyPress);
             // 
             // tb_cd
             // 
@@ -482,7 +476,6 @@
             this.tb_cd.Name = "tb_cd";
             this.tb_cd.Size = new System.Drawing.Size(56, 20);
             this.tb_cd.TabIndex = 25;
-            this.tb_cd.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_cd_KeyPress);
             // 
             // tb_cc
             // 
@@ -491,7 +484,6 @@
             this.tb_cc.Name = "tb_cc";
             this.tb_cc.Size = new System.Drawing.Size(56, 20);
             this.tb_cc.TabIndex = 24;
-            this.tb_cc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_cc_KeyPress);
             // 
             // tb_acincr
             // 
@@ -500,7 +492,6 @@
             this.tb_acincr.Name = "tb_acincr";
             this.tb_acincr.Size = new System.Drawing.Size(72, 20);
             this.tb_acincr.TabIndex = 23;
-            this.tb_acincr.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_acincr_KeyPress);
             // 
             // tb_main
             // 
@@ -509,7 +500,6 @@
             this.tb_main.Name = "tb_main";
             this.tb_main.Size = new System.Drawing.Size(72, 20);
             this.tb_main.TabIndex = 22;
-            this.tb_main.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_main_KeyPress);
             // 
             // tb_off_min
             // 
@@ -518,7 +508,6 @@
             this.tb_off_min.Name = "tb_off_min";
             this.tb_off_min.Size = new System.Drawing.Size(33, 20);
             this.tb_off_min.TabIndex = 26;
-            this.tb_off_min.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_off_min_KeyPress);
             // 
             // tb_off_max
             // 
@@ -527,7 +516,6 @@
             this.tb_off_max.Name = "tb_off_max";
             this.tb_off_max.Size = new System.Drawing.Size(33, 20);
             this.tb_off_max.TabIndex = 27;
-            this.tb_off_max.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_off_max_KeyPress);
             // 
             // tb_am_max
             // 
@@ -536,7 +524,6 @@
             this.tb_am_max.Name = "tb_am_max";
             this.tb_am_max.Size = new System.Drawing.Size(33, 20);
             this.tb_am_max.TabIndex = 29;
-            this.tb_am_max.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_am_max_KeyPress);
             // 
             // tb_am_min
             // 
@@ -545,7 +532,6 @@
             this.tb_am_min.Name = "tb_am_min";
             this.tb_am_min.Size = new System.Drawing.Size(33, 20);
             this.tb_am_min.TabIndex = 28;
-            this.tb_am_min.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_am_min_KeyPress);
             // 
             // tb_r2_max
             // 
@@ -554,7 +540,6 @@
             this.tb_r2_max.Name = "tb_r2_max";
             this.tb_r2_max.Size = new System.Drawing.Size(33, 20);
             this.tb_r2_max.TabIndex = 33;
-            this.tb_r2_max.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_r2_max_KeyPress);
             // 
             // tb_r2_min
             // 
@@ -563,7 +548,6 @@
             this.tb_r2_min.Name = "tb_r2_min";
             this.tb_r2_min.Size = new System.Drawing.Size(33, 20);
             this.tb_r2_min.TabIndex = 32;
-            this.tb_r2_min.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_r2_min_KeyPress);
             // 
             // tb_r1_max
             // 
@@ -572,7 +556,6 @@
             this.tb_r1_max.Name = "tb_r1_max";
             this.tb_r1_max.Size = new System.Drawing.Size(33, 20);
             this.tb_r1_max.TabIndex = 31;
-            this.tb_r1_max.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_r1_max_KeyPress);
             // 
             // tb_r1_min
             // 
@@ -581,7 +564,6 @@
             this.tb_r1_min.Name = "tb_r1_min";
             this.tb_r1_min.Size = new System.Drawing.Size(33, 20);
             this.tb_r1_min.TabIndex = 30;
-            this.tb_r1_min.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_r1_min_KeyPress);
             // 
             // tb_skill
             // 
@@ -590,7 +572,6 @@
             this.tb_skill.Name = "tb_skill";
             this.tb_skill.Size = new System.Drawing.Size(69, 20);
             this.tb_skill.TabIndex = 40;
-            this.tb_skill.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_skill_KeyPress);
             // 
             // tb_elite
             // 
@@ -599,7 +580,6 @@
             this.tb_elite.Name = "tb_elite";
             this.tb_elite.Size = new System.Drawing.Size(69, 20);
             this.tb_elite.TabIndex = 39;
-            this.tb_elite.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_elite_KeyPress);
             // 
             // tb_toskill
             // 
@@ -608,7 +588,6 @@
             this.tb_toskill.Name = "tb_toskill";
             this.tb_toskill.Size = new System.Drawing.Size(69, 20);
             this.tb_toskill.TabIndex = 38;
-            this.tb_toskill.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_toskill_KeyPress);
             // 
             // tb_elem
             // 
@@ -617,7 +596,6 @@
             this.tb_elem.Name = "tb_elem";
             this.tb_elem.Size = new System.Drawing.Size(69, 20);
             this.tb_elem.TabIndex = 37;
-            this.tb_elem.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_elem_KeyPress);
             // 
             // tb_fromskills
             // 
@@ -626,7 +604,6 @@
             this.tb_fromskills.Name = "tb_fromskills";
             this.tb_fromskills.Size = new System.Drawing.Size(69, 20);
             this.tb_fromskills.TabIndex = 36;
-            this.tb_fromskills.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_fromskills_KeyPress);
             // 
             // b_start
             // 
@@ -1359,8 +1336,6 @@
             this.tb_dmg2_1_a.Size = new System.Drawing.Size(32, 20);
             this.tb_dmg2_1_a.TabIndex = 115;
             this.tb_dmg2_1_a.Text = "min2";
-            this.tb_dmg2_1_a.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_dmg2_1_a_MouseClick);
-            this.tb_dmg2_1_a.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_dmg2_1_a_KeyPress);
             // 
             // tb_dmg2_2_a
             // 
@@ -1371,8 +1346,6 @@
             this.tb_dmg2_2_a.Size = new System.Drawing.Size(32, 20);
             this.tb_dmg2_2_a.TabIndex = 116;
             this.tb_dmg2_2_a.Text = "max2";
-            this.tb_dmg2_2_a.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_dmg2_2_a_MouseClick);
-            this.tb_dmg2_2_a.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_dmg2_2_a_KeyPress);
             // 
             // lb_dmg_a
             // 
@@ -1392,7 +1365,6 @@
             this.tb_dmg1_1_a.Name = "tb_dmg1_1_a";
             this.tb_dmg1_1_a.Size = new System.Drawing.Size(32, 20);
             this.tb_dmg1_1_a.TabIndex = 110;
-            this.tb_dmg1_1_a.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_dmg1_1_a_KeyPress);
             // 
             // tb_dmg1_2_a
             // 
@@ -1401,7 +1373,6 @@
             this.tb_dmg1_2_a.Name = "tb_dmg1_2_a";
             this.tb_dmg1_2_a.Size = new System.Drawing.Size(32, 20);
             this.tb_dmg1_2_a.TabIndex = 111;
-            this.tb_dmg1_2_a.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_dmg1_2_a_KeyPress);
             // 
             // lb_perc_a
             // 
@@ -1423,8 +1394,6 @@
             this.tb_dmg1_p.Size = new System.Drawing.Size(56, 20);
             this.tb_dmg1_p.TabIndex = 115;
             this.tb_dmg1_p.Text = "Weapon 1";
-            this.tb_dmg1_p.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_dmg1_p_MouseClick_1);
-            this.tb_dmg1_p.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_dmg1_p_KeyPress);
             // 
             // tb_dmg2_p
             // 
@@ -1435,8 +1404,6 @@
             this.tb_dmg2_p.Size = new System.Drawing.Size(56, 20);
             this.tb_dmg2_p.TabIndex = 116;
             this.tb_dmg2_p.Text = "Weapon 2";
-            this.tb_dmg2_p.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_dmg2_p_MouseClick);
-            this.tb_dmg2_p.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_dmg2_p_KeyPress);
             // 
             // pan_da
             // 
@@ -1472,8 +1439,6 @@
             this.tb_ac2_p.Size = new System.Drawing.Size(56, 20);
             this.tb_ac2_p.TabIndex = 122;
             this.tb_ac2_p.Text = "Weapon 2";
-            this.tb_ac2_p.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_ac2_p_MouseClick);
-            this.tb_ac2_p.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_ac2_p_KeyPress);
             // 
             // tb_ac1_p
             // 
@@ -1484,8 +1449,6 @@
             this.tb_ac1_p.Size = new System.Drawing.Size(56, 20);
             this.tb_ac1_p.TabIndex = 121;
             this.tb_ac1_p.Text = "Weapon 1";
-            this.tb_ac1_p.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_ac1_p_MouseClick);
-            this.tb_ac1_p.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_ac1_p_KeyPress);
             // 
             // pan_skillusage
             // 
@@ -1518,8 +1481,6 @@
             this.tb_skill1_usage.Size = new System.Drawing.Size(32, 20);
             this.tb_skill1_usage.TabIndex = 110;
             this.tb_skill1_usage.Text = "100%";
-            this.tb_skill1_usage.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_skill_usage_MouseClick);
-            this.tb_skill1_usage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_skill_usage_KeyPress);
             // 
             // tb_skill2_usage
             // 
@@ -1530,8 +1491,6 @@
             this.tb_skill2_usage.Size = new System.Drawing.Size(32, 20);
             this.tb_skill2_usage.TabIndex = 111;
             this.tb_skill2_usage.Text = "skill2";
-            this.tb_skill2_usage.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_skill2_usage_MouseClick);
-            this.tb_skill2_usage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_skill2_usage_KeyPress);
             // 
             // pan_skill
             // 
@@ -1562,7 +1521,6 @@
             this.tb_skill1.Name = "tb_skill1";
             this.tb_skill1.Size = new System.Drawing.Size(32, 20);
             this.tb_skill1.TabIndex = 110;
-            this.tb_skill1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_skill1_KeyPress);
             // 
             // tb_skill2
             // 
@@ -1573,8 +1531,6 @@
             this.tb_skill2.Size = new System.Drawing.Size(32, 20);
             this.tb_skill2.TabIndex = 111;
             this.tb_skill2.Text = "skill2";
-            this.tb_skill2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_skill2_MouseClick);
-            this.tb_skill2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_skill2_KeyPress);
             // 
             // pan_skillup
             // 
@@ -1608,7 +1564,6 @@
             this.tb_elem1.Name = "tb_elem1";
             this.tb_elem1.Size = new System.Drawing.Size(32, 20);
             this.tb_elem1.TabIndex = 113;
-            this.tb_elem1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_elem1_KeyPress);
             // 
             // tb_elem2
             // 
@@ -1619,8 +1574,6 @@
             this.tb_elem2.Size = new System.Drawing.Size(32, 20);
             this.tb_elem2.TabIndex = 114;
             this.tb_elem2.Text = "skill2";
-            this.tb_elem2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_elem2_MouseClick);
-            this.tb_elem2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_elem2_KeyPress);
             // 
             // lb_toskill_a
             // 
@@ -1640,7 +1593,6 @@
             this.tb_toskill1.Name = "tb_toskill1";
             this.tb_toskill1.Size = new System.Drawing.Size(32, 20);
             this.tb_toskill1.TabIndex = 110;
-            this.tb_toskill1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_toskill1_KeyPress);
             // 
             // tb_toskill2
             // 
@@ -1651,8 +1603,6 @@
             this.tb_toskill2.Size = new System.Drawing.Size(32, 20);
             this.tb_toskill2.TabIndex = 111;
             this.tb_toskill2.Text = "skill2";
-            this.tb_toskill2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_toskill2_MouseClick);
-            this.tb_toskill2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_toskill2_KeyPress);
             // 
             // b_wep
             // 
@@ -1773,7 +1723,6 @@
             this.tb_dmg1_w.Name = "tb_dmg1_w";
             this.tb_dmg1_w.Size = new System.Drawing.Size(32, 20);
             this.tb_dmg1_w.TabIndex = 118;
-            this.tb_dmg1_w.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_dmg1_w_KeyPress);
             // 
             // lb_acp_w
             // 
@@ -1793,7 +1742,6 @@
             this.tb_dmg2_w.Name = "tb_dmg2_w";
             this.tb_dmg2_w.Size = new System.Drawing.Size(32, 20);
             this.tb_dmg2_w.TabIndex = 119;
-            this.tb_dmg2_w.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_dmg2_w_KeyPress);
             // 
             // nud_damp_w
             // 
@@ -2266,6 +2214,7 @@
             this.b_parse.TabIndex = 133;
             this.b_parse.Text = "parse";
             this.b_parse.UseVisualStyleBackColor = true;
+            this.b_parse.Visible = false;
             this.b_parse.Click += new System.EventHandler(this.b_Parse_Click);
             // 
             // tb_pers
@@ -2276,7 +2225,6 @@
             this.tb_pers.Size = new System.Drawing.Size(173, 20);
             this.tb_pers.TabIndex = 135;
             this.tb_pers.Text = "Address \"http://\" from armory";
-            this.tb_pers.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_pers_MouseClick);
             // 
             // pb_load
             // 
