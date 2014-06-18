@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Dps_Diablo3
+namespace DPS_Diablo3
 {
     static class Program
     {

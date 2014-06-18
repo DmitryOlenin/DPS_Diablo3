@@ -1,4 +1,4 @@
-﻿namespace Dps_Diablo3
+﻿namespace DPS_Diablo3
 {
     partial class dps_diablo
     {
@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(dps_diablo));
             this.lb_idmg1 = new System.Windows.Forms.Label();
             this.lb_iac1 = new System.Windows.Forms.Label();
             this.lb_ioff = new System.Windows.Forms.Label();
@@ -850,7 +851,7 @@
             // lb_ac
             // 
             this.lb_ac.AutoSize = true;
-            this.lb_ac.Location = new System.Drawing.Point(143, 5);
+            this.lb_ac.Location = new System.Drawing.Point(133, 5);
             this.lb_ac.Name = "lb_ac";
             this.lb_ac.Size = new System.Drawing.Size(41, 13);
             this.lb_ac.TabIndex = 64;
@@ -860,7 +861,7 @@
             // lb_main
             // 
             this.lb_main.AutoSize = true;
-            this.lb_main.Location = new System.Drawing.Point(143, 31);
+            this.lb_main.Location = new System.Drawing.Point(133, 31);
             this.lb_main.Name = "lb_main";
             this.lb_main.Size = new System.Drawing.Size(41, 13);
             this.lb_main.TabIndex = 65;
@@ -870,7 +871,7 @@
             // lb_cc
             // 
             this.lb_cc.AutoSize = true;
-            this.lb_cc.Location = new System.Drawing.Point(143, 57);
+            this.lb_cc.Location = new System.Drawing.Point(133, 57);
             this.lb_cc.Name = "lb_cc";
             this.lb_cc.Size = new System.Drawing.Size(41, 13);
             this.lb_cc.TabIndex = 66;
@@ -880,7 +881,7 @@
             // lb_cd
             // 
             this.lb_cd.AutoSize = true;
-            this.lb_cd.Location = new System.Drawing.Point(143, 83);
+            this.lb_cd.Location = new System.Drawing.Point(133, 83);
             this.lb_cd.Name = "lb_cd";
             this.lb_cd.Size = new System.Drawing.Size(41, 13);
             this.lb_cd.TabIndex = 67;
@@ -890,7 +891,7 @@
             // lb_elem
             // 
             this.lb_elem.AutoSize = true;
-            this.lb_elem.Location = new System.Drawing.Point(143, 109);
+            this.lb_elem.Location = new System.Drawing.Point(133, 109);
             this.lb_elem.Name = "lb_elem";
             this.lb_elem.Size = new System.Drawing.Size(41, 13);
             this.lb_elem.TabIndex = 68;
@@ -950,7 +951,7 @@
             // lb_dmg
             // 
             this.lb_dmg.AutoSize = true;
-            this.lb_dmg.Location = new System.Drawing.Point(144, 135);
+            this.lb_dmg.Location = new System.Drawing.Point(133, 135);
             this.lb_dmg.Name = "lb_dmg";
             this.lb_dmg.Size = new System.Drawing.Size(41, 13);
             this.lb_dmg.TabIndex = 70;
@@ -1804,7 +1805,7 @@
             65536});
             this.nud_cdr1.Location = new System.Drawing.Point(110, 29);
             this.nud_cdr1.Maximum = new decimal(new int[] {
-            15,
+            20,
             0,
             0,
             0});
@@ -1822,7 +1823,7 @@
             65536});
             this.nud_cdr5.Location = new System.Drawing.Point(110, 81);
             this.nud_cdr5.Maximum = new decimal(new int[] {
-            15,
+            20,
             0,
             0,
             0});
@@ -1840,7 +1841,7 @@
             65536});
             this.nud_cdr9.Location = new System.Drawing.Point(110, 133);
             this.nud_cdr9.Maximum = new decimal(new int[] {
-            15,
+            20,
             0,
             0,
             0});
@@ -1858,7 +1859,7 @@
             65536});
             this.nud_cdr4.Location = new System.Drawing.Point(157, 55);
             this.nud_cdr4.Maximum = new decimal(new int[] {
-            15,
+            20,
             0,
             0,
             0});
@@ -1876,7 +1877,7 @@
             65536});
             this.nud_cdr10.Location = new System.Drawing.Point(157, 133);
             this.nud_cdr10.Maximum = new decimal(new int[] {
-            15,
+            20,
             0,
             0,
             0});
@@ -1894,7 +1895,7 @@
             65536});
             this.nud_cdr8.Location = new System.Drawing.Point(157, 107);
             this.nud_cdr8.Maximum = new decimal(new int[] {
-            15,
+            20,
             0,
             0,
             0});
@@ -1912,7 +1913,7 @@
             65536});
             this.nud_cdr6.Location = new System.Drawing.Point(157, 81);
             this.nud_cdr6.Maximum = new decimal(new int[] {
-            15,
+            20,
             0,
             0,
             0});
@@ -1930,7 +1931,7 @@
             65536});
             this.nud_cdr2.Location = new System.Drawing.Point(157, 29);
             this.nud_cdr2.Maximum = new decimal(new int[] {
-            15,
+            20,
             0,
             0,
             0});
@@ -1948,7 +1949,7 @@
             65536});
             this.nud_cdr7.Location = new System.Drawing.Point(110, 107);
             this.nud_cdr7.Maximum = new decimal(new int[] {
-            15,
+            20,
             0,
             0,
             0});
@@ -1966,7 +1967,7 @@
             65536});
             this.nud_cdr3.Location = new System.Drawing.Point(110, 55);
             this.nud_cdr3.Maximum = new decimal(new int[] {
-            15,
+            20,
             0,
             0,
             0});
@@ -2208,7 +2209,7 @@
             // 
             // b_parse
             // 
-            this.b_parse.Location = new System.Drawing.Point(352, 202);
+            this.b_parse.Location = new System.Drawing.Point(404, 348);
             this.b_parse.Name = "b_parse";
             this.b_parse.Size = new System.Drawing.Size(43, 20);
             this.b_parse.TabIndex = 133;
@@ -2228,11 +2229,11 @@
             // 
             // pb_load
             // 
-            this.pb_load.Image = global::Dps_Diablo3.Properties.Resources.loading_bar;
+            this.pb_load.Image = ((System.Drawing.Image)(resources.GetObject("pb_load.Image")));
             this.pb_load.InitialImage = null;
             this.pb_load.Location = new System.Drawing.Point(222, 185);
             this.pb_load.Name = "pb_load";
-            this.pb_load.Size = new System.Drawing.Size(173, 11);
+            this.pb_load.Size = new System.Drawing.Size(174, 14);
             this.pb_load.TabIndex = 136;
             this.pb_load.TabStop = false;
             this.pb_load.Visible = false;
@@ -2245,8 +2246,8 @@
             // 
             // dps_diablo
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(675, 368);
             this.Controls.Add(this.pb_load);
             this.Controls.Add(this.tb_pers);

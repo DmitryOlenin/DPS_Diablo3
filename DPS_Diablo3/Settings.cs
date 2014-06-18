@@ -1,4 +1,4 @@
-﻿namespace Dps_Diablo3.Properties {
+﻿namespace DPS_Diablo3.Properties {
     
     
     // Этот класс позволяет обрабатывать определенные события в классе параметров:

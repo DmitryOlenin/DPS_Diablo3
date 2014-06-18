@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Dps_Diablo3.Properties {
+namespace DPS_Diablo3.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

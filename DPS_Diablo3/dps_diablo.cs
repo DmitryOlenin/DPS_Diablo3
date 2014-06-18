@@ -7,31 +7,35 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Globalization;
-using Dps_Diablo3.Properties;
+using DPS_Diablo3.Properties;
 using System.Configuration;
 using System.Xml.Serialization;
 using System.Xml;
 using System.Net;
 using System.Runtime.Serialization.Json;
 using System.Runtime.Serialization;
-using Dps_Diablo3.parse;
+using DPS_Diablo3.parse;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 //using Ranslant.JSON.Linq;
 
-namespace Dps_Diablo3
+namespace DPS_Diablo3
 {
 
     public partial class dps_diablo : Form
     {
-
+        public string[] pars_hero;
+        public List<string> passive_skill, active_skill, active_skill_rune;
+        
         public string 
              hero_parse, head, torso, feet, hands, shoulders, legs, bracers, mainHand, offHand, waist, rightFinger, leftFinger, neck
             , head_parse, torso_parse, feet_parse, hands_parse, shoulders_parse, legs_parse, bracers_parse, mainHand_parse, offHand_parse, waist_parse, rightFinger_parse, leftFinger_parse, neck_parse
             , item_parse
             , sep = Convert.ToChar(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator).ToString()
             , skill_damage = "", phys_up = "", dps_min = "", aps_item = "", dps_min_off = "", phys_up_off = "", aps_item_off = ""
+            , pers_name, first_skill
+            , version = "DPS - Diablo3 ver. 1.8"
             ;
         
         public double wepdamage, otherdamage, cleardamage, critdamage, overdamage, speedtotal, result, result_profile,
@@ -51,13 +55,15 @@ namespace Dps_Diablo3
               ;
         public Class_lang lng = new Class_lang();
         
-        public int mainstat = 0;
+        public int mainstat = 0, to_skl = 0, cnt = 0, from_skl;
 
         public static SettingsTable overview;
 
         public dps_diablo()
         {
             InitializeComponent();
+
+            this.Text = version;
 
             #if DEBUG
             b_parse.Visible = true;
@@ -76,6 +82,11 @@ namespace Dps_Diablo3
                 Settings.Default.UpdateSettings = false;
                 Settings.Default.Save();
             }
+
+            //foreach (SettingsPropertyValue set in Settings.Default.PropertyValues)
+            //{
+            //    if (set.Name == "tb_toskill") MessageBox.Show(set.Name.ToString() + " = " + set.PropertyValue.ToString());
+            //}
 
             List<string> ro = new List<string> { "tb_dmg2_1_a", "tb_dmg2_p", "tb_dmg1_p", "tb_dmg2_2_a", "tb_skill2", "tb_skill1_usage", "tb_skill2_usage", "tb_damage2", "tb_ac2", "tb_toskill2", "tb_elem2", "tb_ac1_p", "tb_ac2_p", "tb_pers" };
             List<string> click_dot = new List<string> { "tb_damage1", "tb_damage2", "tb_ac1", "tb_ac2", "tb_acincr", "tb_cc", "tb_cd" };
@@ -366,6 +377,7 @@ namespace Dps_Diablo3
 
         private void b_clear_Click(object sender, EventArgs e)
         {
+            this.Text = version;
             White();
             foreach (Control control in this.Controls.OfType<TextBox>()) control.Text = "";
             foreach (NumericUpDown numud in this.Controls.OfType<NumericUpDown>()) numud.Value = 0;
@@ -448,7 +460,7 @@ namespace Dps_Diablo3
 
         private void dps_diablo_Load(object sender, EventArgs e)
         {
-            this.Icon = Dps_Diablo3.Properties.Resources.icon;
+            this.Icon = DPS_Diablo3.Properties.Resources.icon;
             tooltips();
         }
 
@@ -691,6 +703,7 @@ namespace Dps_Diablo3
                         {
                             skill_base = (skill1 * skill1_usage / 100 * ((elem1 + Convert.ToSingle(nud_elem.Value)) / 100 + 1) * (toskill1 / 100 + 1));
                             skill_other = (skill2 * skill2_usage / 100 * (elem2 / 100 + 1) * (toskill2 / 100 + 1));
+                            skill = skill_base + skill_other;
                         }
 
                         else elem = elem + Convert.ToSingle(nud_elem.Value);
@@ -1149,16 +1162,58 @@ namespace Dps_Diablo3
                 {
                     skill_damage = ""; phys_up = ""; dps_min = ""; aps_item = ""; dps_min_off = ""; phys_up_off = ""; aps_item_off = "";
 
-                    string[] pars_hero = hero_parse.Split('\n');  //парсим строку и получаем стринговый массив
+                    pars_hero = hero_parse.Split('\n');  //парсим строку и получаем стринговый массив
+
+                    int desc = 0;
+                    first_skill = "";
+                    cnt = 0; to_skl = 0;
+
                     for (int i = 0; i < pars_hero.Length; i++)
                     {
-                        if (pars_hero[i].Contains("% weapon damage"))
+                        if (pars_hero[i].Contains("description"))
                         {
-                            int kkk = pars_hero[i].IndexOf("% weapon damage");
-                            skill_damage = pars_hero[i].Substring(kkk - 3, 3);
-                            break;
+                            desc += 1;
+                            if (pars_hero[i].Contains("% weapon damage") || pars_hero[i].Contains("% of your weapon"))
+                            {
+                                int kkk = pars_hero[i].IndexOf("% weapon damage");
+                                if (!(kkk > 0)) kkk = pars_hero[i].IndexOf("% of your weapon");
+                                if (pars_hero[i].Substring(kkk - 5, 1) == " ") 
+                                    skill_damage = pars_hero[i].Substring(kkk - 4, 4).Trim();
+                                else
+                                    skill_damage = pars_hero[i].Substring(kkk - 3, 3).Trim();
+                            }
+                            if (desc > 1) break;
                         }
                     }
+
+                    int skillnum = 0;
+                    passive_skill = new List<string>() { };
+                    active_skill = new List<string>() { };
+                    active_skill_rune = new List<string>() { };
+                    
+                    for (int i = 0; i < pars_hero.Length; i++)
+                    {
+                        if (pars_hero[i].Contains("name"))
+                        {
+                            skillnum += 1;
+                            if (skillnum % 2 == 0 && skillnum < 14) active_skill.Add(pars_hero[i].Trim().Replace("\"name\" : \"", "").Replace("\",", ""));
+                            if (skillnum % 2 != 0 && skillnum > 1 && skillnum < 14) active_skill_rune.Add(pars_hero[i].Trim().Replace("\"name\" : \"", "").Replace("\",", ""));
+                            if (skillnum > 13 && skillnum < 18) passive_skill.Add(pars_hero[i].Trim().Replace("\"name\" : \"", "").Replace("\",", ""));
+                        }
+                    }
+
+                    from_skl = 0;
+
+                    foreach (string pass in passive_skill)
+                    {
+                        if (pass == "Glass Cannon") from_skl = 15;
+                        if (pass == "Audacity") from_skl += 15;
+                        if (pass == "Berserker Rage") from_skl = 25;
+                        if (pass == "Pierce the Veil") from_skl = 20;
+                        if (pass == "Blunt" || pass == "Towering Shield") from_skl = 15;
+                    }
+
+                    //MessageBox.Show(active_skill[0].Trim().Replace(" ","-"));
 
                     byte[] byteArray = Encoding.UTF8.GetBytes(hero_parse);
                     MemoryStream TheStream = new MemoryStream(byteArray);
@@ -1177,6 +1232,11 @@ namespace Dps_Diablo3
                     ; crit_damage = 0; crit_chance = 0; elite_damage = 0; off_crit_chance = 0; off_del_Physical = 0; off_min_Physical = 0
                     ; rings_count = 0; r1_del_Physical = 0; r1_min_Physical = 0; r2_del_Physical = 0; r2_min_Physical = 0; am_del_Physical = 0; am_min_Physical = 0
                     ;
+
+                    //head_parse = ""; torso_parse = ""; feet_parse = ""; hands_parse = ""; shoulders_parse = ""; legs_parse = ""; bracers_parse = ""; mainHand_parse = ""; offHand_parse = ""; waist_parse = ""; rightFinger_parse = ""; leftFinger_parse = ""; neck_parse = "";
+
+                    set_parse();
+                    pers_name = pers.name + " - " + pers.paragonLevel;
 
                     if (pers.items.mainHand != null)
                     {
@@ -1368,7 +1428,7 @@ namespace Dps_Diablo3
             if (mh.attributesRaw.Damage_Dealt_Percent_Bonus_Arcane != null) elem_Arcane = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Dealt_Percent_Bonus_Arcane.min.Replace(".", sep)), 2);
             if (mh.attributesRaw.Damage_Dealt_Percent_Bonus_Holy != null) elem_Holy = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Dealt_Percent_Bonus_Holy.min.Replace(".", sep)), 2);
 
-            elem_all = Math.Round((elem_Physical + elem_Fire + elem_Cold + elem_Lightning + elem_Poison + elem_Arcane + elem_Holy) * 100);
+            elem_all = elem_all + Math.Round((elem_Physical + elem_Fire + elem_Cold + elem_Lightning + elem_Poison + elem_Arcane + elem_Holy) * 100);
 
             //----------Attacks Per Second----------//
 
@@ -1392,6 +1452,31 @@ namespace Dps_Diablo3
 
         public void offh(string forparse)
         {
+
+            //if (forparse == head_parse) MessageBox.Show(head_parse.Length.ToString());
+
+            string [] pars_item = forparse.Split('\n');  //парсим строку и получаем стринговый массив
+
+            for (int i = 0; i < pars_item.Length; i++)
+            {
+                if (pars_item[i].Contains("Damage by"))
+                {
+                    foreach (string a_skill in active_skill)
+                    {
+                        if (pars_item[i].Contains(a_skill) && pars_item[i].Contains(@"%")) 
+                        {
+                            cnt += 1;
+                            if (cnt==1) first_skill = a_skill;
+                            if (a_skill == first_skill)
+                            {
+                                //MessageBox.Show(a_skill+" " +to_skl.ToString());
+                                int kkk = pars_item[i].IndexOf(@"%");
+                                to_skl = to_skl + Convert.ToInt16(pars_item[i].Substring(kkk - 3, 3).Trim());
+                            }
+                        }
+                    }
+                }
+            }
 
             elem_Physical = 0; elem_Fire = 0; elem_Cold = 0; elem_Lightning = 0; elem_Poison = 0; elem_Arcane = 0; elem_Holy = 0; 
 
@@ -1520,6 +1605,7 @@ namespace Dps_Diablo3
             if (dps_min_off != "") tb_damage2.Text = Math.Round(Convert.ToDouble(dps_min_off.Replace(".", sep)), 2).ToString().Replace(sep, ".");
             if (dps_min_off != "") Readonly_clear(tb_damage2, null);//tb_damage2_MouseClick(null, null);
             if (aps_up != 0) tb_acincr.Text = aps_up.ToString().Replace(sep, ".");
+            if (aps_up != 0 && damage_min_off != 0 && damage_max_off != 0 && aps_off != 0) tb_acincr.Text = (aps_up+15).ToString().Replace(sep, ".");
             if (aps_item_off != "") tb_ac2_p.Text = (Math.Round(Convert.ToDouble(aps_item_off.Replace(".", sep)), 2) * 100).ToString().Replace(sep, ".");
             if (aps_item_off != "") Readonly_clear(tb_ac2_p, null);//tb_ac2_p_MouseClick(null, null);
             if (off_crit_chance != 0) tb_cc.Text = (off_crit_chance+5).ToString().Replace(sep, ".");
@@ -1531,12 +1617,20 @@ namespace Dps_Diablo3
             if ((r1_min_Physical + r1_del_Physical) != 0) tb_r1_max.Text = (r1_min_Physical + r1_del_Physical).ToString().Replace(sep, ".");
             if (am_min_Physical != 0) tb_am_min.Text = am_min_Physical.ToString().Replace(sep, ".");
             if ((am_min_Physical + am_del_Physical) != 0) tb_am_max.Text = (am_min_Physical + am_del_Physical).ToString().Replace(sep, ".");
+            if (to_skl > 0)
+            {
+                tb_toskill1.Text = to_skl.ToString().Replace(sep, ".");
+                tb_toskill.Text = to_skl.ToString().Replace(sep, ".");
+            }
+            if (from_skl > 0) tb_fromskills.Text = from_skl.ToString().Replace(sep, ".");
 
+            this.Text = this.Text + "                                            " + pers_name;
             b_start.PerformClick();
         }
 
         private void b_web_Click(object sender, EventArgs e)
         {
+            b_web.Enabled = false;
             bw.RunWorkerAsync();
             bw.WorkerReportsProgress = true;
             //pb_load.Visible = true;
@@ -1563,10 +1657,42 @@ namespace Dps_Diablo3
         {
             pb_load.Visible = false;
             if (mainstat != 0) import();
+            b_web.Enabled = true;
         }
 
         private void b_Parse_Click(object sender, EventArgs e)
         {
+
+
+            string host = "eu.battle.net";
+            if (tb_pers.Text.Contains("us.")) host = "us.battle.net";
+            //System.Net.WebRequest req_item = System.Net.WebRequest.Create(@"http://" + host + "/api/d3/data/skill/crusader/slash");
+            System.Net.WebRequest req_item = System.Net.WebRequest.Create(@"http://" + host + "/d3/en/class/crusader/active/slash");
+
+            if (b_parse.Visible)
+            {
+                WebProxy myProxy = new WebProxy("localhost", 4001);
+                myProxy.BypassProxyOnLocal = true;
+                req_item.Proxy = myProxy;
+            }
+            else
+            {
+                IWebProxy myProxy = WebRequest.DefaultWebProxy;
+                myProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
+                req_item.Proxy = myProxy;
+            }
+
+            System.Net.WebResponse resp = req_item.GetResponse();
+            System.IO.Stream stream = resp.GetResponseStream();
+            System.IO.StreamReader sr = new System.IO.StreamReader(stream);
+
+            string test = sr.ReadToEnd();
+
+            string path_test = @"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\test.txt";
+            System.IO.File.WriteAllText(path_test, test);
+
+            //MessageBox.Show(sr.ReadToEnd());
+            
             //string mh_path = @"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\mainHand.txt";
             //string off_path = @"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\offHand.txt";
             ////hero_parse = System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\WriteText1.txt");

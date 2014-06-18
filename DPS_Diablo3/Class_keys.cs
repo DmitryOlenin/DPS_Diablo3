@@ -7,19 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Globalization;
-using Dps_Diablo3.Properties;
+using DPS_Diablo3.Properties;
 using System.Configuration;
 using System.Xml.Serialization;
 using System.Xml;
 using System.Net;
 using System.Runtime.Serialization.Json;
 using System.Runtime.Serialization;
-using Dps_Diablo3.parse;
+using DPS_Diablo3.parse;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 
-namespace Dps_Diablo3
+namespace DPS_Diablo3
 {
     public partial class dps_diablo : Form
     {

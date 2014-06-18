@@ -6,12 +6,14 @@ using System.Data;
 using System.Runtime.Serialization;
 using System.Diagnostics;
 
-namespace Dps_Diablo3.parse
+namespace DPS_Diablo3.parse
 {
     public class Parse
     {
 
         public string code { get; set; }
+        public string name { get; set; }
+        public string paragonLevel { get; set; }
 
         public Stats stats { get; set; }
         public class Stats
