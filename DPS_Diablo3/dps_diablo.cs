@@ -65,7 +65,7 @@ namespace DPS_Diablo3
         {
             InitializeComponent();
 
-            version = "DPS - Diablo3 ver. " + ver.ToString();
+            version = "DPS - Diablo3 ver. " + ver.ToString().Replace(sep, ".");
             this.Text = version;
 
             //faq();
@@ -1855,30 +1855,40 @@ namespace DPS_Diablo3
             b_faq.BringToFront();
         }
 
-        private void b_ver_Click(object sender, EventArgs e)
+        private void lb_version_check_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Net.WebRequest req_ver = System.Net.WebRequest.Create(@"https://github.com/DmitryOlenin/DPS_Diablo3");
-            System.Net.WebResponse resp1 = req_ver.GetResponse();
-            System.IO.Stream stream1 = resp1.GetResponseStream();
-            System.IO.StreamReader sr1 = new System.IO.StreamReader(stream1);
-
-            string ver = sr1.ReadToEnd();
-
-            string[] pars_ver = ver.Split('\n');  //парсим строку и получаем стринговый массив
-
-            for (int i = 0; i < pars_ver.Length; i++)
+            if (lb_version_check.Text != "No new version!")
             {
-                if (pars_ver[i].Contains("Version"))
+                System.Net.WebRequest req_ver = System.Net.WebRequest.Create(@"https://github.com/DmitryOlenin/DPS_Diablo3");
+
+                IWebProxy myProxy = WebRequest.DefaultWebProxy;
+                myProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
+                req_ver.Proxy = myProxy;
+                //req_ver.Proxy = null;
+
+                System.Net.WebResponse resp1 = req_ver.GetResponse();
+                System.IO.Stream stream1 = resp1.GetResponseStream();
+                System.IO.StreamReader sr1 = new System.IO.StreamReader(stream1);
+
+                string version = sr1.ReadToEnd();
+
+                string[] pars_ver = version.Split('\n');  //парсим строку и получаем стринговый массив
+
+                for (int i = 0; i < pars_ver.Length; i++)
                 {
-                    string vers = pars_ver[i].Substring(pars_ver[i].IndexOf("Version") + 8, 3).Trim();
-                    if (vers != ver.ToString())
+                    if (pars_ver[i].Contains("Version"))
                     {
-                        pan_ver.Visible = true;
-                        b_ver.Visible = false;
+                        string vers = pars_ver[i].Substring(pars_ver[i].IndexOf("title=\"Version") + 15, 3).Trim();
+                        if (vers != ver.ToString().Trim().Replace(sep, "."))
+                        {
+                            pan_ver.Visible = true;
+                            //b_ver.Visible = false;
+                            lb_version_check.Visible = false;
+                        }
+                        else lb_version_check.Text = "No new version!";
+                        //MessageBox.Show(vers);
+                        break;
                     }
-                    else b_ver.Text = "No new version!";
-                    //MessageBox.Show(vers);
-                    break;
                 }
             }
         }

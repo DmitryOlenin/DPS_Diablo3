@@ -256,7 +256,7 @@
             this.b_faq = new System.Windows.Forms.Button();
             this.pan_ver = new System.Windows.Forms.Panel();
             this.ll_ver = new System.Windows.Forms.LinkLabel();
-            this.b_ver = new System.Windows.Forms.Button();
+            this.lb_version_check = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.nud_ac)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_main)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cc)).BeginInit();
@@ -2273,28 +2273,30 @@
             this.ll_ver.AutoSize = true;
             this.ll_ver.Location = new System.Drawing.Point(3, 4);
             this.ll_ver.Name = "ll_ver";
-            this.ll_ver.Size = new System.Drawing.Size(97, 13);
+            this.ll_ver.Size = new System.Drawing.Size(114, 13);
             this.ll_ver.TabIndex = 0;
             this.ll_ver.TabStop = true;
-            this.ll_ver.Text = "New version is out!";
+            this.ll_ver.Text = "New version available!";
             this.ll_ver.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkedLabelClicked);
             // 
-            // b_ver
+            // lb_version_check
             // 
-            this.b_ver.Location = new System.Drawing.Point(120, 347);
-            this.b_ver.Name = "b_ver";
-            this.b_ver.Size = new System.Drawing.Size(96, 19);
-            this.b_ver.TabIndex = 139;
-            this.b_ver.Text = "Version check";
-            this.b_ver.UseVisualStyleBackColor = true;
-            this.b_ver.Click += new System.EventHandler(this.b_ver_Click);
+            this.lb_version_check.AutoSize = true;
+            this.lb_version_check.LinkColor = System.Drawing.Color.Black;
+            this.lb_version_check.Location = new System.Drawing.Point(118, 351);
+            this.lb_version_check.Name = "lb_version_check";
+            this.lb_version_check.Size = new System.Drawing.Size(75, 13);
+            this.lb_version_check.TabIndex = 140;
+            this.lb_version_check.TabStop = true;
+            this.lb_version_check.Text = "Version check";
+            this.lb_version_check.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lb_version_check_LinkClicked);
             // 
             // dps_diablo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(675, 368);
-            this.Controls.Add(this.b_ver);
+            this.Controls.Add(this.lb_version_check);
             this.Controls.Add(this.pan_ver);
             this.Controls.Add(this.b_faq);
             this.Controls.Add(this.pb_load);
@@ -2374,7 +2376,7 @@
             this.Controls.Add(this.pan_roll);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "dps_diablo";
-            this.Text = "DPS - Diablo3 ver. 1.7";
+            this.Text = "DPS - Diablo3 ver. 1.9";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.dps_diablo_FormClosed);
             this.Load += new System.EventHandler(this.dps_diablo_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dps_diablo_KeyDown);
@@ -2668,7 +2670,7 @@
         private System.Windows.Forms.Button b_faq;
         private System.Windows.Forms.Panel pan_ver;
         private System.Windows.Forms.LinkLabel ll_ver;
-        private System.Windows.Forms.Button b_ver;
+        private System.Windows.Forms.LinkLabel lb_version_check;
 
     }
 }
