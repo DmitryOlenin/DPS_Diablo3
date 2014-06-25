@@ -253,6 +253,10 @@
             this.pb_load = new System.Windows.Forms.PictureBox();
             this.bw = new System.ComponentModel.BackgroundWorker();
             this.toolTip36 = new System.Windows.Forms.ToolTip(this.components);
+            this.b_faq = new System.Windows.Forms.Button();
+            this.pan_ver = new System.Windows.Forms.Panel();
+            this.ll_ver = new System.Windows.Forms.LinkLabel();
+            this.b_ver = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nud_ac)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_main)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cc)).BeginInit();
@@ -295,6 +299,7 @@
             this.pan_roll.SuspendLayout();
             this.pan_list.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_load)).BeginInit();
+            this.pan_ver.SuspendLayout();
             this.SuspendLayout();
             // 
             // lb_idmg1
@@ -2244,11 +2249,54 @@
             this.bw.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bw_ProgressChanged);
             this.bw.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bw_RunWorkerCompleted);
             // 
+            // b_faq
+            // 
+            this.b_faq.Location = new System.Drawing.Point(395, 199);
+            this.b_faq.Name = "b_faq";
+            this.b_faq.Size = new System.Drawing.Size(52, 23);
+            this.b_faq.TabIndex = 137;
+            this.b_faq.Text = "FAQ";
+            this.b_faq.UseVisualStyleBackColor = true;
+            this.b_faq.Click += new System.EventHandler(this.b_faq_Click);
+            // 
+            // pan_ver
+            // 
+            this.pan_ver.Controls.Add(this.ll_ver);
+            this.pan_ver.Location = new System.Drawing.Point(115, 347);
+            this.pan_ver.Name = "pan_ver";
+            this.pan_ver.Size = new System.Drawing.Size(116, 20);
+            this.pan_ver.TabIndex = 138;
+            this.pan_ver.Visible = false;
+            // 
+            // ll_ver
+            // 
+            this.ll_ver.AutoSize = true;
+            this.ll_ver.Location = new System.Drawing.Point(3, 4);
+            this.ll_ver.Name = "ll_ver";
+            this.ll_ver.Size = new System.Drawing.Size(97, 13);
+            this.ll_ver.TabIndex = 0;
+            this.ll_ver.TabStop = true;
+            this.ll_ver.Text = "New version is out!";
+            this.ll_ver.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkedLabelClicked);
+            // 
+            // b_ver
+            // 
+            this.b_ver.Location = new System.Drawing.Point(120, 347);
+            this.b_ver.Name = "b_ver";
+            this.b_ver.Size = new System.Drawing.Size(96, 19);
+            this.b_ver.TabIndex = 139;
+            this.b_ver.Text = "Version check";
+            this.b_ver.UseVisualStyleBackColor = true;
+            this.b_ver.Click += new System.EventHandler(this.b_ver_Click);
+            // 
             // dps_diablo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(675, 368);
+            this.Controls.Add(this.b_ver);
+            this.Controls.Add(this.pan_ver);
+            this.Controls.Add(this.b_faq);
             this.Controls.Add(this.pb_load);
             this.Controls.Add(this.tb_pers);
             this.Controls.Add(this.b_parse);
@@ -2385,6 +2433,8 @@
             this.pan_list.ResumeLayout(false);
             this.pan_list.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_load)).EndInit();
+            this.pan_ver.ResumeLayout(false);
+            this.pan_ver.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2615,6 +2665,10 @@
         private System.Windows.Forms.PictureBox pb_load;
         private System.ComponentModel.BackgroundWorker bw;
         private System.Windows.Forms.ToolTip toolTip36;
+        private System.Windows.Forms.Button b_faq;
+        private System.Windows.Forms.Panel pan_ver;
+        private System.Windows.Forms.LinkLabel ll_ver;
+        private System.Windows.Forms.Button b_ver;
 
     }
 }

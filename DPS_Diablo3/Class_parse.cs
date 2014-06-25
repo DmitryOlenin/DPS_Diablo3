@@ -120,6 +120,7 @@ namespace DPS_Diablo3.parse
         public class Type
         {
             public string id { get; set; }
+            public string twoHanded { get; set; }
         }
 
         public AttacksPerSecond attacksPerSecond { get; set; }

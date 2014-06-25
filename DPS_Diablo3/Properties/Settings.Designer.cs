@@ -793,7 +793,7 @@ namespace DPS_Diablo3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ENG")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string bt_lang {
             get {
                 return ((string)(this["bt_lang"]));

@@ -274,7 +274,7 @@ namespace DPS_Diablo3
             tt29t = "Change% attack speed on the weapon.";
             tt30t = "Change% crit damage on the weapon.";
             tt31t = "Change% elemental damage on the weapon.";
-            tt32t = "Link to homepage.";
+            tt32t = "Link to homepage (RUS).";
             tt33t = "Skill cooldown(sec).";
             tt34t = "Source cooldown reduce 1 / 2.";
             tt35t = "Source cooldown reduce 3 / 4.";
