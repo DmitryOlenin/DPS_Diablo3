@@ -1972,7 +1972,7 @@ namespace DPS_Diablo3
                 if (pars_ver[i].Contains("Version"))
                 {
                     string vers = pars_ver[i].Substring(pars_ver[i].IndexOf("title=\"Version") + 15, 3).Trim();
-                    if (vers != ver.ToString().Trim().Replace(sep, "."))
+                    if (vers != string.Format("{0:F1}", ver).ToString().Trim().Replace(sep, "."))
                     {
                         if (MessageBox.Show(
                         "Download?", "New version: " + vers, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk
