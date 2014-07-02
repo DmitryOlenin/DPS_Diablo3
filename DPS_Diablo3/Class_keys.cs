@@ -27,8 +27,9 @@ namespace DPS_Diablo3
         {
             ((TextBox)sender).ReadOnly = false;
             ((TextBox)sender).BackColor = Color.White;
-            if (((TextBox)sender).Text == "" || ((TextBox)sender).Text == "min2" || ((TextBox)sender).Text == "Weapon 2" || ((TextBox)sender).Text == "Weapon 1" || ((TextBox)sender).Text == "max2" || ((TextBox)sender).Text == "skill2" || ((TextBox)sender).Text == "100%" || ((TextBox)sender).Text.Contains("http"))
+            if (((TextBox)sender).Text == "" || ((TextBox)sender).Text == "min2" || ((TextBox)sender).Text == "weapon2" || ((TextBox)sender).Text == "weapon1" || ((TextBox)sender).Text == "max2" || ((TextBox)sender).Text == "skill2" || ((TextBox)sender).Text == "100%" || ((TextBox)sender).Text.Contains("http"))
                 ((TextBox)sender).Text = "";
+            if (((TextBox)sender).Name == "tb_pers") ((TextBox)sender).Text = "";
         }
 
         private void Readonly_insert(object sender, string settings, decimal sett_dec, string fl)
@@ -44,8 +45,8 @@ namespace DPS_Diablo3
             if (fl == "ReadOnly")
             {
                 if (
-                    (((TextBox)sender).Text == "" || ((TextBox)sender).Text == "min2" || ((TextBox)sender).Text == "Weapon 2" || ((TextBox)sender).Text == "Weapon 1" || ((TextBox)sender).Text == "max2" || ((TextBox)sender).Text == "skill2" || ((TextBox)sender).Text == "100%")
-                    && (settings != "" || settings != "min2" || settings != "Weapon 2" || settings != "Weapon 1" || settings != "max2" || settings != "skill2" || settings != "100%")
+                    (((TextBox)sender).Text == "" || ((TextBox)sender).Text == "min2" || ((TextBox)sender).Text == "weapon2" || ((TextBox)sender).Text == "weapon1" || ((TextBox)sender).Text == "max2" || ((TextBox)sender).Text == "skill2" || ((TextBox)sender).Text == "100%")
+                    && (settings != "" || settings != "min2" || settings != "weapon2" || settings != "weapon1" || settings != "max2" || settings != "skill2" || settings != "100%")
                     && (settings != ((TextBox)sender).Text)
                     )
                 {

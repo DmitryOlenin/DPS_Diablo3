@@ -16,11 +16,22 @@ namespace DPS_Diablo3
         tt1t, tt2t, tt3t, tt4t, tt5t, tt6t, tt7t, tt8t, tt9t, tt10t, tt11t, tt12t, tt13t, tt14t, tt15t, tt16t, tt17t, tt7_1t, tt18t, tt19t,
         tt20t, tt21t, tt22t, tt23t, tt24t, tt25t, tt26t, tt27t, tt28t, tt29t, tt30t, tt31t, tt32t, tt33t, tt34t, tt35t, tt36t, tt37t, tt38t, tt39t, tt40t, tt41t
         ,lb_resultt_none, lb_resultt_dots, b_advt_def, b_statt_cdr, b_statt_dps, b_wept_wd, b_wept_skill
-        ,lb_as_dpst, lb_stat_dpst, lb_cc_dpst, lb_cd_dpst, lb_elem_dpst, lb_dmg_dpst
+        , lb_as_dpst, lb_stat_dpst, lb_cc_dpst, lb_cd_dpst, lb_elem_dpst, lb_dmg_dpst, tb_pers, lb_changes, lb_import, gb_result, gb_increase
+        , warn, mess_imp, mess_nopers, mess_noint
+        , qu, an, q1, a1_1, a1_2, q2, a2_1, q3, a3_1, a3_2, q4, a4_1, q5, a5_1, q6, a6_1, q7, a7_1, a7_2, q8, a8_1, a8_2, q9, a9_1, q10, a10_1, q11, a11_1, a11_2, q12, a12_1
         ;
 
         public void Lang_rus()
         {
+            warn = "Внимание";
+            mess_imp = "Неверная строка импорта";
+            mess_nopers = "Персонаж не найден";
+            mess_noint = "Проблемы с интернетом";
+            gb_result = "Результаты расчётов";
+            gb_increase = "Прирост DPS от характеристик:";
+            lb_changes = "Выберите вариант для доп. расчётов";
+            lb_import = "Вставьте адрес профиля из браузера:";
+            tb_pers = "Строка \"http://\" из Battle.Net";
             lb_dmg_at = "Урон оружия";
             lb_perc_at = "+% урона оружия";
             lb_speed_at = "+% скорости оружия";
@@ -51,12 +62,12 @@ namespace DPS_Diablo3
             lb_elemct = "+- Элементальный урон";
             lb_help1t = "Введите основные параметры и";
             lb_help2t = "используйте кнопку Расчёт DPS.";
-            lb_help3t = "Кнопки Save/Load/Clear служат для";
+            lb_help3t = "Пункты Save/Load/Clear служат для";
             lb_help4t = "сохранения/загрузки/очистки";
             lb_help5t = "экранных данных.";
             lb_help6t = "Блок справа служит для подсчёта";
             lb_help7t = "изменений при смене вещей.";
-            lb_help8t = "Weapon 2 - для данных по оружию 2.";
+            lb_help8t = "weapon2 - для данных по оружию 2.";
             lb_idmg1t = "Урон/сек оружие";
             lb_iac1t = "Скорость оружия";
             lb_icct = "Критшанс";
@@ -148,17 +159,58 @@ namespace DPS_Diablo3
             tt39t = "Быстрое сохранение данных. ---F5---";
             tt40t = "Быстрая загрузка данных. ---F6---";
             tt41t = "Импорт данных из профиля Battle.Net";
+
+            qu = "Вопрос: ";
+            an = "Ответ: ";
+            q1 = "Для чего эта программа нужна?";
+            a1_1 = "Программа нужна для вычисления урона 1 или 2 скиллов, которыми пользуется персонаж.";
+            a1_2 = "Также она может быть полезна при изменении экипировки или вложении очков парагона.";
+            q2 = "Опасно ли пользоваться данной программой, не могут ли за это забанить?";
+            a2_1 = "Нет, не опасно, забанить не могут, программа никак не взаимодействует с игрой.";
+            q3 = "Я боюсь вирусов, кражи личной информации и призраков. Как мне быть?";
+            a3_1 = "Программа не содержит ничего, что могло бы повредить компьютеру. Проверить можно на сайте virustotal.";
+            a3_2 = "Также есть исходные коды на сайте: github.com/DmitryOlenin/DPS_Diablo3.";
+            q4 = "Программа не запускается, что делать?";
+            a4_1 = "Вам следует установить .Net Framework 4.0 с сайта Microsoft.";
+            q5 = "Что отражает значение DPS - профиль?";
+            a5_1 = "Это тот DPS, который вам показывает игра. Обычно совпадает, если данные введены правильно.";
+            q6 = "Почему профильный DPS так сильно отличается от реального?";
+            a6_1 = "Профильный DPS не учитывает многих факторов, таких как элементальный урон, прибавка урона скилла.";
+            q7 = "Почему при импорте данные могут не совпасть как с профилем в игре, так и с профилем на сайте?";
+            a7_1 = "На сайте содержится неверная информация о части оффхендов, неверно считается % урона ";
+            a7_2 = "оружия с элементальным уроном, не учитываются прибавки от сетовых вещей, нет информации о парагоне.";
+            q8 = "Почему при вводе \"% урона от скилла\" не меняется профильный урон в программе?";
+            a8_1 = "Большая часть скиллов в игре не учитывается при расчёте профильного урона, однако есть исключения.";
+            a8_2 = "В расчёте реального урона всё учитывается как надо.";
+            q9 = "Чем отличается \"Обычная точность\" и \"Высокая точность\"?";
+            a9_1 = "В обычном режиме нужно вводить меньше параметров и может быть небольшая погрешность в измерениях.";
+            q10 = "Что делает расчёт урона питомцев WD в доп. расчётах?";
+            a10_1 = "Считает урон от ваших питомцев, добавляя его к основному урону.";
+            q11 = "Как посчитать урон спелла со временем отката?";
+            a11_1 = "В доп. расчётах есть пункт, позволяющий выбрать режим обсчёта кулдауна.";
+            a11_2 = "Вводите время отката и снижение этого времени с вещей.";
+            q12 = "Как посчитать урон скилла, который используется время от времени и не зависит от скорости атаки?";
+            a12_1 = "В разделе для ввода кулдауна поставить 1 в пункт \"Skill 1 cooldown\".";
         }
 
         public void Lang_eng()
         {
+            warn = "Warning";
+            mess_imp = "Wrong input string";
+            mess_nopers = "Profile not found";
+            mess_noint = "Problems with internet";
+            gb_result = "The results of calculations";
+            gb_increase = "Increasing DPS from stats:";
+            lb_changes = "Choose option for advanced calculation";
+            lb_import = "Insert the profile address from the browser:";
+            tb_pers = "String \"http://\" from armory";
             lb_dmg_at = "Weapon Damage";
             lb_perc_at = "+% Weapon Damage";
             lb_speed_at = "+% Attack speed";
-            tb_dmg1_pt = "Weapon 1";
-            tb_ac1_pt = "Weapon 1";
-            tb_dmg2_pt = "Weapon 2";
-            tb_ac2_pt = "Weapon 2";
+            tb_dmg1_pt = "weapon1";
+            tb_ac1_pt = "weapon1";
+            tb_dmg2_pt = "weapon2";
+            tb_ac2_pt = "weapon2";
             lb_toskill_at = "+% Skill increase";
             lb_elem_at = "+% Elemental Damage";
             lb_skill_at = "% Weapon Skill Damage";
@@ -186,15 +238,15 @@ namespace DPS_Diablo3
             lb_elemct = "+- Elemental Damage";
             lb_help1t = "Fill Required Fields";
             lb_help2t = "to calculate DPS.";
-            lb_help3t = "Use Save/Load/Clear buttons ";
+            lb_help3t = "Use Save/Load/Clear from menu";
             lb_help4t = "for saving/loading/clearing ";
             lb_help5t = "data.";
             lb_help6t = "Right block is using for calculate";
             lb_help7t = "items/stats changes.";
-            lb_help8t = "Weapon 2 - for Dual Wield";
+            lb_help8t = "weapon2 - for Dual Wield";
             lb_idmg1t = "Weapon Damage";
             lb_iac1t = "Attacks per Second";
-            tb_damage2t = "Weapon 2";
+            tb_damage2t = "weapon2";
             lb_icct = "Critical Hit Chance";
             lb_icdt = "Critical Hit Damage";
             lb_imaint = "Main Stat";
@@ -274,7 +326,7 @@ namespace DPS_Diablo3
             tt29t = "Change% attack speed on the weapon.";
             tt30t = "Change% crit damage on the weapon.";
             tt31t = "Change% elemental damage on the weapon.";
-            tt32t = "Link to homepage (RUS).";
+            tt32t = "Link to forum.";
             tt33t = "Skill cooldown(sec).";
             tt34t = "Source cooldown reduce 1 / 2.";
             tt35t = "Source cooldown reduce 3 / 4.";
@@ -284,6 +336,39 @@ namespace DPS_Diablo3
             tt39t = "Quick Save Data. ---F5---";
             tt40t = "Quick Load Data. ---F6---";
             tt41t = "Battle.Net profile import.";
+
+            qu = "Question: ";
+            an = "Answer: ";
+            q1 = "What does this program do?";
+            a1_1 = "Program is needed to calculate the damage one or two skills, which uses character.";
+            a1_2 = "It can also be useful when changing equipment or adding points of Paragon.";
+            q2 = "Is it dangerous to use this program, can i get the ban for using it?";
+            a2_1 = "No, not dangerous, you will not get a ban, the program does not interact with the game.";
+            q3 = "I'm afraid of viruses, identity thieves and ghosts. What can I do?";
+            a3_1 = "The program does not contain anything that could harm your computer. You can check this site virustotal.";
+            a3_2 = "Also there is the source code on the website: github.com/DmitryOlenin/DPS_Diablo3.";
+            q4 = "The program does not start, what to do?";
+            a4_1 = "You should install .Net Framework 4.0 from Microsoft.";
+            q5 = "What reflects the value of DPS - Profile?";
+            a5_1 = "This is the DPS, which game shows you. Usually identical if the data is entered correctly.";
+            q6 = "Why profile DPS is so different from the real DPS?";
+            a6_1 = "Profile DPS ignores many factors, such as elemental damage, increase from skill damage.";
+            q7 = "Why after importing data, profile in the game not matched with a profile on the site?";
+            a7_1 = "The site contains incorrect information about the part offhands, incorrectly calculated % damage";
+            a7_2 = "weapons with elemental damage, not accounted set items, there is no information about Paragon.";
+            q8 = "Why \"% damage from skill\" does not change profile DPS in the program?";
+            a8_1 = "Most of the skills in the game is not considered when calculating the profile DPS, but there are exceptions.";
+            a8_2 = "The calculation of the real DPS working as it should.";
+            q9 = "What is the difference between Normal mode and Simple mode?";
+            a9_1 = "In Simple mode, you will enter fewer parameters and may be a slight error in the measurements.";
+            q10 = "What does the \"Pets damage calculator\" in advanced calculation?";
+            a10_1 = "Considers the damage done by your pets by adding it to the main damage.";
+            q11 = "How to calculate the damage over time spell with rollback?";
+            a11_1 = "Advanced calculation service allow you to select mode calculation cooldown.";
+            a11_2 = "Enter the cooldown time and cooldown reduction from sources.";
+            q12 = "How to calculate DPS of skill that is used from time to time and does not depend on the speed of the attack?";
+            a12_1 = "Put 1 in \"Skill 1 cooldown\" in the cooldown part of advanced calculation.";
+
         }
     }
 }

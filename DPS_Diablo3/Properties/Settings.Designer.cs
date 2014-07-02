@@ -37,7 +37,7 @@ namespace DPS_Diablo3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Weapon 2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("weapon2")]
         public string tb_damage2 {
             get {
                 return ((string)(this["tb_damage2"]));
@@ -61,7 +61,7 @@ namespace DPS_Diablo3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Weapon 2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("weapon2")]
         public string tb_ac2 {
             get {
                 return ((string)(this["tb_ac2"]));
@@ -421,7 +421,7 @@ namespace DPS_Diablo3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Weapon 1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("weapon1")]
         public string tb_dmg1_p {
             get {
                 return ((string)(this["tb_dmg1_p"]));
@@ -433,7 +433,7 @@ namespace DPS_Diablo3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Weapon 2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("weapon2")]
         public string tb_dmg2_p {
             get {
                 return ((string)(this["tb_dmg2_p"]));
@@ -541,7 +541,7 @@ namespace DPS_Diablo3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Weapon 1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("weapon1")]
         public string tb_ac1_p {
             get {
                 return ((string)(this["tb_ac1_p"]));
@@ -553,7 +553,7 @@ namespace DPS_Diablo3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Weapon 2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("weapon2")]
         public string tb_ac2_p {
             get {
                 return ((string)(this["tb_ac2_p"]));
