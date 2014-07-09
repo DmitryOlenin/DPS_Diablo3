@@ -793,13 +793,85 @@ namespace DPS_Diablo3.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public string bt_lang {
             get {
                 return ((string)(this["bt_lang"]));
             }
             set {
                 this["bt_lang"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal nud_para_main {
+            get {
+                return ((decimal)(this["nud_para_main"]));
+            }
+            set {
+                this["nud_para_main"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal nud_para_as {
+            get {
+                return ((decimal)(this["nud_para_as"]));
+            }
+            set {
+                this["nud_para_as"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal nud_para_cdr {
+            get {
+                return ((decimal)(this["nud_para_cdr"]));
+            }
+            set {
+                this["nud_para_cdr"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal nud_para_cc {
+            get {
+                return ((decimal)(this["nud_para_cc"]));
+            }
+            set {
+                this["nud_para_cc"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal nud_para_cd {
+            get {
+                return ((decimal)(this["nud_para_cd"]));
+            }
+            set {
+                this["nud_para_cd"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string lb_para_lvl {
+            get {
+                return ((string)(this["lb_para_lvl"]));
+            }
+            set {
+                this["lb_para_lvl"] = value;
             }
         }
     }

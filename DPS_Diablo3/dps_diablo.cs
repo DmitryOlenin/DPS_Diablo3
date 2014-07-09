@@ -18,6 +18,7 @@ using DPS_Diablo3.parse;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 //using Ranslant.JSON.Linq;
 
 namespace DPS_Diablo3
@@ -25,6 +26,10 @@ namespace DPS_Diablo3
 
     public partial class dps_diablo : Form
     {
+
+        [DllImport("dwmapi.dll", PreserveSig = false)]
+        public static extern bool DwmIsCompositionEnabled();
+
         public string[] pars_hero;
         public List<string> passive_skill, active_skill, active_skill_rune;
 
@@ -34,8 +39,8 @@ namespace DPS_Diablo3
             , item_parse
             , sep = Convert.ToChar(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator).ToString()
             , skill_damage = "", phys_up = "", dps_min = "", aps_item = "", dps_min_off = "", phys_up_off = "", aps_item_off = ""
-            , pers_name, first_skill, weapon_id, weapon_2h
-            , version
+            , pers_name, first_skill, weapon_id, weapon_2h, para_lvl
+            , version, p_lvl = ""
             ;
         
         public double wepdamage, otherdamage, cleardamage, critdamage, overdamage, speedtotal, result, result_profile,
@@ -44,7 +49,7 @@ namespace DPS_Diablo3
               r1_min, r1_max, r2_min, r2_max, other_min, other_max, fromskills, elem, toskill, elite, skill,
               result_old, result_old_wd,
               dmg1_1, dmg1_2, dmg2_1, dmg2_2, ac1_a, ac2_a, dmg1_p, dmg2_p, ac1_p, ac2_p, dmg1_1_a, dmg1_2_a, dmg2_1_a, dmg2_2_a,
-              skill1_usage, skill2_usage, skill1, skill2, elem1, elem2, toskill1, toskill2, ac1w,
+              skill1_usage, skill2_usage, skill1, skill2, elem1, elem2, toskill1, toskill2, ac1w, elite1, elite1w,
               coold, cdr_all, skill_base, skill_other
               , del_Physical = 0, del_X1_Physical = 0, del_Fire = 0, del_Cold = 0, del_Lightning = 0, del_Poison = 0, del_Arcane = 0, del_Holy = 0
               , min_Physical = 0, min_X1_Physical = 0, min_Fire = 0, min_Cold = 0, min_Lightning = 0, min_Poison = 0, min_Arcane = 0, min_Holy = 0
@@ -52,27 +57,48 @@ namespace DPS_Diablo3
               , damage_min = 0, damage_max = 0, elem_all = 0, aps = 0, aps_up = 0, aps_up_off = 0, aps_off = 0, damage_min_off = 0, damage_max_off = 0
               , crit_damage = 0, crit_chance = 0, elite_damage = 0, off_crit_chance = 0, off_del_Physical = 0, off_min_Physical = 0
               , rings_count = 0, r1_del_Physical = 0, r1_min_Physical = 0, r2_del_Physical = 0, r2_min_Physical = 0, am_del_Physical = 0, am_min_Physical = 0
-              , ver = 2.0
+              , cooldown
+              , ver = 2.1
               ;
+
+        public Double[] cdr = new Double[] {0,0,0,0,0,0,0,0,0,0,0};
 
         public Class_lang lng = new Class_lang();
         
-        public int mainstat = 0, to_skl = 0, cnt = 0, from_skl;
+        public int mainstat = 0, to_skl = 0, cnt = 0, from_skl, cdr_n=0, para_level = 0, level1 = 0, level2 = 0;
+
+        decimal lev2 = 0, curr_para = 0, prev_para = 0, coold_pass=0;
 
         public static SettingsTable overview;
 
+        public Form frm_para = new Form();
+        public Label lb_para_main = new Label();
+        public Label lb_para_as = new Label();
+        public Label lb_para_cdr = new Label();
+        public Label lb_para_cc = new Label();
+        public Label lb_para_cd = new Label();
+        public Label lb_para = new Label();
+        public Label lb_para_lvl = new Label();
+        public NumericUpDown nud_para_main = new NumericUpDown();
+        public NumericUpDown nud_para_as = new NumericUpDown();
+        public NumericUpDown nud_para_cdr = new NumericUpDown();
+        public NumericUpDown nud_para_cc = new NumericUpDown();
+        public NumericUpDown nud_para_cd = new NumericUpDown();
+        public Button b_para_save = new Button();
+        public Button b_para_load = new Button();
+
         public dps_diablo()
         {
+
             InitializeComponent();
 
             pan_divider_Paint(null,null);
-
-            //tb_pers.ContextMenuStrip = cms_web;
 
             version = "DPS - Diablo3 ver. " + string.Format("{0:F1}", ver).ToString().Replace(sep, ".");
             this.Text = version;
 
             //faq();
+            para_form_create();
 
             //MessageBox.Show(CultureInfo.CurrentCulture.EnglishName);
             if (lb_adv.Text == "def") tsmi_adv_Click(null, null);
@@ -131,10 +157,13 @@ namespace DPS_Diablo3
                     control1.ContextMenu = new ContextMenu();
                 }
 
-            foreach (NumericUpDown nud in pan_cdr.Controls.OfType<NumericUpDown>())
-                if (nud.Name != "nud_cooldown")
-                    nud.ValueChanged += nud_cdr_ValueChanged;
+            foreach (Control control in this.Controls.OfType<Panel>())
+                foreach (NumericUpDown nud in control.Controls.OfType<NumericUpDown>())
+                    nud.TextChanged += new EventHandler(nud_TextChanged);
 
+            foreach (NumericUpDown nud in pan_cdr.Controls.OfType<NumericUpDown>())
+                //if (nud.Name != "nud_cooldown")
+                    nud.ValueChanged += nud_cdr_ValueChanged;
         }
 
         public void White()
@@ -211,7 +240,6 @@ namespace DPS_Diablo3
             Settings.Default.nud_cdr9 = nud_cdr9.Value;
             Settings.Default.nud_cdr10 = nud_cdr10.Value;
             Settings.Default.bt_lang = bt_lang.Text;
-            Settings.Default.Save();
 
             overview = new SettingsTable();
 
@@ -242,6 +270,15 @@ namespace DPS_Diablo3
                     Booleans.Rows.Add(currentProperty.Name.ToString(), Convert.ToBoolean(Settings.Default[currentProperty.Name]));
                 }
             }
+
+            Settings.Default.nud_para_main = nud_para_main.Value;
+            Settings.Default.nud_para_as = nud_para_as.Value;
+            Settings.Default.nud_para_cdr = nud_para_cdr.Value;
+            Settings.Default.nud_para_cc = nud_para_cc.Value;
+            Settings.Default.nud_para_cd = nud_para_cd.Value;
+            Settings.Default.lb_para_lvl = lb_para_lvl.Text;
+
+            Settings.Default.Save();
 
             //WriteXML(overview);
             //ReadXML();
@@ -442,9 +479,9 @@ namespace DPS_Diablo3
                     //b_wep.Enabled = true;
                     pan_list.Visible = true;
                     ac1 = Convert.ToSingle(tb_ac1.Text.Replace(".", sep));
-                    if (tb_dmg1_p.Text != "" && tb_dmg1_p.Text != "weapon1") { dmg1_p = Convert.ToSingle(tb_dmg1_p.Text.Replace(".", sep)); } else { dmg1_p = 0; }
-                    if (tb_dmg2_p.Text != "" && tb_dmg2_p.Text != "weapon2") { dmg2_p = Convert.ToSingle(tb_dmg2_p.Text.Replace(".", sep)); } else { dmg2_p = 0; }
-                    if (tb_ac1_p.Text != "" && tb_ac1_p.Text != "weapon1")
+                    if (tb_dmg1_p.Text != "" && tb_dmg1_p.Text.ToLower().Replace(" ", "") != "weapon1") { dmg1_p = Convert.ToSingle(tb_dmg1_p.Text.Replace(".", sep)); } else { dmg1_p = 0; }
+                    if (tb_dmg2_p.Text != "" && tb_dmg2_p.Text.ToLower().Replace(" ", "") != "weapon2") { dmg2_p = Convert.ToSingle(tb_dmg2_p.Text.Replace(".", sep)); } else { dmg2_p = 0; }
+                    if (tb_ac1_p.Text != "" && tb_ac1_p.Text.ToLower().Replace(" ", "") != "weapon1")
                     {
                         ac1_p = Convert.ToSingle(tb_ac1_p.Text.Replace(".", sep));
                         ac1 = Math.Round((ac1 * 100 / (100 + ac1_p)), 1) * ((100 + ac1_p) / 100);
@@ -459,7 +496,7 @@ namespace DPS_Diablo3
                         dmg2_1 = Math.Round(Convert.ToSingle(tb_dmg2_1_a.Text.Replace(".", sep)) / (dmg2_p / 100 + 1));
                         dmg2_2 = Math.Round(Convert.ToSingle(tb_dmg2_2_a.Text.Replace(".", sep)) / (dmg2_p / 100 + 1));
                         ac2 = Convert.ToSingle(tb_ac2.Text.Replace(".", sep));
-                        if (tb_ac2_p.Text != "" && tb_ac2_p.Text != "weapon2")
+                        if (tb_ac2_p.Text != "" && tb_ac2_p.Text.ToLower().Replace(" ", "") != "weapon2")
                         {
                             ac2_p = Convert.ToSingle(tb_ac2_p.Text.Replace(".", sep));
                             ac2 = Math.Round((ac2 * 100 / (100 + ac2_p)), 1) * ((100 + ac2_p) / 100);
@@ -494,18 +531,18 @@ namespace DPS_Diablo3
                     ac1 = Convert.ToSingle(tb_ac1.Text.Replace(".", sep));
                     damage2 = damage1;
                     ac2 = ac1;
-                    if (tb_damage2.Text != "" && tb_damage2.Text != "weapon2" && tb_ac2.Text != "" && tb_ac2.Text != "weapon2" && tb_ac2.Text != "0" && tb_damage2.Text != "0")
+                    if (tb_damage2.Text != "" && tb_damage2.Text.ToLower().Replace(" ", "") != "weapon2" && tb_ac2.Text != "" && tb_ac2.Text.ToLower() != "weapon2" && tb_ac2.Text != "0" && tb_damage2.Text != "0")
                     {
                         damage2 = Convert.ToSingle(tb_damage2.Text.Replace(".", sep));
                         ac2 = Convert.ToSingle(tb_ac2.Text.Replace(".", sep));
                     }
                     skill = Convert.ToSingle(tb_skill.Text.Replace(".", sep));
                 }
-                main = Convert.ToSingle(tb_main.Text.Replace(".", sep));
-                acincr = 0;
-                if (tb_acincr.Text != "") acincr = Convert.ToSingle(tb_acincr.Text.Replace(".", sep));
-                cc = Convert.ToSingle(tb_cc.Text.Replace(".", sep));
-                cd = Convert.ToSingle(tb_cd.Text.Replace(".", sep));
+                main = Convert.ToSingle(tb_main.Text.Replace(".", sep)) + Convert.ToSingle(nud_para_main.Value);
+                acincr = Convert.ToSingle(nud_para_as.Value);
+                if (tb_acincr.Text != "") acincr += Convert.ToSingle(tb_acincr.Text.Replace(".", sep));
+                cc = Convert.ToSingle(tb_cc.Text.Replace(".", sep)) + Convert.ToSingle(nud_para_cc.Value);
+                cd = Convert.ToSingle(tb_cd.Text.Replace(".", sep)) + Convert.ToSingle(nud_para_cd.Value);
                 off_min = 0; off_max = 0; am_min = 0; am_max = 0; r1_min = 0; r1_max = 0; r2_min = 0; r2_max = 0; other_min = 0; other_max = 0;
                 if (tb_off_min.Text != "") off_min = Convert.ToSingle(tb_off_min.Text.Replace(".", sep));
                 if (tb_off_max.Text != "") off_max = Convert.ToSingle(tb_off_max.Text.Replace(".", sep));
@@ -544,6 +581,7 @@ namespace DPS_Diablo3
 
                 acincr = acincr + 1; lb_ac.Visible = true; Calculate(); lb_ac.Text = (result - result_old).ToString("N0"); acincr = acincr - 1;
                 main = main + 100; lb_main.Visible = true; Calculate(); lb_main.Text = (result - result_old).ToString("N0"); main = main - 100;
+                elite = elite + 1; lb_elite.Visible = true; Calculate(); lb_elite.Text = (result - result_old).ToString("N0"); elite = elite - 1;
                 cc = cc + 1; lb_cc.Visible = true; Calculate(); lb_cc.Text = (result - result_old).ToString("N0"); cc = cc - 1;
                 cd = cd + 10; lb_cd.Visible = true; Calculate(); lb_cd.Text = (result - result_old).ToString("N0"); cd = cd - 10;
                 if (lb_adv.Text == "adv")
@@ -565,7 +603,7 @@ namespace DPS_Diablo3
                     lb_elem.Text = (result - result_old).ToString("N0");
                     elem = elem - 1;
                 }
-                other_min = other_min + 100; lb_dmg.Visible = true; Calculate(); lb_dmg.Text = (result - result_old).ToString("N0"); other_min = other_min - 100;
+                other_min = other_min + 20; lb_dmg.Visible = true; Calculate(); lb_dmg.Text = (result - result_old).ToString("N0"); other_min = other_min - 20;
 
                 if (lb_state.Text == "wep" && lb_adv.Text == "adv")
                 {
@@ -576,6 +614,7 @@ namespace DPS_Diablo3
                     damage1 = (dmg1_1 + dmg1_2 + Convert.ToSingle(tb_dmg1_w.Text.Replace(".", sep)) + Convert.ToSingle(tb_dmg2_w.Text.Replace(".", sep))) / 2 * ac1w * ((dmg1_p + Convert.ToSingle(nud_damp_w.Value)) / 100 + 1);
 
                     main = main + Convert.ToSingle(nud_main_w.Value);
+                    elite = elite + Convert.ToSingle(nud_elite_w.Value);
                     cd = cd + Convert.ToSingle(nud_cd_w.Value);
                     elem1 = elem1 + Convert.ToSingle(nud_elem_w.Value);
                     skill = (skill1 * skill1_usage / 100 * (elem1 / 100 + 1) * (toskill1 / 100 + 1)) + (skill2 * skill2_usage / 100 * (elem2 / 100 + 1) * (toskill2 / 100 + 1));
@@ -584,9 +623,10 @@ namespace DPS_Diablo3
                     lb_start.Text = lb_start.Text + "changed";
                 }
                 else
-                    if (nud_main.Value != 0 || nud_ac.Value != 0 || nud_cc.Value != 0 || nud_cd.Value != 0 || nud_elem.Value != 0 || nud_damage.Value != 0)
+                    if (nud_main.Value != 0 || nud_ac.Value != 0 || nud_cc.Value != 0 || nud_cd.Value != 0 || nud_elem.Value != 0 || nud_damage.Value != 0 || nud_elite.Value != 0)
                     {
                         main = main + Convert.ToSingle(nud_main.Value);
+                        elite = elite + Convert.ToSingle(nud_elite.Value);
                         acincr = acincr + Convert.ToSingle(nud_ac.Value);
                         cc = cc + Convert.ToSingle(nud_cc.Value);
                         cd = cd + Convert.ToSingle(nud_cd.Value);
@@ -747,7 +787,8 @@ namespace DPS_Diablo3
             gb_result.Text = lng.gb_result;
             gb_increase.Text = lng.gb_increase;
             lb_import.Text = lng.lb_import;
-            lb_changes.Text = lng.lb_changes;
+            //lb_changes.Text = lng.lb_changes;
+            gb_roll.Text = lng.lb_changes;
             tb_pers.Text = lng.tb_pers;
             lb_dmg_a.Text = lng.lb_dmg_at;
             lb_perc_a.Text = lng.lb_perc_at;
@@ -829,6 +870,17 @@ namespace DPS_Diablo3
             lb_cd_dps.Text = lng.lb_cd_dpst;
             lb_elem_dps.Text = lng.lb_elem_dpst;
             lb_dmg_dps.Text = lng.lb_dmg_dpst;
+            lb_elite_dps.Text = lng.lb_elite_dpst;
+            lb_eliteс.Text = lng.lb_eliteс;
+            lb_elite_w.Text = lng.lb_eliteс;
+
+            lb_para_main.Text = lng.lb_imaint + ":";
+            lb_para_as.Text = lng.lb_as + ":";
+            lb_para_cdr.Text = lng.lb_cdr + ":";
+            lb_para_cc.Text = lng.lb_icct + ":";
+            lb_para_cd.Text = lng.lb_icdt + ":";
+            lb_para.Text = lng.lb_paragon;
+
             action_choice();
             tooltips();
 
@@ -908,6 +960,26 @@ namespace DPS_Diablo3
             if (nud_cooldown.Value != 0) lb_cdt.Visible = true;
         }
 
+        private void cooldown_import()
+        {
+            nud_cdr1.Value = Convert.ToDecimal(cdr[0]);
+            nud_cdr2.Value = Convert.ToDecimal(cdr[1]);
+            nud_cdr3.Value = Convert.ToDecimal(cdr[2]);
+            nud_cdr4.Value = Convert.ToDecimal(cdr[3]);
+            nud_cdr5.Value = Convert.ToDecimal(cdr[4]);
+            nud_cdr6.Value = Convert.ToDecimal(cdr[5]);
+            nud_cdr7.Value = Convert.ToDecimal(cdr[6]);
+            nud_cdr8.Value = Convert.ToDecimal(cdr[7]);
+            nud_cdr9.Value = Convert.ToDecimal(cdr[8]);
+            nud_cdr10.Value = Convert.ToDecimal(cdr[9]);
+            nud_cdr12.Value = coold_pass;
+            int flag = 0;
+            for (int i = 0; i < 10; i++)
+            {
+                if (cdr[i] != 0) flag = 1;
+            }
+            if (flag != 0 || coold_pass > 0) nud_cdr_ValueChanged(null, null);
+        }
 
         private void b_filesave_Click(object sender, EventArgs e)
         {
@@ -1087,12 +1159,13 @@ namespace DPS_Diablo3
                     ; damage_min = 0; damage_max = 0; elem_all = 0; aps = 0; aps_up = 0; aps_up_off = 0; aps_off = 0; damage_min_off = 0; damage_max_off = 0
                     ; crit_damage = 0; crit_chance = 0; elite_damage = 0; off_crit_chance = 0; off_del_Physical = 0; off_min_Physical = 0
                     ; rings_count = 0; r1_del_Physical = 0; r1_min_Physical = 0; r2_del_Physical = 0; r2_min_Physical = 0; am_del_Physical = 0; am_min_Physical = 0
-                    ; from_skl = 0;
+                    ; from_skl = 0; coold_pass = 0;
 
                     //head_parse = ""; torso_parse = ""; feet_parse = ""; hands_parse = ""; shoulders_parse = ""; legs_parse = ""; bracers_parse = ""; mainHand_parse = ""; offHand_parse = ""; waist_parse = ""; rightFinger_parse = ""; leftFinger_parse = ""; neck_parse = "";
 
                     set_parse();
                     pers_name = pers.name + " - " + pers.paragonLevel;
+                    para_lvl = pers.paragonLevel;
 
                     if (pers.items.mainHand != null)
                     {
@@ -1111,6 +1184,7 @@ namespace DPS_Diablo3
                         mh();
                     }
 
+
                     foreach (string pass in passive_skill)
                     {
                         //Barbarian
@@ -1123,7 +1197,13 @@ namespace DPS_Diablo3
                         //Crusader
                         if (pass == "Blunt" || pass == "Towering Shield") from_skl += 20;
                         if (pass == "Holy Cause") from_skl += 10;
-                        if (pass == "Fervor" || pass == "Fanaticism") aps_up += 15;
+                        if (pass == "Fanaticism") aps_up += 15;
+                        if (pass == "Fervor")
+                        {
+                            aps_up += 15;
+                            coold_pass += 15;
+                        }
+                        if (pass == "Lord Commander") coold_pass += 35;
                         //Demon Hunter
                         if (pass == "Steady Aim" || pass == "Cull the Weak") from_skl += 20;
                         if (pass == "Archery" && weapon_id.Contains("Bow")) from_skl += 8;
@@ -1131,6 +1211,7 @@ namespace DPS_Diablo3
                         if (pass == "Archery" && weapon_id.Contains("HandXbow") && !weapon_2h.Contains("true")) off_crit_chance += 5;
                         //Monk
                         if (pass == "Momentum") from_skl += 20;
+                        if (pass == "Beacon of Ytar") coold_pass += 20;
                         //WD
                         if (pass == "Pierce the Veil") from_skl += 20;
                         //Wizard
@@ -1138,6 +1219,7 @@ namespace DPS_Diablo3
                         if (pass == "Audacity") from_skl += 15;
                         if (pass == "Cold Blooded") from_skl += 10;
                         if (pass == "Conflagration") off_crit_chance += 6;
+                        if (pass == "Evocation") coold_pass += 20;
                     }
 
                     foreach (string act in active_skill)
@@ -1317,6 +1399,22 @@ namespace DPS_Diablo3
             DataContractJsonSerializer json = new DataContractJsonSerializer(typeof(MainHand));
             MainHand mh = (MainHand)json.ReadObject(TheStream);
 
+            cdr = new Double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            cdr_n = 0;
+
+            string[] pars_mh = mainHand_parse.Split('\n');  //парсим строку и получаем стринговый массив
+
+            for (int i = 0; i < pars_mh.Length; i++)
+            {
+                if (pars_mh[i].Contains("Reduces cooldown of all skills by"))
+                {
+                    int start = pars_mh[i].IndexOf(@"Reduces cooldown of all skills by") + 34;
+                    int end = pars_mh[i].IndexOf(@"%");
+                    try { cdr[cdr_n] = Convert.ToDouble(pars_mh[i].Substring(start, end - start).Replace(".", sep)); } catch { }
+                    break;
+                }
+            }
+
             weapon_id = mh.type.id;
             weapon_2h = mh.type.twoHanded;
 
@@ -1388,10 +1486,20 @@ namespace DPS_Diablo3
 
             //if (forparse == head_parse) MessageBox.Show(head_parse.Length.ToString());
 
+            int cdr_flag = 0;
+
             string [] pars_item = forparse.Split('\n');  //парсим строку и получаем стринговый массив
 
             for (int i = 0; i < pars_item.Length; i++)
             {
+                if (pars_item[i].Contains("Captain Crimson's") || pars_item[i].Contains("Born's")) cdr_flag = 1;
+                if (pars_item[i].Contains("Reduces cooldown of all skills by") && (cdr_flag == 0 || !pars_item[i].Contains("10.0%")))
+                {
+                    cdr_n += 1;
+                    int start = pars_item[i].IndexOf(@"Reduces cooldown of all skills by") + 34;
+                    int end = pars_item[i].IndexOf(@"%");
+                    try {cdr[cdr_n] = Convert.ToDouble(pars_item[i].Substring(start, end - start).Replace(".", sep));} catch { }
+                }
                 if (pars_item[i].Contains("Damage by"))
                 {
                     foreach (string a_skill in active_skill)
@@ -1509,7 +1617,10 @@ namespace DPS_Diablo3
 
         public void import()
         {
+            p_lvl = para_lvl;
             tsmi_clear_Click(null,null);
+            //lb_para_lvl.Text = p_lvl;
+
             if (lb_adv.Text == "def") b_adv.PerformClick();
             
             if (skill_damage != "") tb_skill1.Text = skill_damage;
@@ -1558,6 +1669,7 @@ namespace DPS_Diablo3
             if (from_skl > 0) tb_fromskills.Text = from_skl.ToString().Replace(sep, ".");
 
             this.Text = this.Text + "                                            " + pers_name;
+            cooldown_import();
             b_start.PerformClick();
         }
 
@@ -1590,7 +1702,12 @@ namespace DPS_Diablo3
         private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             pb_load.Visible = false;
-            if (mainstat != 0) import();
+            if (mainstat != 0)
+            {
+                import();
+                paragon();
+                if (frm_para.Visible != true) frm_para.Visible = true;
+            }
             b_web.Enabled = true;
             tb_pers.Enabled = true;
         }
@@ -1756,6 +1873,9 @@ namespace DPS_Diablo3
 
         private void tsmi_qload_Click(object sender, EventArgs e)
         {
+            paragon();
+            foreach (NumericUpDown nud in frm_para.Controls.OfType<NumericUpDown>()) nud.Value = 0;
+
             List<TextBox> form_box = new List<TextBox> { tb_damage1, tb_ac1, tb_main, tb_acincr, tb_cc, tb_cd, tb_off_min, tb_off_max, tb_am_min, tb_am_max, tb_r1_min, tb_r1_max, tb_r2_min, tb_r2_max, tb_fromskills, tb_elem, tb_toskill, tb_elite, tb_skill, tb_dmg1_1_a, tb_dmg1_2_a, tb_skill1, tb_elem1, tb_toskill1, tb_dmg1_w, tb_dmg2_w };
             List<string> set_box = new List<string> { Settings.Default.tb_damage1, Settings.Default.tb_ac1, Settings.Default.tb_main, Settings.Default.tb_acincr, Settings.Default.tb_cc, Settings.Default.tb_cd, Settings.Default.tb_off_min, Settings.Default.tb_off_max, Settings.Default.tb_am_min, Settings.Default.tb_am_max, Settings.Default.tb_r1_min, Settings.Default.tb_r1_max, Settings.Default.tb_r2_min, Settings.Default.tb_r2_max, Settings.Default.tb_fromskills, Settings.Default.tb_elem, Settings.Default.tb_toskill, Settings.Default.tb_elite, Settings.Default.tb_skill, Settings.Default.tb_dmg1_1_a, Settings.Default.tb_dmg1_2_a, Settings.Default.tb_skill1, Settings.Default.tb_elem1, Settings.Default.tb_toskill1, Settings.Default.tb_dmg1_w, Settings.Default.tb_dmg2_w };
             for (int i = 0; i < form_box.Count; i++)
@@ -1770,8 +1890,8 @@ namespace DPS_Diablo3
                 Readonly_insert(form_box_ro[i], set_box_ro[i], 0, "ReadOnly");
             }
 
-            List<NumericUpDown> form_nud = new List<NumericUpDown> { nud_garg, nud_dogs, nud_fet, nud_elemp, nud_damp, nud_speedp, nud_main_w, nud_damp_w, nud_acp_w, nud_cd_w, nud_elem_w, nud_cooldown, nud_cdr1, nud_cdr2, nud_cdr3, nud_cdr4, nud_cdr5, nud_cdr6, nud_cdr7, nud_cdr8, nud_cdr9, nud_cdr10 };
-            List<decimal> set_nud = new List<decimal> { Settings.Default.nud_garg, Settings.Default.nud_dogs, Settings.Default.nud_fet, Settings.Default.nud_elemp, Settings.Default.nud_damp, Settings.Default.nud_speedp, Settings.Default.nud_main_w, Settings.Default.nud_damp_w, Settings.Default.nud_acp_w, Settings.Default.nud_cd_w, Settings.Default.nud_elem_w, Settings.Default.nud_cooldown, Settings.Default.nud_cdr1, Settings.Default.nud_cdr2, Settings.Default.nud_cdr3, Settings.Default.nud_cdr4, Settings.Default.nud_cdr5, Settings.Default.nud_cdr6, Settings.Default.nud_cdr7, Settings.Default.nud_cdr8, Settings.Default.nud_cdr9, Settings.Default.nud_cdr10 };
+            List<NumericUpDown> form_nud = new List<NumericUpDown> { nud_garg, nud_dogs, nud_fet, nud_elemp, nud_damp, nud_speedp, nud_main_w, nud_damp_w, nud_acp_w, nud_cd_w, nud_elem_w, nud_cooldown, nud_cdr1, nud_cdr2, nud_cdr3, nud_cdr4, nud_cdr5, nud_cdr6, nud_cdr7, nud_cdr8, nud_cdr9, nud_cdr10, nud_para_main, nud_para_as, nud_para_cdr, nud_para_cc, nud_para_cd };
+            List<decimal> set_nud = new List<decimal> { Settings.Default.nud_garg, Settings.Default.nud_dogs, Settings.Default.nud_fet, Settings.Default.nud_elemp, Settings.Default.nud_damp, Settings.Default.nud_speedp, Settings.Default.nud_main_w, Settings.Default.nud_damp_w, Settings.Default.nud_acp_w, Settings.Default.nud_cd_w, Settings.Default.nud_elem_w, Settings.Default.nud_cooldown, Settings.Default.nud_cdr1, Settings.Default.nud_cdr2, Settings.Default.nud_cdr3, Settings.Default.nud_cdr4, Settings.Default.nud_cdr5, Settings.Default.nud_cdr6, Settings.Default.nud_cdr7, Settings.Default.nud_cdr8, Settings.Default.nud_cdr9, Settings.Default.nud_cdr10, Settings.Default.nud_para_main, Settings.Default.nud_para_as, Settings.Default.nud_para_cdr, Settings.Default.nud_para_cc, Settings.Default.nud_para_cd };
 
             for (int i = 0; i < form_nud.Count; i++)
             {
@@ -1788,8 +1908,18 @@ namespace DPS_Diablo3
                 //cb_wd.Checked = true;
             }
 
+            Readonly_insert(lb_para_lvl, Settings.Default.lb_para_lvl, 0, "Label");
+
             White();
             //if ((tb_dmg1_1_a.Text != "" || tb_dmg1_2_a.Text != "" || tb_skill1.Text != "") && (lb_adv.Text == "def")) b_adv.PerformClick();
+
+            int leng = lb_para_lvl.Text.IndexOf("(");
+            if (leng <= 0) leng = lb_para_lvl.Text.Length;
+            p_lvl = lb_para_lvl.Text.Substring(0, leng).Trim();
+            para_prep();
+
+            nud_cdr11.Value = nud_para_cdr.Value;
+           
             b_start.PerformClick();
         }
 
@@ -1911,6 +2041,8 @@ namespace DPS_Diablo3
 
             Lang();
 
+            foreach (NumericUpDown numud in frm_para.Controls.OfType<NumericUpDown>()) numud.Value = 0;
+            para_lvl = ""; lb_para_lvl.Text = "";
         }
 
         private void tsmi_adv_Click(object sender, EventArgs e)
@@ -1922,8 +2054,9 @@ namespace DPS_Diablo3
                 pan_skill.Visible = true;
                 pan_skillusage.Visible = true;
                 pan_skillup.Visible = true;
-                pan_list.Visible = true;
-                b_adv.Text = lng.b_advt_def;
+                //pan_list.Visible = true;
+                //pan_wd.Visible = true;
+                //b_adv.Text = lng.b_advt_def;
                 lb_adv.Text = "adv";
             }
             else
@@ -1933,10 +2066,10 @@ namespace DPS_Diablo3
                 pan_skill.Visible = false;
                 pan_skillusage.Visible = false;
                 pan_skillup.Visible = false;
-                pan_list.Visible = false;
-                pan_wep.Visible = false;
-                pan_wd.Visible = false;
-                b_adv.Text = lng.b_advt;
+                //pan_list.Visible = false;
+                //pan_wep.Visible = false;
+                //pan_wd.Visible = false;
+                //b_adv.Text = lng.b_advt;
                 lb_adv.Text = "def";
             }
         }
@@ -2049,6 +2182,273 @@ namespace DPS_Diablo3
             Point p2 = new Point(this.Size.Width - 5, 6);// вторая точка
             gr.DrawLine(p, p1, p2);// рисуем линию
             gr.Dispose();// освобождаем все ресурсы, связанные с отрисовкой
+        }
+
+        private void paragonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //if (Application.OpenForms["Paragon"] != null) frm_para.Visible = false;//frm_para.Dispose();
+            if (frm_para.Visible == true) frm_para.Visible = false;//frm_para.Dispose();
+            else
+            {
+                frm_para.Visible = true;
+                paragon();
+            }
+        }
+
+        public void para_form_create()
+        {
+            frm_para.StartPosition = FormStartPosition.Manual;
+            frm_para.Owner = this;
+            this.Move += Form_Move;
+            frm_para.ControlBox = false;
+            frm_para.Name = "Paragon";
+            frm_para.Opacity = 1;
+            frm_para.Size = new Size(200, 200);
+            frm_para.MaximumSize = new Size(200, 200);
+            frm_para.MinimumSize = new Size(200, 200);
+            //frm_para.DesktopLocation = new Point(this.Location.X + this.Size.Width + 0, this.Location.Y - 0);
+            //frm_para.Location = new Point(this.Location.X + this.Size.Width + 5, this.Location.Y - 5);
+            frm_para.ShowInTaskbar = false;
+            frm_para.Visible = false;
+            frm_para.KeyPreview = true;
+            frm_para.KeyDown +=new KeyEventHandler(frm_para_KeyDown);
+        }
+
+        private void frm_para_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F7 && frm_para.Enabled)
+            {
+                foreach (NumericUpDown nud in frm_para.Controls.OfType<NumericUpDown>()) nud.Value = 0;
+                lb_para_lvl.Text = "";
+            }
+        }
+
+        public void paragon()
+        {
+            int ypos = 1;
+
+            lb_para_main.Location = new Point(1, ypos + 2);
+            lb_para_main.AutoSize = true;
+            lb_para_main.Text = lng.lb_imaint + ":";
+            frm_para.Controls.Add(lb_para_main);
+
+            nud_para_main.Location = new Point(120, ypos);
+            nud_para_main.Size = new Size(65, 20);
+            nud_para_main.Maximum = 10000;
+            nud_para_main.Increment = 5;
+            nud_para_main.Name = "para_main";
+            //ValueChanged += nud_para_ValueChanged
+            frm_para.Controls.Add(nud_para_main);
+
+            ypos += 25;
+            lb_para_as.Location = new Point(1, ypos + 2);
+            lb_para_as.AutoSize = true;
+            lb_para_as.Text = lng.lb_as + ":";
+            frm_para.Controls.Add(lb_para_as);
+
+            nud_para_as.Location = new Point(120, ypos);
+            nud_para_as.Size = new Size(65, 20);
+            nud_para_as.Maximum = 10;
+            nud_para_as.Increment = 0.2M;
+            nud_para_as.DecimalPlaces = 1;
+            nud_para_as.Name = "para_as";
+            //ValueChanged += nud_para_ValueChanged
+            frm_para.Controls.Add(nud_para_as);
+
+            ypos += 25;
+            lb_para_cdr.Location = new Point(1, ypos + 2);
+            lb_para_cdr.AutoSize = true;
+            lb_para_cdr.Text = lng.lb_cdr + ":";
+            frm_para.Controls.Add(lb_para_cdr);
+
+            nud_para_cdr.Location = new Point(120, ypos);
+            nud_para_cdr.Size = new Size(65, 20);
+            nud_para_cdr.Maximum = 10;
+            nud_para_cdr.Increment = 0.2M;
+            nud_para_cdr.DecimalPlaces = 1;
+            nud_para_cdr.Name = "para_cdr";
+            //ValueChanged += nud_para_ValueChanged
+            frm_para.Controls.Add(nud_para_cdr);
+
+            ypos += 25;
+            lb_para_cc.Location = new Point(1, ypos + 2);
+            lb_para_cc.AutoSize = true;
+            lb_para_cc.Text = lng.lb_icct + ":";
+            frm_para.Controls.Add(lb_para_cc);
+
+            nud_para_cc.Location = new Point(120, ypos);
+            nud_para_cc.Size = new Size(65, 20);
+            nud_para_cc.Maximum = 5;
+            nud_para_cc.Increment = 0.1M;
+            nud_para_cc.DecimalPlaces = 1;
+            nud_para_cc.Name = "para_cc";
+            //ValueChanged += nud_para_ValueChanged
+            frm_para.Controls.Add(nud_para_cc);
+
+            ypos += 25;
+            lb_para_cd.Location = new Point(1, ypos + 2);
+            lb_para_cd.AutoSize = true;
+            lb_para_cd.Text = lng.lb_icdt + ":";
+            frm_para.Controls.Add(lb_para_cd);
+
+            nud_para_cd.Location = new Point(120, ypos);
+            nud_para_cd.Size = new Size(65, 20);
+            nud_para_cd.Maximum = 50;
+            nud_para_cd.Increment = 1;
+            nud_para_cd.Name = "para_cd";
+            //ValueChanged += nud_para_ValueChanged
+            frm_para.Controls.Add(nud_para_cd);
+
+            ypos += 30;
+            lb_para.Location = new Point(1, ypos + 1);
+            lb_para.AutoSize = true;
+            lb_para.Text = lng.lb_paragon;
+            frm_para.Controls.Add(lb_para);
+
+            lb_para_lvl.Location = new Point(120, ypos);
+            lb_para_lvl.AutoSize = true;
+            lb_para_lvl.Text = p_lvl.Trim();
+            //lb_para_lvl.Text = para_lvl;
+            frm_para.Controls.Add(lb_para_lvl);
+
+            ypos += 25;
+            b_para_save.Location = new Point(10, ypos);
+            b_para_save.Name = "para_save";
+            b_para_save.Text = "Save";
+            b_para_save.Click +=new EventHandler(b_para_save_Click);
+            frm_para.Controls.Add(b_para_save);
+            b_para_load.Location = new Point(100, ypos);
+            b_para_load.Name = "para_load";
+            b_para_load.Text = "Load";
+            b_para_load.Click +=new EventHandler(b_para_load_Click);
+            frm_para.Controls.Add(b_para_load);
+
+            frm_para.Show();
+
+            para_prep();
+
+        }
+
+        public void para_prep ()
+        {
+            para_level = 0; level1 = 0; level2 = 0;
+
+            foreach (NumericUpDown nud in frm_para.Controls.OfType<NumericUpDown>())
+                nud.TextChanged += new EventHandler(nud_TextChanged);
+
+            foreach (NumericUpDown nud in frm_para.Controls.OfType<NumericUpDown>())
+                if (nud.Name == "para_as" || nud.Name == "para_cdr" || nud.Name == "para_cc" || nud.Name == "para_cd") nud.ValueChanged += nud_para_ValueChanged;
+
+            try { para_level = Convert.ToInt16(p_lvl); } catch { }
+            //if (p_lvl.Length>0) para_level = Convert.ToInt16(p_lvl);
+            if (para_level > 0)
+            {
+                level1 = para_level / 4;
+                level2 = level1;
+                if (para_level - (para_level / 4 * 4) > 0) level1 += 1;
+                if (para_level - (para_level / 4 * 4) > 1) level2 += 1;
+                //MessageBox.Show("Парагон1: " + level1.ToString() + " Парагон2: " + level2.ToString());
+
+                nud_para_main.Maximum = level1 * 5;
+
+                //MessageBox.Show(nud_para_main.Maximum.ToString());
+
+                lev2 = Convert.ToDecimal(level2);
+                curr_para = lev2; prev_para = lev2;
+
+                if (level2 * nud_para_as.Increment < nud_para_as.Maximum) nud_para_as.Maximum = level2 * nud_para_as.Increment;
+                if (level2 * nud_para_cdr.Increment < nud_para_cdr.Maximum) nud_para_cdr.Maximum = level2 * nud_para_cdr.Increment;
+                if (level2 * nud_para_cc.Increment < nud_para_cc.Maximum) nud_para_cc.Maximum = level2 * nud_para_cc.Increment;
+                if (level2 * nud_para_cd.Increment < nud_para_cd.Maximum) nud_para_cd.Maximum = level2 * nud_para_cd.Increment;
+            }
+        }
+
+        private void b_para_save_Click(object sender, EventArgs e)
+        {
+            Paragon.Default.nud_para_main = nud_para_main.Value;
+            Paragon.Default.nud_para_as = nud_para_as.Value;
+            Paragon.Default.nud_para_cdr = nud_para_cdr.Value;
+            Paragon.Default.nud_para_cc = nud_para_cc.Value;
+            Paragon.Default.nud_para_cd = nud_para_cd.Value;
+            Paragon.Default.lb_para_lvl = lb_para_lvl.Text;
+            Paragon.Default.Save();
+
+            //MessageBox.Show(Paragon.Default.lb_para_lvl.ToString());
+        }
+
+        private void b_para_load_Click(object sender, EventArgs e)
+        {
+
+            foreach (NumericUpDown nud in frm_para.Controls.OfType<NumericUpDown>()) nud.Value = 0;
+
+            //MessageBox.Show(Paragon.Default.lb_para_lvl);
+
+            Readonly_insert(lb_para_lvl, Paragon.Default.lb_para_lvl, 0, "Label");
+
+            int leng = lb_para_lvl.Text.IndexOf("(");
+            //int leng = Paragon.Default.lb_para_lvl.IndexOf("(");
+            if (leng <= 0) leng = lb_para_lvl.Text.Length;
+            p_lvl = lb_para_lvl.Text.Substring(0, leng).Trim();
+            //p_lvl = Paragon.Default.lb_para_lvl.Substring(0, leng).Trim();
+
+            //MessageBox.Show(Paragon.Default.lb_para_lvl);
+
+            para_prep();
+            
+            List<NumericUpDown> para_nud = new List<NumericUpDown> { nud_para_main, nud_para_as, nud_para_cdr, nud_para_cc, nud_para_cd };
+            List<decimal> set_para_nud = new List<decimal> { Paragon.Default.nud_para_main, Paragon.Default.nud_para_as, Paragon.Default.nud_para_cdr, Paragon.Default.nud_para_cc, Paragon.Default.nud_para_cd };
+
+            for (int i = 0; i < para_nud.Count; i++)
+            {
+                Readonly_insert(para_nud[i], null, set_para_nud[i], "NumericUpDown");
+            }
+
+            nud_cdr11.Value = nud_para_cdr.Value;
+        }
+
+        private void nud_TextChanged(object sender, EventArgs e)
+        {
+            var nud_sender = (NumericUpDown)sender;
+            if (nud_sender.Text == "") nud_sender.Value = 0;
+        }
+
+        private void nud_para_ValueChanged(object sender, EventArgs e)
+        {
+            var nud_sender = (NumericUpDown)sender;
+            decimal val = nud_sender.Value;
+
+            if (nud_sender.Value <= nud_sender.Maximum && level2 > 0)
+            {
+                curr_para = lev2;
+                prev_para = lev2;
+                foreach (NumericUpDown nud in frm_para.Controls.OfType<NumericUpDown>())
+                    if (nud.Name == "para_as" || nud.Name == "para_cdr" || nud.Name == "para_cc" || nud.Name == "para_cd")
+                    {
+                        curr_para -= nud.Value / nud.Increment;
+                    }
+
+                foreach (NumericUpDown nud in frm_para.Controls.OfType<NumericUpDown>())
+                    if (nud.Name != nud_sender.Name && nud.Name != "para_main") prev_para -= nud.Value / nud.Increment;
+
+
+                if (curr_para < 0)
+                {
+                    nud_sender.Value = nud_sender.Increment * prev_para;
+                    curr_para = 0;
+                }
+
+                lb_para_lvl.Text = p_lvl.Trim() + " (" + curr_para.ToString() + ")";
+
+                //MessageBox.Show(nud_sender.Name);
+                if (nud_sender.Name == "para_cdr") this.nud_cdr11.Value = nud_sender.Value;
+            }
+        }
+        
+        private void Form_Move(object sender, EventArgs e)
+        {
+            if (Environment.OSVersion.Version.Major >= 6 && DwmIsCompositionEnabled()) 
+                frm_para.DesktopLocation = new Point(this.Location.X + this.Size.Width + 5, this.Location.Y - 5);
+            else frm_para.DesktopLocation = new Point(this.Location.X + this.Size.Width + 0, this.Location.Y - 0);
         }
 
         }

@@ -54,6 +54,14 @@ namespace DPS_Diablo3
             if ((set > 3) || (set > 2 && rorg != 0)) elem_all = elem_all + 15;
             set = 0;
 
+            for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains("Born's")) set += 1;
+            if ((set > 2) || (set > 1 && rorg != 0)) cdr[8] = 10;
+            set = 0;
+
+            for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains("Captain Crimson's")) set += 1;
+            if (set > 1) cdr[9] = 10;
+            set = 0;
+
             for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains("Tal Rasha")) set += 1;
             if (set > 1) elem_all = elem_all + 5;
             set = 0;

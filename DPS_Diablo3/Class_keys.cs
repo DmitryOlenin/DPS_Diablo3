@@ -34,6 +34,11 @@ namespace DPS_Diablo3
 
         private void Readonly_insert(object sender, string settings, decimal sett_dec, string fl)
         {
+            if (fl == "Label")
+            {
+                //if (((Label)sender).Text == "") 
+                    ((Label)sender).Text = settings;
+            }
             if (fl == "Normal")
             {
                 if (((TextBox)sender).Text == "") ((TextBox)sender).Text = settings;

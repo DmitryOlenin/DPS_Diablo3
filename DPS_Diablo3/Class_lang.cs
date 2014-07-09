@@ -11,25 +11,30 @@ namespace DPS_Diablo3
         lb_wept, lb_dam_wt, lb_main_wt, lb_damp_wt, lb_acp_wt, lb_cd_wt, lb_elem_wt, lb_wdt, lb_gargt, lb_dogst, lb_fett, lb_fizpt, lb_dampt, lb_sppt,
         lb_statct, lb_acct, lb_mainct, lb_damct, lb_ccct, lb_cdct, lb_elemct, lb_help1t, lb_help2t, lb_help3t, lb_help4t, lb_help5t, lb_help6t, lb_help7t,
         lb_help8t, lb_idmg1t, lb_iac1t, tb_damage2t, lb_icct, lb_icdt, lb_imaint, lb_iasit, lb_iofft, lb_iamut, lb_ir1t, lb_ir2t, lb_ifromskillst, lb_ielitet,
-        lb_itoskillt, lb_ielemt, lb_iskillt, lb_dpspt, lb_dpst, lb_dpsrt, lb_dpspetst, lb_result_profilet, lb_resultt, lb_changedt,
+        lb_itoskillt, lb_ielemt, lb_iskillt, lb_dpspt, lb_dpst, lb_dpsrt, lb_dpspetst, lb_result_profilet, lb_resultt, lb_changedt, lb_eliteс,
         lb_result_wdt, b_advt, b_statt, b_wept, cb_wdt, b_startt, b_savet, b_loadt, b_cleart, lb_autht, Save_dialog1t, Save_dialog2t, Save_dialog3t,
         tt1t, tt2t, tt3t, tt4t, tt5t, tt6t, tt7t, tt8t, tt9t, tt10t, tt11t, tt12t, tt13t, tt14t, tt15t, tt16t, tt17t, tt7_1t, tt18t, tt19t,
         tt20t, tt21t, tt22t, tt23t, tt24t, tt25t, tt26t, tt27t, tt28t, tt29t, tt30t, tt31t, tt32t, tt33t, tt34t, tt35t, tt36t, tt37t, tt38t, tt39t, tt40t, tt41t
         ,lb_resultt_none, lb_resultt_dots, b_advt_def, b_statt_cdr, b_statt_dps, b_wept_wd, b_wept_skill
-        , lb_as_dpst, lb_stat_dpst, lb_cc_dpst, lb_cd_dpst, lb_elem_dpst, lb_dmg_dpst, tb_pers, lb_changes, lb_import, gb_result, gb_increase
+        , lb_as_dpst, lb_stat_dpst, lb_cc_dpst, lb_cd_dpst, lb_elem_dpst, lb_dmg_dpst, lb_elite_dpst, tb_pers, lb_changes, lb_import, gb_result, gb_increase
         , warn, mess_imp, mess_nopers, mess_noint
         , qu, an, q1, a1_1, a1_2, q2, a2_1, q3, a3_1, a3_2, q4, a4_1, q5, a5_1, q6, a6_1, q7, a7_1, a7_2, q8, a8_1, a8_2, q9, a9_1, q10, a10_1, q11, a11_1, a11_2, q12, a12_1
+        , lb_as, lb_cdr, lb_paragon
         ;
 
         public void Lang_rus()
         {
+            lb_paragon = "Уровень парагона: ";
+            lb_as = "Скорость атаки";
+            lb_cdr = "Снижение времени";
             warn = "Внимание";
             mess_imp = "Неверная строка импорта";
             mess_nopers = "Персонаж не найден";
             mess_noint = "Проблемы с интернетом";
             gb_result = "Результаты расчётов";
             gb_increase = "Прирост DPS от характеристик:";
-            lb_changes = "Выберите вариант для доп. расчётов";
+            //lb_changes = "Выберите вариант для доп. расчётов";
+            lb_changes = "Варианты расчёта изменений";
             lb_import = "Вставьте адрес профиля из браузера:";
             tb_pers = "Строка \"http://\" из Battle.Net";
             lb_dmg_at = "Урон оружия";
@@ -56,7 +61,7 @@ namespace DPS_Diablo3
             lb_statct = "Изменение статов - изменение DPS:";
             lb_acct = "+- Скорость атаки";
             lb_mainct = "+- Основной параметр";
-            lb_damct = "+-  Средний урон (min+max)/2";
+            lb_damct = "+-  Средний урон"; //(min+max)/2
             lb_ccct = "+- Критшанс";
             lb_cdct = "+- Критурон";
             lb_elemct = "+- Элементальный урон";
@@ -115,7 +120,9 @@ namespace DPS_Diablo3
             lb_cc_dpst = "+ 1% КШ увеличит DPS:";
             lb_cd_dpst = "+ 10% КУ увеличит DPS:";
             lb_elem_dpst = "+ 1% Elem увеличит DPS:";
-            lb_dmg_dpst = "+ 50 Dmg увеличит DPS:";
+            lb_dmg_dpst = "+ 10 Dmg увеличит DPS:";
+            lb_elite_dpst = "+ 1% Elite увеличит DPS:";
+            lb_eliteс = "+-% Урона по элите";
 
             tt1t = "Сохраняет данные, прошлые будут перезаписаны.";
             tt2t = "Загружает сохранённые данные.";
@@ -155,7 +162,7 @@ namespace DPS_Diablo3
             tt35t = "Сокращение времени отката с источников 3/4.";
             tt36t = "Сокращение времени отката с источников 5/6.";
             tt37t = "Сокращение времени отката с источников 7/8.";
-            tt38t = "Сокращение времени отката с источников 7/8.";
+            tt38t = "Сокращение времени отката с источников 9/10.";
             tt39t = "Быстрое сохранение данных. ---F5---";
             tt40t = "Быстрая загрузка данных. ---F6---";
             tt41t = "Импорт данных из профиля Battle.Net";
@@ -195,13 +202,17 @@ namespace DPS_Diablo3
 
         public void Lang_eng()
         {
+            lb_paragon = "Paragon level: ";
+            lb_as = "Attack speed";
+            lb_cdr = "Cooldown reduce";
             warn = "Warning";
             mess_imp = "Wrong input string";
             mess_nopers = "Profile not found";
             mess_noint = "Problems with internet";
             gb_result = "The results of calculations";
             gb_increase = "Increasing DPS from stats:";
-            lb_changes = "Choose option for advanced calculation";
+            //lb_changes = "Choose option for advanced calculation";
+            lb_changes = "Options of advanced calculation";
             lb_import = "Insert the profile address from the browser:";
             tb_pers = "String \"http://\" from armory";
             lb_dmg_at = "Weapon Damage";
@@ -232,7 +243,7 @@ namespace DPS_Diablo3
             lb_statct = "Primary Stats Adjustment:";
             lb_acct = "+- Attack Speed";
             lb_mainct = "+- Main Stat";
-            lb_damct = "+- Average Damage (min-max)/2";
+            lb_damct = "+- Average Damage"; // (min-max)/2
             lb_ccct = "+- Critical Hit Chance";
             lb_cdct = "+- Critical Hit Damage";
             lb_elemct = "+- Elemental Damage";
@@ -292,7 +303,9 @@ namespace DPS_Diablo3
             lb_cc_dpst = "+1% CC increase DPS:";
             lb_cd_dpst = "+10% CD increase DPS:";
             lb_elem_dpst = "+1% Elem. increase DPS:";
-            lb_dmg_dpst = "+50 Av. Dmg increase DPS:";
+            lb_dmg_dpst = "+10 Av. Dmg increase DPS:";
+            lb_elite_dpst = "+1% Elite increase DPS:";
+            lb_eliteс = "+-% Elite damage";
 
             tt1t = "Save data. Previous data will be overwritten!";
             tt2t = "Load data.";
@@ -332,7 +345,7 @@ namespace DPS_Diablo3
             tt35t = "Source cooldown reduce 3 / 4.";
             tt36t = "Source cooldown reduce 5 / 6.";
             tt37t = "Source cooldown reduce 7 / 8.";
-            tt38t = "Source cooldown reduce 7 / 8.";
+            tt38t = "Source cooldown reduce 9 / 10.";
             tt39t = "Quick Save Data. ---F5---";
             tt40t = "Quick Load Data. ---F6---";
             tt41t = "Battle.Net profile import.";
