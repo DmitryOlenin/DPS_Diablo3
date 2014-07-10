@@ -2238,7 +2238,7 @@ namespace DPS_Diablo3
         public void para_form_create()
         {
             frm_para.StartPosition = FormStartPosition.Manual;
-            frm_para.Owner = this;
+            //frm_para.Owner = this;
             this.Move += Form_Move;
             frm_para.ControlBox = false;
             frm_para.Name = "Paragon";
@@ -2532,7 +2532,9 @@ namespace DPS_Diablo3
                         Thread.Sleep(20);
                     }
                     frm_para.Visible = false;//frm_para.Dispose();
+                    //this.Activate();
                     lb_as_dps.Focus();
+                    if (lb_result.Text != lng.lb_resultt && lb_result.Text != lng.lb_resultt_none) b_start_Click(null, null);
                 }
                 else
                 {
