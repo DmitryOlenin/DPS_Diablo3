@@ -116,6 +116,15 @@
   <ItemGroup>
     <None Include="Resources\loading_bar.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2_strelka_close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2_strelka.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2_strelka_up.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>"$(SolutionDir)\ILMerge\copy_publ.bat" "$(SolutionDir)" "$(TargetPath)"</PostBuildEvent>

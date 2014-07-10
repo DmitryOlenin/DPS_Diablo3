@@ -19,6 +19,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading;
 //using Ranslant.JSON.Linq;
 
 namespace DPS_Diablo3
@@ -96,6 +97,8 @@ namespace DPS_Diablo3
 
             version = "DPS - Diablo3 ver. " + string.Format("{0:F1}", ver).ToString().Replace(sep, ".");
             this.Text = version;
+
+            this.MaximizeBox = false;
 
             //faq();
             para_form_create();
@@ -660,6 +663,7 @@ namespace DPS_Diablo3
                 if (lb_changed.Text != lng.lb_changedt) lb_changed.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
                 else lb_changed.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             }
+            lb_as_dps.Focus();
         }
 
         public void Calculate()
@@ -1705,8 +1709,16 @@ namespace DPS_Diablo3
             if (mainstat != 0)
             {
                 import();
-                paragon();
-                if (frm_para.Visible != true) frm_para.Visible = true;
+                //paragon();
+
+                if (frm_para.Visible != true)
+                {
+                    cb_paragon.Checked = !cb_paragon.Checked;
+                    //cb_paragon.CheckState = CheckState.Checked;
+                    //cb_paragon.PerformLayout();
+                    //cb_paragon_CheckedChanged(null, null);
+                    //frm_para.Visible = true
+                }
             }
             b_web.Enabled = true;
             tb_pers.Enabled = true;
@@ -1873,7 +1885,8 @@ namespace DPS_Diablo3
 
         private void tsmi_qload_Click(object sender, EventArgs e)
         {
-            paragon();
+            if (Settings.Default.lb_para_lvl != "" && frm_para.Visible != true) paragonToolStripMenuItem_Click(null, null);
+            //paragon();            
             foreach (NumericUpDown nud in frm_para.Controls.OfType<NumericUpDown>()) nud.Value = 0;
 
             List<TextBox> form_box = new List<TextBox> { tb_damage1, tb_ac1, tb_main, tb_acincr, tb_cc, tb_cd, tb_off_min, tb_off_max, tb_am_min, tb_am_max, tb_r1_min, tb_r1_max, tb_r2_min, tb_r2_max, tb_fromskills, tb_elem, tb_toskill, tb_elite, tb_skill, tb_dmg1_1_a, tb_dmg1_2_a, tb_skill1, tb_elem1, tb_toskill1, tb_dmg1_w, tb_dmg2_w };
@@ -2187,10 +2200,37 @@ namespace DPS_Diablo3
         private void paragonToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //if (Application.OpenForms["Paragon"] != null) frm_para.Visible = false;//frm_para.Dispose();
-            if (frm_para.Visible == true) frm_para.Visible = false;//frm_para.Dispose();
+            //if (frm_para.Visible == true) frm_para.Visible = false;//frm_para.Dispose();
+            //else
+            //{
+            //    frm_para.Visible = true;
+            //    paragon();
+            //}
+
+            if (frm_para.Visible == true)
+            {
+                for (int i = 10; i > 0; i--)
+                {
+                    frm_para.Opacity = (double)i / 10;
+                    Thread.Sleep(30);
+                }
+                frm_para.Visible = false;//frm_para.Dispose();
+            }
             else
             {
+                frm_para.Opacity = 0;
                 frm_para.Visible = true;
+
+                //foreach (Control ctrl in frm_para.Controls) ctrl.Visible = false;
+
+                for (int i = 1; i < 11; i++)
+                {
+                    frm_para.Opacity = (double)i / 10;
+                    Thread.Sleep(40);
+                }
+
+                //foreach (Control ctrl in frm_para.Controls) ctrl.Visible = true;
+
                 paragon();
             }
         }
@@ -2202,16 +2242,29 @@ namespace DPS_Diablo3
             this.Move += Form_Move;
             frm_para.ControlBox = false;
             frm_para.Name = "Paragon";
-            frm_para.Opacity = 1;
-            frm_para.Size = new Size(200, 200);
-            frm_para.MaximumSize = new Size(200, 200);
-            frm_para.MinimumSize = new Size(200, 200);
-            //frm_para.DesktopLocation = new Point(this.Location.X + this.Size.Width + 0, this.Location.Y - 0);
-            //frm_para.Location = new Point(this.Location.X + this.Size.Width + 5, this.Location.Y - 5);
+            //frm_para.Opacity = 1;
+
+            //По центру внизу
+            frm_para.Size = new Size(216, 210);
+            frm_para.MaximumSize = new Size(216, 210);
+            frm_para.MinimumSize = new Size(216, 210);
+
+            //Возле меню
+            //frm_para.Size = new Size(212, 198);
+            //frm_para.MaximumSize = new Size(212, 198);
+            //frm_para.MinimumSize = new Size(212, 198);
+
             frm_para.ShowInTaskbar = false;
             frm_para.Visible = false;
             frm_para.KeyPreview = true;
             frm_para.KeyDown +=new KeyEventHandler(frm_para_KeyDown);
+
+            frm_para.Deactivate +=new EventHandler(frm_para_Deactivate);
+        }
+
+        private void frm_para_Deactivate(object sender, EventArgs e)
+        {
+            cb_paragon.Checked = !cb_paragon.Checked;
         }
 
         private void frm_para_KeyDown(object sender, KeyEventArgs e)
@@ -2227,12 +2280,12 @@ namespace DPS_Diablo3
         {
             int ypos = 1;
 
-            lb_para_main.Location = new Point(1, ypos + 2);
+            lb_para_main.Location = new Point(4, ypos + 2);
             lb_para_main.AutoSize = true;
             lb_para_main.Text = lng.lb_imaint + ":";
             frm_para.Controls.Add(lb_para_main);
 
-            nud_para_main.Location = new Point(120, ypos);
+            nud_para_main.Location = new Point(123, ypos);
             nud_para_main.Size = new Size(65, 20);
             nud_para_main.Maximum = 10000;
             nud_para_main.Increment = 5;
@@ -2241,12 +2294,12 @@ namespace DPS_Diablo3
             frm_para.Controls.Add(nud_para_main);
 
             ypos += 25;
-            lb_para_as.Location = new Point(1, ypos + 2);
+            lb_para_as.Location = new Point(4, ypos + 2);
             lb_para_as.AutoSize = true;
             lb_para_as.Text = lng.lb_as + ":";
             frm_para.Controls.Add(lb_para_as);
 
-            nud_para_as.Location = new Point(120, ypos);
+            nud_para_as.Location = new Point(123, ypos);
             nud_para_as.Size = new Size(65, 20);
             nud_para_as.Maximum = 10;
             nud_para_as.Increment = 0.2M;
@@ -2256,12 +2309,12 @@ namespace DPS_Diablo3
             frm_para.Controls.Add(nud_para_as);
 
             ypos += 25;
-            lb_para_cdr.Location = new Point(1, ypos + 2);
+            lb_para_cdr.Location = new Point(4, ypos + 2);
             lb_para_cdr.AutoSize = true;
             lb_para_cdr.Text = lng.lb_cdr + ":";
             frm_para.Controls.Add(lb_para_cdr);
 
-            nud_para_cdr.Location = new Point(120, ypos);
+            nud_para_cdr.Location = new Point(123, ypos);
             nud_para_cdr.Size = new Size(65, 20);
             nud_para_cdr.Maximum = 10;
             nud_para_cdr.Increment = 0.2M;
@@ -2271,12 +2324,12 @@ namespace DPS_Diablo3
             frm_para.Controls.Add(nud_para_cdr);
 
             ypos += 25;
-            lb_para_cc.Location = new Point(1, ypos + 2);
+            lb_para_cc.Location = new Point(4, ypos + 2);
             lb_para_cc.AutoSize = true;
             lb_para_cc.Text = lng.lb_icct + ":";
             frm_para.Controls.Add(lb_para_cc);
 
-            nud_para_cc.Location = new Point(120, ypos);
+            nud_para_cc.Location = new Point(123, ypos);
             nud_para_cc.Size = new Size(65, 20);
             nud_para_cc.Maximum = 5;
             nud_para_cc.Increment = 0.1M;
@@ -2286,12 +2339,12 @@ namespace DPS_Diablo3
             frm_para.Controls.Add(nud_para_cc);
 
             ypos += 25;
-            lb_para_cd.Location = new Point(1, ypos + 2);
+            lb_para_cd.Location = new Point(4, ypos + 2);
             lb_para_cd.AutoSize = true;
             lb_para_cd.Text = lng.lb_icdt + ":";
             frm_para.Controls.Add(lb_para_cd);
 
-            nud_para_cd.Location = new Point(120, ypos);
+            nud_para_cd.Location = new Point(123, ypos);
             nud_para_cd.Size = new Size(65, 20);
             nud_para_cd.Maximum = 50;
             nud_para_cd.Increment = 1;
@@ -2300,24 +2353,24 @@ namespace DPS_Diablo3
             frm_para.Controls.Add(nud_para_cd);
 
             ypos += 30;
-            lb_para.Location = new Point(1, ypos + 1);
+            lb_para.Location = new Point(4, ypos + 1);
             lb_para.AutoSize = true;
             lb_para.Text = lng.lb_paragon;
             frm_para.Controls.Add(lb_para);
 
-            lb_para_lvl.Location = new Point(120, ypos);
+            lb_para_lvl.Location = new Point(123, ypos);
             lb_para_lvl.AutoSize = true;
             lb_para_lvl.Text = p_lvl.Trim();
             //lb_para_lvl.Text = para_lvl;
             frm_para.Controls.Add(lb_para_lvl);
 
             ypos += 25;
-            b_para_save.Location = new Point(10, ypos);
+            b_para_save.Location = new Point(15, ypos);
             b_para_save.Name = "para_save";
             b_para_save.Text = "Save";
             b_para_save.Click +=new EventHandler(b_para_save_Click);
             frm_para.Controls.Add(b_para_save);
-            b_para_load.Location = new Point(100, ypos);
+            b_para_load.Location = new Point(105, ypos);
             b_para_load.Name = "para_load";
             b_para_load.Text = "Load";
             b_para_load.Click +=new EventHandler(b_para_load_Click);
@@ -2383,7 +2436,7 @@ namespace DPS_Diablo3
 
             //MessageBox.Show(Paragon.Default.lb_para_lvl);
 
-            Readonly_insert(lb_para_lvl, Paragon.Default.lb_para_lvl, 0, "Label");
+            if (lb_para_lvl.Text == "") Readonly_insert(lb_para_lvl, Paragon.Default.lb_para_lvl, 0, "Label");
 
             int leng = lb_para_lvl.Text.IndexOf("(");
             //int leng = Paragon.Default.lb_para_lvl.IndexOf("(");
@@ -2446,10 +2499,75 @@ namespace DPS_Diablo3
         
         private void Form_Move(object sender, EventArgs e)
         {
-            if (Environment.OSVersion.Version.Major >= 6 && DwmIsCompositionEnabled()) 
-                frm_para.DesktopLocation = new Point(this.Location.X + this.Size.Width + 5, this.Location.Y - 5);
-            else frm_para.DesktopLocation = new Point(this.Location.X + this.Size.Width + 0, this.Location.Y - 0);
+            //if (Environment.OSVersion.Version.Major >= 6 && DwmIsCompositionEnabled()) 
+            //    frm_para.DesktopLocation = new Point(this.Location.X + this.Size.Width + 5, this.Location.Y - 5);
+            //else frm_para.DesktopLocation = new Point(this.Location.X + this.Size.Width + 0, this.Location.Y - 0);
+            
+            //frm_para.DesktopLocation = new Point(this.Location.X + 18, this.Location.Y + 230);
+            
+            //Закрываем центр
+            frm_para.DesktopLocation = new Point(this.Location.X + 228, this.Location.Y + 238);
+
+            //По центру пункта
+            //if (Environment.OSVersion.Version.Major >= 6 && DwmIsCompositionEnabled())
+            //    frm_para.DesktopLocation = new Point(this.Location.X + 90, this.Location.Y + 50);
+            //else frm_para.DesktopLocation = new Point(this.Location.X + 75, this.Location.Y + 50);
         }
+
+        private void cb_paragon_CheckedChanged(object sender, EventArgs e)
+        {
+
+            if (cb_paragon.Checked) cb_paragon.Image = Resources.strelka_close; 
+            else cb_paragon.Image = Resources.strelka_open;
+            
+            cb_paragon.Refresh();
+
+            if (Environment.OSVersion.Version.Major >= 6 && DwmIsCompositionEnabled())
+            {
+                if (frm_para.Visible == true)
+                {
+                    for (int i = 10; i > 0; i--)
+                    {
+                        frm_para.Opacity = (double)i / 10;
+                        Thread.Sleep(20);
+                    }
+                    frm_para.Visible = false;//frm_para.Dispose();
+                    lb_as_dps.Focus();
+                }
+                else
+                {
+                    frm_para.Opacity = 0;
+                    frm_para.Visible = true;
+
+                    //foreach (Control ctrl in frm_para.Controls) ctrl.Visible = false;
+
+                    for (int i = 1; i < 11; i++)
+                    {
+                        frm_para.Opacity = (double)i / 10;
+                        Thread.Sleep(40);
+                    }
+
+                    //foreach (Control ctrl in frm_para.Controls) ctrl.Visible = true;
+
+                    paragon();
+
+                }
+            }
+            else
+            {
+                if (frm_para.Visible == true)
+                {
+                    frm_para.Visible = false;
+                    lb_as_dps.Focus();
+                }
+                else
+                {
+                    frm_para.Visible = true;
+                    paragon();
+                }
+            }
+        }
+
 
         }
 

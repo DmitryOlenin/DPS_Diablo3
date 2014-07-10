@@ -172,6 +172,8 @@
             this.toolTip22 = new System.Windows.Forms.ToolTip(this.components);
             this.b_wep = new System.Windows.Forms.Button();
             this.pan_wep = new System.Windows.Forms.Panel();
+            this.nud_elite_w = new System.Windows.Forms.NumericUpDown();
+            this.lb_elite_w = new System.Windows.Forms.Label();
             this.lb_elem_w = new System.Windows.Forms.Label();
             this.nud_acp_w = new System.Windows.Forms.NumericUpDown();
             this.nud_elem_w = new System.Windows.Forms.NumericUpDown();
@@ -210,9 +212,14 @@
             this.nud_cooldown = new System.Windows.Forms.NumericUpDown();
             this.lb_cooldown = new System.Windows.Forms.Label();
             this.pan_cdr = new System.Windows.Forms.Panel();
+            this.nud_cdr11 = new System.Windows.Forms.NumericUpDown();
+            this.nud_cdr12 = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
             this.lb_cdt = new System.Windows.Forms.Label();
             this.lb_cdr = new System.Windows.Forms.Label();
             this.pan_roll = new System.Windows.Forms.Panel();
+            this.nud_elite = new System.Windows.Forms.NumericUpDown();
+            this.lb_eliteс = new System.Windows.Forms.Label();
             this.cb_wd = new System.Windows.Forms.CheckBox();
             this.lb_state = new System.Windows.Forms.Label();
             this.pan_list = new System.Windows.Forms.Panel();
@@ -258,6 +265,7 @@
             this.tsmi_ver = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmi_about = new System.Windows.Forms.ToolStripMenuItem();
+            this.paragonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.правкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.отменадействияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.отменадействияToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -266,7 +274,6 @@
             this.копироватьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.выделитьвсеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.paragonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lb_import = new System.Windows.Forms.Label();
             this.gb_result = new System.Windows.Forms.GroupBox();
             this.cb_choice = new System.Windows.Forms.ComboBox();
@@ -274,16 +281,10 @@
             this.pan_divider = new System.Windows.Forms.Panel();
             this.lb_changes = new System.Windows.Forms.Label();
             this.gb_increase = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.nud_cdr11 = new System.Windows.Forms.NumericUpDown();
-            this.nud_cdr12 = new System.Windows.Forms.NumericUpDown();
-            this.lb_eliteс = new System.Windows.Forms.Label();
-            this.lb_elite_w = new System.Windows.Forms.Label();
-            this.nud_elite = new System.Windows.Forms.NumericUpDown();
-            this.nud_elite_w = new System.Windows.Forms.NumericUpDown();
             this.lb_elite = new System.Windows.Forms.Label();
             this.lb_elite_dps = new System.Windows.Forms.Label();
             this.gb_roll = new System.Windows.Forms.GroupBox();
+            this.cb_paragon = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.nud_ac)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_main)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cc)).BeginInit();
@@ -304,6 +305,7 @@
             this.pan_skill.SuspendLayout();
             this.pan_skillup.SuspendLayout();
             this.pan_wep.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_elite_w)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_acp_w)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_elem_w)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cd_w)).BeginInit();
@@ -321,17 +323,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_cdr3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cooldown)).BeginInit();
             this.pan_cdr.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_cdr11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_cdr12)).BeginInit();
             this.pan_roll.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_elite)).BeginInit();
             this.pan_list.SuspendLayout();
             this.cms_web.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_load)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.gb_result.SuspendLayout();
             this.gb_increase.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_cdr11)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_cdr12)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_elite)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_elite_w)).BeginInit();
             this.SuspendLayout();
             // 
             // lb_idmg1
@@ -647,7 +648,7 @@
             // 
             // b_start
             // 
-            this.b_start.Location = new System.Drawing.Point(226, 264);
+            this.b_start.Location = new System.Drawing.Point(226, 275);
             this.b_start.Name = "b_start";
             this.b_start.Size = new System.Drawing.Size(214, 55);
             this.b_start.TabIndex = 23;
@@ -988,7 +989,7 @@
             // 
             this.lb_auth.AutoSize = true;
             this.lb_auth.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Italic | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lb_auth.Location = new System.Drawing.Point(8, 415);
+            this.lb_auth.Location = new System.Drawing.Point(8, 426);
             this.lb_auth.Name = "lb_auth";
             this.lb_auth.Size = new System.Drawing.Size(105, 13);
             this.lb_auth.TabIndex = 8;
@@ -1122,7 +1123,7 @@
             this.pan_wd.Controls.Add(this.nud_garg);
             this.pan_wd.Controls.Add(this.lb_fizp);
             this.pan_wd.Controls.Add(this.nud_dogs);
-            this.pan_wd.Location = new System.Drawing.Point(447, 252);
+            this.pan_wd.Location = new System.Drawing.Point(447, 263);
             this.pan_wd.Name = "pan_wd";
             this.pan_wd.Size = new System.Drawing.Size(224, 158);
             this.pan_wd.TabIndex = 70;
@@ -1515,10 +1516,31 @@
             this.pan_wep.Controls.Add(this.lb_damp_w);
             this.pan_wep.Controls.Add(this.nud_main_w);
             this.pan_wep.Controls.Add(this.lb_dam_w);
-            this.pan_wep.Location = new System.Drawing.Point(447, 252);
+            this.pan_wep.Location = new System.Drawing.Point(447, 263);
             this.pan_wep.Name = "pan_wep";
             this.pan_wep.Size = new System.Drawing.Size(224, 158);
             this.pan_wep.TabIndex = 99;
+            // 
+            // nud_elite_w
+            // 
+            this.nud_elite_w.Location = new System.Drawing.Point(138, 135);
+            this.nud_elite_w.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.nud_elite_w.Name = "nud_elite_w";
+            this.nud_elite_w.Size = new System.Drawing.Size(84, 20);
+            this.nud_elite_w.TabIndex = 1002;
+            // 
+            // lb_elite_w
+            // 
+            this.lb_elite_w.AutoSize = true;
+            this.lb_elite_w.Location = new System.Drawing.Point(0, 137);
+            this.lb_elite_w.Name = "lb_elite_w";
+            this.lb_elite_w.Size = new System.Drawing.Size(106, 13);
+            this.lb_elite_w.TabIndex = 1001;
+            this.lb_elite_w.Text = "+-% Урона по элите";
             // 
             // lb_elem_w
             // 
@@ -1936,10 +1958,55 @@
             this.pan_cdr.Controls.Add(this.nud_cdr2);
             this.pan_cdr.Controls.Add(this.nud_cdr8);
             this.pan_cdr.Controls.Add(this.nud_cdr6);
-            this.pan_cdr.Location = new System.Drawing.Point(447, 252);
+            this.pan_cdr.Location = new System.Drawing.Point(447, 263);
             this.pan_cdr.Name = "pan_cdr";
             this.pan_cdr.Size = new System.Drawing.Size(224, 158);
             this.pan_cdr.TabIndex = 70;
+            // 
+            // nud_cdr11
+            // 
+            this.nud_cdr11.DecimalPlaces = 1;
+            this.nud_cdr11.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.nud_cdr11.Location = new System.Drawing.Point(130, 135);
+            this.nud_cdr11.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.nud_cdr11.Name = "nud_cdr11";
+            this.nud_cdr11.Size = new System.Drawing.Size(45, 20);
+            this.nud_cdr11.TabIndex = 1001;
+            // 
+            // nud_cdr12
+            // 
+            this.nud_cdr12.DecimalPlaces = 1;
+            this.nud_cdr12.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.nud_cdr12.Location = new System.Drawing.Point(177, 135);
+            this.nud_cdr12.Maximum = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            this.nud_cdr12.Name = "nud_cdr12";
+            this.nud_cdr12.Size = new System.Drawing.Size(45, 20);
+            this.nud_cdr12.TabIndex = 1002;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(0, 137);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(113, 13);
+            this.label1.TabIndex = 1000;
+            this.label1.Text = "CDR paragon/passive";
             // 
             // lb_cdt
             // 
@@ -1977,10 +2044,31 @@
             this.pan_roll.Controls.Add(this.lb_ccc);
             this.pan_roll.Controls.Add(this.lb_elemc);
             this.pan_roll.Controls.Add(this.lb_cdc);
-            this.pan_roll.Location = new System.Drawing.Point(447, 252);
+            this.pan_roll.Location = new System.Drawing.Point(447, 263);
             this.pan_roll.Name = "pan_roll";
             this.pan_roll.Size = new System.Drawing.Size(224, 158);
             this.pan_roll.TabIndex = 99;
+            // 
+            // nud_elite
+            // 
+            this.nud_elite.Location = new System.Drawing.Point(138, 135);
+            this.nud_elite.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.nud_elite.Name = "nud_elite";
+            this.nud_elite.Size = new System.Drawing.Size(84, 20);
+            this.nud_elite.TabIndex = 1001;
+            // 
+            // lb_eliteс
+            // 
+            this.lb_eliteс.AutoSize = true;
+            this.lb_eliteс.Location = new System.Drawing.Point(0, 137);
+            this.lb_eliteс.Name = "lb_eliteс";
+            this.lb_eliteс.Size = new System.Drawing.Size(106, 13);
+            this.lb_eliteс.TabIndex = 1000;
+            this.lb_eliteс.Text = "+-% Урона по элите";
             // 
             // cb_wd
             // 
@@ -2085,7 +2173,7 @@
             this.tb_pers.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.tb_pers.ContextMenuStrip = this.cms_web;
             this.tb_pers.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.tb_pers.Location = new System.Drawing.Point(248, 223);
+            this.tb_pers.Location = new System.Drawing.Point(248, 234);
             this.tb_pers.Name = "tb_pers";
             this.tb_pers.Size = new System.Drawing.Size(174, 20);
             this.tb_pers.TabIndex = 21;
@@ -2113,7 +2201,7 @@
             // 
             this.pb_load.Image = ((System.Drawing.Image)(resources.GetObject("pb_load.Image")));
             this.pb_load.InitialImage = null;
-            this.pb_load.Location = new System.Drawing.Point(248, 244);
+            this.pb_load.Location = new System.Drawing.Point(248, 255);
             this.pb_load.Name = "pb_load";
             this.pb_load.Size = new System.Drawing.Size(174, 14);
             this.pb_load.TabIndex = 136;
@@ -2141,8 +2229,8 @@
             this.файлToolStripMenuItem,
             this.сервисToolStripMenuItem,
             this.справкаToolStripMenuItem,
-            this.правкаToolStripMenuItem,
-            this.paragonToolStripMenuItem});
+            this.paragonToolStripMenuItem,
+            this.правкаToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(675, 24);
@@ -2172,7 +2260,7 @@
             this.tsmi_qsave.ImageTransparentColor = System.Drawing.Color.Black;
             this.tsmi_qsave.Name = "tsmi_qsave";
             this.tsmi_qsave.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.tsmi_qsave.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_qsave.Size = new System.Drawing.Size(150, 22);
             this.tsmi_qsave.Text = "&Quick save";
             this.tsmi_qsave.Click += new System.EventHandler(this.tsmi_qsave_Click);
             // 
@@ -2182,7 +2270,7 @@
             this.tsmi_qload.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmi_qload.Name = "tsmi_qload";
             this.tsmi_qload.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.tsmi_qload.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_qload.Size = new System.Drawing.Size(150, 22);
             this.tsmi_qload.Text = "Q&uick load";
             this.tsmi_qload.Click += new System.EventHandler(this.tsmi_qload_Click);
             // 
@@ -2192,7 +2280,7 @@
             this.tsmi_save.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmi_save.Name = "tsmi_save";
             this.tsmi_save.ShortcutKeys = System.Windows.Forms.Keys.F9;
-            this.tsmi_save.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_save.Size = new System.Drawing.Size(150, 22);
             this.tsmi_save.Text = "&Save";
             this.tsmi_save.Click += new System.EventHandler(this.tsmi_save_Click);
             // 
@@ -2202,14 +2290,14 @@
             this.tsmi_load.ImageTransparentColor = System.Drawing.Color.Black;
             this.tsmi_load.Name = "tsmi_load";
             this.tsmi_load.ShortcutKeys = System.Windows.Forms.Keys.F10;
-            this.tsmi_load.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_load.Size = new System.Drawing.Size(150, 22);
             this.tsmi_load.Text = "&Load";
             this.tsmi_load.Click += new System.EventHandler(this.tsmi_load_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(147, 6);
             // 
             // tsmi_clear
             // 
@@ -2217,14 +2305,14 @@
             this.tsmi_clear.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmi_clear.Name = "tsmi_clear";
             this.tsmi_clear.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.tsmi_clear.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_clear.Size = new System.Drawing.Size(150, 22);
             this.tsmi_clear.Text = "&Clear";
             this.tsmi_clear.Click += new System.EventHandler(this.tsmi_clear_Click);
             // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator.Size = new System.Drawing.Size(147, 6);
             // 
             // tsmi_adv
             // 
@@ -2232,19 +2320,19 @@
             this.tsmi_adv.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmi_adv.Name = "tsmi_adv";
             this.tsmi_adv.ShortcutKeys = System.Windows.Forms.Keys.F8;
-            this.tsmi_adv.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_adv.Size = new System.Drawing.Size(150, 22);
             this.tsmi_adv.Text = "&Simple";
             this.tsmi_adv.Click += new System.EventHandler(this.tsmi_adv_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(147, 6);
             // 
             // tsmi_exit
             // 
             this.tsmi_exit.Name = "tsmi_exit";
-            this.tsmi_exit.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_exit.Size = new System.Drawing.Size(150, 22);
             this.tsmi_exit.Text = "E&xit";
             this.tsmi_exit.Click += new System.EventHandler(this.tsmi_exit_Click);
             // 
@@ -2260,14 +2348,14 @@
             // tsmi_lang_eng
             // 
             this.tsmi_lang_eng.Name = "tsmi_lang_eng";
-            this.tsmi_lang_eng.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_lang_eng.Size = new System.Drawing.Size(114, 22);
             this.tsmi_lang_eng.Text = "&English";
             this.tsmi_lang_eng.Click += new System.EventHandler(this.tsmi_lang_eng_Click);
             // 
             // tsmi_lang_rus
             // 
             this.tsmi_lang_rus.Name = "tsmi_lang_rus";
-            this.tsmi_lang_rus.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_lang_rus.Size = new System.Drawing.Size(114, 22);
             this.tsmi_lang_rus.Text = "&Russian";
             this.tsmi_lang_rus.Click += new System.EventHandler(this.tsmi_lang_rus_Click);
             // 
@@ -2287,33 +2375,41 @@
             // 
             this.tsm_faq.Name = "tsm_faq";
             this.tsm_faq.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.tsm_faq.Size = new System.Drawing.Size(152, 22);
+            this.tsm_faq.Size = new System.Drawing.Size(147, 22);
             this.tsm_faq.Text = "&FAQ";
             this.tsm_faq.Click += new System.EventHandler(this.tsm_faq_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(144, 6);
             // 
             // tsmi_ver
             // 
             this.tsmi_ver.Name = "tsmi_ver";
-            this.tsmi_ver.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_ver.Size = new System.Drawing.Size(147, 22);
             this.tsmi_ver.Text = "&Version check";
             this.tsmi_ver.Click += new System.EventHandler(this.tsmi_ver_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(144, 6);
             // 
             // tsmi_about
             // 
             this.tsmi_about.Name = "tsmi_about";
-            this.tsmi_about.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_about.Size = new System.Drawing.Size(147, 22);
             this.tsmi_about.Text = "&About";
             this.tsmi_about.Click += new System.EventHandler(this.tsmi_about_Click);
+            // 
+            // paragonToolStripMenuItem
+            // 
+            this.paragonToolStripMenuItem.Name = "paragonToolStripMenuItem";
+            this.paragonToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
+            this.paragonToolStripMenuItem.Text = "&Paragon";
+            this.paragonToolStripMenuItem.Visible = false;
+            this.paragonToolStripMenuItem.Click += new System.EventHandler(this.paragonToolStripMenuItem_Click);
             // 
             // правкаToolStripMenuItem
             // 
@@ -2378,18 +2474,11 @@
             this.выделитьвсеToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.выделитьвсеToolStripMenuItem.Text = "Выделить &все";
             // 
-            // paragonToolStripMenuItem
-            // 
-            this.paragonToolStripMenuItem.Name = "paragonToolStripMenuItem";
-            this.paragonToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
-            this.paragonToolStripMenuItem.Text = "&Paragon";
-            this.paragonToolStripMenuItem.Click += new System.EventHandler(this.paragonToolStripMenuItem_Click);
-            // 
             // lb_import
             // 
             this.lb_import.AutoSize = true;
             this.lb_import.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lb_import.Location = new System.Drawing.Point(231, 206);
+            this.lb_import.Location = new System.Drawing.Point(231, 217);
             this.lb_import.Name = "lb_import";
             this.lb_import.Size = new System.Drawing.Size(202, 13);
             this.lb_import.TabIndex = 137;
@@ -2406,7 +2495,7 @@
             this.gb_result.Controls.Add(this.lb_dpsr);
             this.gb_result.Controls.Add(this.pan_wddam);
             this.gb_result.Controls.Add(this.lb_result_profile);
-            this.gb_result.Location = new System.Drawing.Point(227, 320);
+            this.gb_result.Location = new System.Drawing.Point(227, 331);
             this.gb_result.Name = "gb_result";
             this.gb_result.Size = new System.Drawing.Size(213, 92);
             this.gb_result.TabIndex = 144;
@@ -2418,7 +2507,7 @@
             this.cb_choice.BackColor = System.Drawing.SystemColors.Window;
             this.cb_choice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_choice.FormattingEnabled = true;
-            this.cb_choice.Location = new System.Drawing.Point(455, 223);
+            this.cb_choice.Location = new System.Drawing.Point(455, 234);
             this.cb_choice.Name = "cb_choice";
             this.cb_choice.Size = new System.Drawing.Size(211, 21);
             this.cb_choice.TabIndex = 22;
@@ -2427,14 +2516,14 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Location = new System.Drawing.Point(226, 205);
+            this.panel1.Location = new System.Drawing.Point(226, 216);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(214, 55);
             this.panel1.TabIndex = 146;
             // 
             // pan_divider
             // 
-            this.pan_divider.Location = new System.Drawing.Point(12, 189);
+            this.pan_divider.Location = new System.Drawing.Point(12, 196);
             this.pan_divider.Name = "pan_divider";
             this.pan_divider.Size = new System.Drawing.Size(654, 10);
             this.pan_divider.TabIndex = 147;
@@ -2466,99 +2555,12 @@
             this.gb_increase.Controls.Add(this.lb_elem_dps);
             this.gb_increase.Controls.Add(this.lb_cd_dps);
             this.gb_increase.Controls.Add(this.lb_elem);
-            this.gb_increase.Location = new System.Drawing.Point(8, 205);
+            this.gb_increase.Location = new System.Drawing.Point(8, 216);
             this.gb_increase.Name = "gb_increase";
             this.gb_increase.Size = new System.Drawing.Size(213, 207);
             this.gb_increase.TabIndex = 149;
             this.gb_increase.TabStop = false;
             this.gb_increase.Text = "Прирост DPS от характеристик:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(0, 137);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(113, 13);
-            this.label1.TabIndex = 1000;
-            this.label1.Text = "CDR paragon/passive";
-            // 
-            // nud_cdr11
-            // 
-            this.nud_cdr11.DecimalPlaces = 1;
-            this.nud_cdr11.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.nud_cdr11.Location = new System.Drawing.Point(130, 135);
-            this.nud_cdr11.Maximum = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            this.nud_cdr11.Name = "nud_cdr11";
-            this.nud_cdr11.Size = new System.Drawing.Size(45, 20);
-            this.nud_cdr11.TabIndex = 1001;
-            // 
-            // nud_cdr12
-            // 
-            this.nud_cdr12.DecimalPlaces = 1;
-            this.nud_cdr12.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.nud_cdr12.Location = new System.Drawing.Point(177, 135);
-            this.nud_cdr12.Maximum = new decimal(new int[] {
-            60,
-            0,
-            0,
-            0});
-            this.nud_cdr12.Name = "nud_cdr12";
-            this.nud_cdr12.Size = new System.Drawing.Size(45, 20);
-            this.nud_cdr12.TabIndex = 1002;
-            // 
-            // lb_eliteс
-            // 
-            this.lb_eliteс.AutoSize = true;
-            this.lb_eliteс.Location = new System.Drawing.Point(0, 137);
-            this.lb_eliteс.Name = "lb_eliteс";
-            this.lb_eliteс.Size = new System.Drawing.Size(106, 13);
-            this.lb_eliteс.TabIndex = 1000;
-            this.lb_eliteс.Text = "+-% Урона по элите";
-            // 
-            // lb_elite_w
-            // 
-            this.lb_elite_w.AutoSize = true;
-            this.lb_elite_w.Location = new System.Drawing.Point(0, 137);
-            this.lb_elite_w.Name = "lb_elite_w";
-            this.lb_elite_w.Size = new System.Drawing.Size(106, 13);
-            this.lb_elite_w.TabIndex = 1001;
-            this.lb_elite_w.Text = "+-% Урона по элите";
-            // 
-            // nud_elite
-            // 
-            this.nud_elite.Location = new System.Drawing.Point(138, 135);
-            this.nud_elite.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.nud_elite.Name = "nud_elite";
-            this.nud_elite.Size = new System.Drawing.Size(84, 20);
-            this.nud_elite.TabIndex = 1001;
-            // 
-            // nud_elite_w
-            // 
-            this.nud_elite_w.Location = new System.Drawing.Point(138, 135);
-            this.nud_elite_w.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.nud_elite_w.Name = "nud_elite_w";
-            this.nud_elite_w.Size = new System.Drawing.Size(84, 20);
-            this.nud_elite_w.TabIndex = 1002;
             // 
             // lb_elite
             // 
@@ -2581,23 +2583,37 @@
             // 
             // gb_roll
             // 
-            this.gb_roll.Location = new System.Drawing.Point(445, 205);
+            this.gb_roll.Location = new System.Drawing.Point(445, 216);
             this.gb_roll.Name = "gb_roll";
             this.gb_roll.Size = new System.Drawing.Size(228, 207);
             this.gb_roll.TabIndex = 1000;
             this.gb_roll.TabStop = false;
             this.gb_roll.Text = "Варианты расчёта изменений";
             // 
+            // cb_paragon
+            // 
+            this.cb_paragon.Appearance = System.Windows.Forms.Appearance.Button;
+            this.cb_paragon.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cb_paragon.Image = global::DPS_Diablo3.Properties.Resources.strelka_open;
+            this.cb_paragon.Location = new System.Drawing.Point(226, 191);
+            this.cb_paragon.Name = "cb_paragon";
+            this.cb_paragon.Size = new System.Drawing.Size(214, 20);
+            this.cb_paragon.TabIndex = 1001;
+            this.cb_paragon.Text = "Paragon";
+            this.cb_paragon.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.cb_paragon.UseVisualStyleBackColor = true;
+            this.cb_paragon.CheckedChanged += new System.EventHandler(this.cb_paragon_CheckedChanged);
+            // 
             // dps_diablo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(675, 431);
+            this.ClientSize = new System.Drawing.Size(675, 443);
+            this.Controls.Add(this.cb_paragon);
             this.Controls.Add(this.pan_roll);
             this.Controls.Add(this.cb_choice);
             this.Controls.Add(this.gb_increase);
             this.Controls.Add(this.lb_changes);
-            this.Controls.Add(this.pan_divider);
             this.Controls.Add(this.gb_result);
             this.Controls.Add(this.tb_pers);
             this.Controls.Add(this.pb_load);
@@ -2658,6 +2674,7 @@
             this.Controls.Add(this.pan_cdr);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.gb_roll);
+            this.Controls.Add(this.pan_divider);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "dps_diablo";
@@ -2693,6 +2710,7 @@
             this.pan_skillup.PerformLayout();
             this.pan_wep.ResumeLayout(false);
             this.pan_wep.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_elite_w)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_acp_w)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_elem_w)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cd_w)).EndInit();
@@ -2711,8 +2729,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_cooldown)).EndInit();
             this.pan_cdr.ResumeLayout(false);
             this.pan_cdr.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_cdr11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_cdr12)).EndInit();
             this.pan_roll.ResumeLayout(false);
             this.pan_roll.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_elite)).EndInit();
             this.pan_list.ResumeLayout(false);
             this.pan_list.PerformLayout();
             this.cms_web.ResumeLayout(false);
@@ -2723,10 +2744,6 @@
             this.gb_result.PerformLayout();
             this.gb_increase.ResumeLayout(false);
             this.gb_increase.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_cdr11)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_cdr12)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_elite)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_elite_w)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2988,6 +3005,7 @@
         private System.Windows.Forms.Label lb_elite;
         private System.Windows.Forms.Label lb_elite_dps;
         private System.Windows.Forms.GroupBox gb_roll;
+        private System.Windows.Forms.CheckBox cb_paragon;
 
     }
 }
