@@ -31,6 +31,32 @@ namespace DPS_Diablo3
         [DllImport("dwmapi.dll", PreserveSig = false)]
         public static extern bool DwmIsCompositionEnabled();
 
+        [DllImport("user32.dll")]
+        static extern void mouse_event(int dwFlags, int dx, int dy,
+                              int dwData, int dwExtraInfo);
+        
+        [Flags]
+        public enum MouseEventFlags
+        {
+            LEFTDOWN = 0x00000002,
+            LEFTUP = 0x00000004,
+            MIDDLEDOWN = 0x00000020,
+            MIDDLEUP = 0x00000040,
+            MOVE = 0x00000001,
+            ABSOLUTE = 0x00008000,
+            RIGHTDOWN = 0x00000008,
+            RIGHTUP = 0x00000010
+        }
+
+        //[DllImport("user32.dll")]
+        //private static extern int SetWindowLong(IntPtr window, int index, int value);
+
+        //[DllImport("user32.dll")]
+        //private static extern int GetWindowLong(IntPtr window, int index);
+
+        //private const int GWL_EXSTYLE = -20;
+        //private const int WS_EX_TOOLWINDOW = 0x00000080;
+
         public string[] pars_hero;
         public List<string> passive_skill, active_skill, active_skill_rune;
 
@@ -40,11 +66,11 @@ namespace DPS_Diablo3
             , item_parse
             , sep = Convert.ToChar(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator).ToString()
             , skill_damage = "", phys_up = "", dps_min = "", aps_item = "", dps_min_off = "", phys_up_off = "", aps_item_off = ""
-            , pers_name, first_skill, weapon_id, weapon_2h, para_lvl
+            , pers_name, pers_n, first_skill, weapon_id, weapon_2h, para_lvl
             , version, p_lvl = ""
             ;
         
-        public double wepdamage, otherdamage, cleardamage, critdamage, overdamage, speedtotal, result, result_profile,
+        public double wepdamage, otherdamage, cleardamage, critdamage, overdamage, speedtotal, result, result_profile, speedtotal_profile, critdamage_profile,
             wepdamage_wd, otherdamage_wd, cleardamage_wd, critdamage_wd, overdamage_wd, speedtotal_wd, result_wd, petdamage_wd, skill_wd,
               damage1, damage2, ac1, ac2, main, acincr, cc, cd, off_min, off_max, am_min, am_max,
               r1_min, r1_max, r2_min, r2_max, other_min, other_max, fromskills, elem, toskill, elite, skill,
@@ -59,14 +85,16 @@ namespace DPS_Diablo3
               , crit_damage = 0, crit_chance = 0, elite_damage = 0, off_crit_chance = 0, off_del_Physical = 0, off_min_Physical = 0
               , rings_count = 0, r1_del_Physical = 0, r1_min_Physical = 0, r2_del_Physical = 0, r2_min_Physical = 0, am_del_Physical = 0, am_min_Physical = 0
               , cooldown
-              , ver = 2.1
+              , ver = 2.2
               ;
+
+        public bool para_check = false, right_hold = false;
 
         public Double[] cdr = new Double[] {0,0,0,0,0,0,0,0,0,0,0};
 
         public Class_lang lng = new Class_lang();
         
-        public int mainstat = 0, to_skl = 0, cnt = 0, from_skl, cdr_n=0, para_level = 0, level1 = 0, level2 = 0;
+        public int mainstat = 0, to_skl = 0, cnt = 0, from_skl, cdr_n=0, para_level = 0, level1 = 0, level2 = 0, noprof_cc = 0, noprof_as=0;
 
         decimal lev2 = 0, curr_para = 0, prev_para = 0, coold_pass=0;
 
@@ -87,11 +115,23 @@ namespace DPS_Diablo3
         public NumericUpDown nud_para_cd = new NumericUpDown();
         public Button b_para_save = new Button();
         public Button b_para_load = new Button();
+        public Button b_para_main = new Button();
+        public Button b_para_as = new Button();
+        public Button b_para_cdr = new Button();
+        public Button b_para_cc = new Button();
+        public Button b_para_cd = new Button();
 
         public dps_diablo()
         {
 
             InitializeComponent();
+
+            //Settings.Default.web1_name = ""; Settings.Default.web2_name = ""; Settings.Default.web3_name = ""; Settings.Default.web4_name = ""; Settings.Default.web5_name = "";
+            //Settings.Default.web1_www = ""; Settings.Default.web2_www = ""; Settings.Default.web3_www = ""; Settings.Default.web4_www = ""; Settings.Default.web5_www = "";
+            //cb_web.Items.Clear();
+            //Settings.Default.Save();
+
+            web_choice();
 
             pan_divider_Paint(null,null);
 
@@ -148,6 +188,8 @@ namespace DPS_Diablo3
                 if (click.Contains(control.Name)) control.KeyPress += Input_norm;
                 control.KeyDown += Key_Test;
                 if (control.Name != "tb_pers") control.ContextMenu = new ContextMenu();
+                control.MouseDown += new MouseEventHandler(control_MouseDown);
+                control.MouseLeave += new EventHandler(control_MouseLeave);
             }
 
             foreach (Control control in this.Controls.OfType<Panel>())
@@ -158,6 +200,8 @@ namespace DPS_Diablo3
                     if (click.Contains(control1.Name)) control1.KeyPress += Input_norm;
                     control1.KeyDown += Key_Test;
                     control1.ContextMenu = new ContextMenu();
+                    control1.MouseDown += new MouseEventHandler(control_MouseDown);
+                    control1.MouseLeave += new EventHandler(control_MouseLeave);
                 }
 
             foreach (Control control in this.Controls.OfType<Panel>())
@@ -479,16 +523,20 @@ namespace DPS_Diablo3
 
                 if (lb_adv.Text == "adv")
                 {
+                    ac1_p = 0;
+                    dmg1_p = 0;
                     //b_wep.Enabled = true;
-                    pan_list.Visible = true;
+                    //pan_list.Visible = true;
                     ac1 = Convert.ToSingle(tb_ac1.Text.Replace(".", sep));
                     if (tb_dmg1_p.Text != "" && tb_dmg1_p.Text.ToLower().Replace(" ", "") != "weapon1") { dmg1_p = Convert.ToSingle(tb_dmg1_p.Text.Replace(".", sep)); } else { dmg1_p = 0; }
                     if (tb_dmg2_p.Text != "" && tb_dmg2_p.Text.ToLower().Replace(" ", "") != "weapon2") { dmg2_p = Convert.ToSingle(tb_dmg2_p.Text.Replace(".", sep)); } else { dmg2_p = 0; }
-                    if (tb_ac1_p.Text != "" && tb_ac1_p.Text.ToLower().Replace(" ", "") != "weapon1")
-                    {
-                        ac1_p = Convert.ToSingle(tb_ac1_p.Text.Replace(".", sep));
-                        ac1 = Math.Round((ac1 * 100 / (100 + ac1_p)), 1) * ((100 + ac1_p) / 100);
-                    }
+                    if (tb_ac1_p.Text != "" && tb_ac1_p.Text.ToLower().Replace(" ", "") != "weapon1") ac1_p = Convert.ToSingle(tb_ac1_p.Text.Replace(".", sep));
+                    //{
+                    //    ac1_p = Convert.ToSingle(tb_ac1_p.Text.Replace(".", sep));
+                    //    ac1 = Math.Round((ac1 / ((100 + ac1_p) / 100)), 1) * ((100 + ac1_p) / 100);
+                    //}
+                    //MessageBox.Show(ac1.ToString());
+                    ac1 = Math.Round((ac1 / ((100 + ac1_p) / 100)), 1) * ((100 + ac1_p) / 100);
                     dmg1_1 = Math.Round(Convert.ToSingle(tb_dmg1_1_a.Text.Replace(".", sep)) / (dmg1_p / 100 + 1));
                     dmg1_2 = Math.Round(Convert.ToSingle(tb_dmg1_2_a.Text.Replace(".", sep)) / (dmg1_p / 100 + 1));
                     damage1 = (dmg1_1 + dmg1_2) / 2 * ac1 * (dmg1_p / 100 + 1);
@@ -502,7 +550,7 @@ namespace DPS_Diablo3
                         if (tb_ac2_p.Text != "" && tb_ac2_p.Text.ToLower().Replace(" ", "") != "weapon2")
                         {
                             ac2_p = Convert.ToSingle(tb_ac2_p.Text.Replace(".", sep));
-                            ac2 = Math.Round((ac2 * 100 / (100 + ac2_p)), 1) * ((100 + ac2_p) / 100);
+                            ac2 = Math.Round((ac2 / ((100 + ac2_p) / 100)), 1) * ((100 + ac2_p) / 100);
                         }
                         damage2 = (dmg2_1 + dmg2_2) / 2 * ac2 * (dmg2_p / 100 + 1);
 
@@ -611,15 +659,55 @@ namespace DPS_Diablo3
                 if (lb_state.Text == "wep" && lb_adv.Text == "adv")
                 {
 
+                    double dmg1 = Convert.ToSingle(tb_dmg1_1_a.Text.Replace(".", sep)), dmg2 = Convert.ToSingle(tb_dmg1_2_a.Text.Replace(".", sep)),
+                        as1 = Convert.ToSingle(tb_ac1.Text.Replace(".", sep)), asi = ac1_p, dmgi = dmg1_p;
+
                     if (tb_dmg1_w.Text == "") tb_dmg1_w.Text = "0";
                     if (tb_dmg2_w.Text == "") tb_dmg2_w.Text = "0";
-                    ac1w = Math.Round((ac1 * 100 / (100 + ac1_p)), 1) * ((100 + ac1_p + Convert.ToSingle(nud_acp_w.Value)) / 100);
-                    damage1 = (dmg1_1 + dmg1_2 + Convert.ToSingle(tb_dmg1_w.Text.Replace(".", sep)) + Convert.ToSingle(tb_dmg2_w.Text.Replace(".", sep))) / 2 * ac1w * ((dmg1_p + Convert.ToSingle(nud_damp_w.Value)) / 100 + 1);
 
-                    main = main + Convert.ToSingle(nud_main_w.Value);
-                    elite = elite + Convert.ToSingle(nud_elite_w.Value);
-                    cd = cd + Convert.ToSingle(nud_cd_w.Value);
-                    elem1 = elem1 + Convert.ToSingle(nud_elem_w.Value);
+                    if (Convert.ToSingle(tb_dmg1_w.Text.Replace(".", sep)) > 0) dmg1 = Convert.ToSingle(tb_dmg1_w.Text.Replace(".", sep));
+                    if (Convert.ToSingle(tb_dmg2_w.Text.Replace(".", sep)) > 0) dmg2 = Convert.ToSingle(tb_dmg2_w.Text.Replace(".", sep));
+                    if (nud_as_w.Value > 0) as1 = Convert.ToSingle(nud_as_w.Value);
+                    if (nud_acp_w.Value > 0) asi = Convert.ToSingle(nud_acp_w.Value);
+                    if (nud_damp_w.Value > 0) dmgi = Convert.ToSingle(nud_damp_w.Value);
+
+                    //MessageBox.Show (dmg1.ToString());
+
+                    //ac1w = Math.Round((ac1 * 100 / (100 + ac1_p)), 1) * ((100 + ac1_p + Convert.ToSingle(nud_acp_w.Value)) / 100);
+                    //damage1 = (dmg1_1 + dmg1_2 + Convert.ToSingle(tb_dmg1_w.Text.Replace(".", sep)) + Convert.ToSingle(tb_dmg2_w.Text.Replace(".", sep))) / 2 * ac1w * ((dmg1_p + Convert.ToSingle(nud_damp_w.Value)) / 100 + 1);
+
+                    if ((Convert.ToSingle(tb_dmg1_w.Text.Replace(".", sep)) > 0) && (Convert.ToSingle(tb_dmg2_w.Text.Replace(".", sep)) > 0) && (nud_as_w.Value > 0))
+                    {
+                        if (nud_damp_w.Value > 0) { dmg1_p = dmgi; } else { dmg1_p = 0; }
+                        if (nud_acp_w.Value > 0) { ac1_p = asi; } else { ac1_p = 0; }
+                        ac1 = Math.Round((as1 / ((100 + ac1_p) / 100)), 1) * ((100 + ac1_p) / 100);
+                        dmg1_1 = Math.Round(dmg1 / (dmg1_p / 100 + 1));
+                        dmg1_2 = Math.Round(dmg2 / (dmg1_p / 100 + 1));
+                        damage1 = (dmg1_1 + dmg1_2) / 2 * ac1 * (dmg1_p / 100 + 1);
+                    }
+                    else
+                    {
+                        if (nud_as_w.Value > 0) ac1 = Math.Round((as1 / ((100 + ac1_p) / 100)), 1) * ((100 + asi) / 100);
+                        if (Convert.ToSingle(nud_acp_w.Value) + ac1_p == 0) ac1 = Math.Round((as1 / ((100 + ac1_p) / 100)), 1) * ((100 + 0) / 100);
+                        dmg1_1 = Math.Round(dmg1 / (dmgi / 100 + 1));
+                        dmg1_2 = Math.Round(dmg2 / (dmgi / 100 + 1));
+                        if (nud_damp_w.Value > 0)
+                        {
+                            dmg1_1 = Math.Round(dmg1 / (dmg1_p / 100 + 1));
+                            dmg1_2 = Math.Round(dmg2 / (dmg1_p / 100 + 1));
+                        }
+                        damage1 = (dmg1_1 + dmg1_2) / 2 * ac1 * (dmgi / 100 + 1);
+                        if (Convert.ToSingle(nud_damp_w.Value) + dmg1_p == 0) damage1 = (dmg1_1 + dmg1_2) / 2 * ac1 * (0 / 100 + 1);
+                        //MessageBox.Show(dmg1_1.ToString());
+                    }
+
+                    //ac1w = Math.Round((as1 * 100 / (100 + asi)), 1);
+                    //damage1 = (dmg1 + dmg2) / 2 * ac1w * (dmgi / 100 + 1);
+
+                    main += Convert.ToSingle(nud_main_w.Value);
+                    //elite = elite + Convert.ToSingle(nud_elite_w.Value);
+                    cd += Convert.ToSingle(nud_cd_w.Value);
+                    elem1 += Convert.ToSingle(nud_elem_w.Value);
                     skill = (skill1 * skill1_usage / 100 * (elem1 / 100 + 1) * (toskill1 / 100 + 1)) + (skill2 * skill2_usage / 100 * (elem2 / 100 + 1) * (toskill2 / 100 + 1));
                     Calculate();
                     lb_changed.Text = result.ToString("N0") + " (" + (result * 100 / result_old - 100).ToString("N2") + "%)";
@@ -664,6 +752,11 @@ namespace DPS_Diablo3
                 else lb_changed.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             }
             lb_as_dps.Focus();
+            para_check = false;
+            foreach (NumericUpDown nud in frm_para.Controls.OfType<NumericUpDown>())
+                if (nud.Value > 0) para_check = true;
+            if (para_check == false) cb_paragon.Text = lng.cb_paragon_off;
+            else cb_paragon.Text = lng.cb_paragon;
         }
 
         public void Calculate()
@@ -685,7 +778,11 @@ namespace DPS_Diablo3
                 }
                 else result = overdamage * skill / 100 / coold;
 
-            result_profile = critdamage * speedtotal;
+            speedtotal_profile = 2 / (1 / ac1 + 1 / ac2) * ((acincr - noprof_as) / 100 + 1);
+            critdamage_profile = cleardamage * ((cc - noprof_cc) / 100 * cd / 100 + 1);
+
+            //result_profile = critdamage * speedtotal;
+            result_profile = critdamage_profile * speedtotal_profile;
         }
 
         public void CalculateWD()
@@ -728,7 +825,9 @@ namespace DPS_Diablo3
             if (e.KeyData == (Keys.Control | Keys.V))
             {
                 if (tb.Name != "tb_pers") (sender as TextBox).Paste();
-                if (iData.GetData(DataFormats.Text).ToString().Length > 0 && tb.Name == "tb_pers") b_web_Click(null, null);
+                //MessageBox.Show((String)iData.GetData(DataFormats.Text)); //((String)iData.GetData(DataFormats.Text)).Length > 0 && 
+                //iData.GetDataPresent((DataFormats.Text)) && 
+                if (iData.GetDataPresent((DataFormats.Text)) && tb.Name == "tb_pers") b_web_Click(null, null);
             }
             if (tb.Name == "tb_pers" && tb.Text != "" && e.KeyData == Keys.Enter) b_web_Click(null, null);
             //if (tb.Name == "tb_pers" && tb.Text != "" && e.KeyData == (Keys.Control | Keys.V)) b_web_Click(null, null);
@@ -788,6 +887,7 @@ namespace DPS_Diablo3
 
         public void Lang()
         {
+            //cb_paragon.Text = lng.cb_paragon;
             gb_result.Text = lng.gb_result;
             gb_increase.Text = lng.gb_increase;
             lb_import.Text = lng.lb_import;
@@ -802,10 +902,11 @@ namespace DPS_Diablo3
             lb_skill_a.Text = lng.lb_skill_at;
             lb_skill_usage_a.Text = lng.lb_skill_usage_at;
             //lb_wep.Text = lng.lb_wept;
-            lb_dam_w.Text = lng.lb_dam_wt;
+            lb_dam_w.Text = lng.lb_dmg_at;// lng.lb_dam_wt;
+            lb_iac_w.Text = lng.lb_iac1t;
             lb_main_w.Text = lng.lb_main_wt;
-            lb_damp_w.Text = lng.lb_damp_wt;
-            lb_acp_w.Text = lng.lb_acp_wt;
+            lb_damp_w.Text = lng.lb_perc_at; //lng.lb_damp_wt;
+            lb_acp_w.Text = lng.lb_speed_at; //lng.lb_acp_wt;
             lb_cd_w.Text = lng.lb_cd_wt;
             lb_elem_w.Text = lng.lb_elem_wt;
             //lb_wd.Text = lng.lb_wdt;
@@ -876,7 +977,7 @@ namespace DPS_Diablo3
             lb_dmg_dps.Text = lng.lb_dmg_dpst;
             lb_elite_dps.Text = lng.lb_elite_dpst;
             lb_eliteс.Text = lng.lb_eliteс;
-            lb_elite_w.Text = lng.lb_eliteс;
+            //lb_elite_w.Text = lng.lb_eliteс;
 
             lb_para_main.Text = lng.lb_imaint + ":";
             lb_para_as.Text = lng.lb_as + ":";
@@ -1023,7 +1124,9 @@ namespace DPS_Diablo3
         private StreamReader webresp(string param)
         {
             string host = "eu.battle.net";
-            if (tb_pers.Text.Contains("us.")) host = "us.battle.net";
+            if (tb_pers.Text.Contains("us.battle.net")) host = "us.battle.net";
+            if (tb_pers.Text.Contains("kr.battle.net")) host = "kr.battle.net";
+            if (tb_pers.Text.Contains("tw.battle.net")) host = "tw.battle.net";
             System.Net.WebRequest req_item = System.Net.WebRequest.Create(@"http://" + host + "/api/d3/data/" + param);
 
             if (b_parse.Visible)
@@ -1050,12 +1153,17 @@ namespace DPS_Diablo3
         {
             string host = "eu.battle.net";
             if (tb_pers.Text.Contains("us.battle.net")) host = "us.battle.net";
+            if (tb_pers.Text.Contains("kr.battle.net")) host = "kr.battle.net";
+            if (tb_pers.Text.Contains("tw.battle.net")) host = "tw.battle.net";
 
             string battletag_name = "";
             string battletag_code = "";
+            string battletag_www = "";
             string hero_id = "";
 
             int g = 0, h = 0;
+            noprof_cc = 0;
+            noprof_as = 0;
             string[] prof_num;
             string[] pars_str = tb_pers.Text.Split('/');  //парсим строку и получаем стринговый массив
             for (int i = 0; i < pars_str.Length; i++)
@@ -1078,7 +1186,8 @@ namespace DPS_Diablo3
 
             else
             {
-                System.Net.WebRequest req_hero = System.Net.WebRequest.Create(@"http://" + host + "/api/d3/profile/" + battletag_name + "-" + battletag_code + "/hero/" + hero_id);
+                battletag_www = "http://" + host + "/api/d3/profile/" + battletag_name + "-" + battletag_code + "/hero/" + hero_id;
+                System.Net.WebRequest req_hero = System.Net.WebRequest.Create(battletag_www);
 
                 if (b_parse.Visible)
                 {
@@ -1093,16 +1202,25 @@ namespace DPS_Diablo3
                     req_hero.Proxy = myProxy;
                 }
 
-                System.Net.WebResponse resp = req_hero.GetResponse();
-                System.IO.Stream stream = resp.GetResponseStream();
-                System.IO.StreamReader sr = new System.IO.StreamReader(stream);
-                hero_parse = sr.ReadToEnd();
+                try
+                {
+                    System.Net.WebResponse resp = req_hero.GetResponse();
+                    System.IO.Stream stream = resp.GetResponseStream();
+                    System.IO.StreamReader sr = new System.IO.StreamReader(stream);
+                    hero_parse = sr.ReadToEnd();
+                }
+                catch (WebException webEx)
+                {
+                    //MessageBox.Show(webEx.Message);
+                    MessageBox.Show(webEx.Message+"\n"+lng.mess_imp, lng.warn, MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    hero_parse = "completedQuests";
+                }
 
                 if (hero_parse.Contains("NOTFOUND")) MessageBox.Show(lng.mess_nopers, lng.warn, MessageBoxButtons.OK, MessageBoxIcon.Question);
                 else if (!(hero_parse.Contains("completedQuests"))) MessageBox.Show(lng.mess_noint, lng.warn, MessageBoxButtons.OK, MessageBoxIcon.Question);
-                else
+                else if (hero_parse.Length>20)
                 {
-                    skill_damage = ""; phys_up = ""; dps_min = ""; aps_item = ""; dps_min_off = ""; phys_up_off = ""; aps_item_off = "";
+                    skill_damage = "100"; phys_up = ""; dps_min = ""; aps_item = ""; dps_min_off = ""; phys_up_off = ""; aps_item_off = "";
 
                     pars_hero = hero_parse.Split('\n');  //парсим строку и получаем стринговый массив
 
@@ -1124,7 +1242,7 @@ namespace DPS_Diablo3
                                 else
                                     skill_damage = pars_hero[i].Substring(kkk - 3, 3).Trim();
                             }
-                            if (desc > 1 && skill_damage != "") break;
+                            if (desc > 1 && skill_damage != "100") break;
                         }
                     }
 
@@ -1151,6 +1269,59 @@ namespace DPS_Diablo3
                     MemoryStream TheStream = new MemoryStream(byteArray);
                     DataContractJsonSerializer json = new DataContractJsonSerializer(typeof(Parse));
                     Parse pers = (Parse)json.ReadObject(TheStream);
+
+                    pers_n = pers.name;
+
+                    string hero_full = battletag_name + "#" + battletag_code + " - " + pers_n;
+
+                    if (Settings.Default.web1_name == "")
+                    {
+                        Settings.Default.web1_name = hero_full;
+                        Settings.Default.web1_www = battletag_www;
+                    }
+                    else
+                    {
+                        if (Settings.Default.web2_name == "" && hero_full != Settings.Default.web1_name)
+                        {
+                            Settings.Default.web2_name = hero_full;
+                            Settings.Default.web2_www = battletag_www;
+                        }
+                        else
+                        {
+                            if (Settings.Default.web3_name == "" && hero_full != Settings.Default.web2_name && hero_full != Settings.Default.web1_name)
+                            {
+                                Settings.Default.web3_name = hero_full;
+                                Settings.Default.web3_www = battletag_www;
+                                //MessageBox.Show(hero_full);
+                            }
+                            else
+                            {
+                                if (Settings.Default.web4_name == "" && hero_full != Settings.Default.web3_name && hero_full != Settings.Default.web2_name && hero_full != Settings.Default.web1_name)
+                                {
+                                    Settings.Default.web4_name = hero_full;
+                                    Settings.Default.web4_www = battletag_www;
+                                }
+                                else
+                                {
+                                    if (Settings.Default.web5_name == "" && hero_full != Settings.Default.web4_name && hero_full != Settings.Default.web3_name && hero_full != Settings.Default.web2_name && hero_full != Settings.Default.web1_name)
+                                    {
+                                        Settings.Default.web5_name = hero_full;
+                                        Settings.Default.web5_www = battletag_www;
+                                    }
+                                    else if (hero_full != Settings.Default.web5_name && hero_full != Settings.Default.web4_name && hero_full != Settings.Default.web3_name && hero_full != Settings.Default.web2_name && hero_full != Settings.Default.web1_name)
+                                    {
+                                        Settings.Default.web1_name = Settings.Default.web2_name; Settings.Default.web1_www = Settings.Default.web2_www;
+                                        Settings.Default.web2_name = Settings.Default.web3_name; Settings.Default.web2_www = Settings.Default.web3_www;
+                                        Settings.Default.web3_name = Settings.Default.web4_name; Settings.Default.web3_www = Settings.Default.web4_www;
+                                        Settings.Default.web4_name = Settings.Default.web5_name; Settings.Default.web4_www = Settings.Default.web5_www;
+                                        Settings.Default.web5_name = hero_full; Settings.Default.web5_www = battletag_www;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    //MessageBox.Show(Settings.Default.web1_name);
+                    //MessageBox.Show(Settings.Default.web1_www);
 
                     mainstat = Convert.ToInt16(pers.stats.strength);
                     if (mainstat < Convert.ToInt16(pers.stats.intelligence)) mainstat = Convert.ToInt16(pers.stats.intelligence);
@@ -1201,7 +1372,11 @@ namespace DPS_Diablo3
                         //Crusader
                         if (pass == "Blunt" || pass == "Towering Shield") from_skl += 20;
                         if (pass == "Holy Cause") from_skl += 10;
-                        if (pass == "Fanaticism") aps_up += 15;
+                        if (pass == "Fanaticism")
+                        {
+                            aps_up += 15;
+                            noprof_as += 15;
+                        }
                         if (pass == "Fervor")
                         {
                             aps_up += 15;
@@ -1222,7 +1397,11 @@ namespace DPS_Diablo3
                         if (pass == "Glass Cannon") from_skl += 15;
                         if (pass == "Audacity") from_skl += 15;
                         if (pass == "Cold Blooded") from_skl += 10;
-                        if (pass == "Conflagration") off_crit_chance += 6;
+                        if (pass == "Conflagration")
+                        {
+                            off_crit_chance += 6;
+                            noprof_cc += 6;
+                        }
                         if (pass == "Evocation") coold_pass += 20;
                     }
 
@@ -1235,6 +1414,7 @@ namespace DPS_Diablo3
                             off_crit_chance += 3;
                             foreach (string rune in active_skill_rune) if (rune == "Marauder's Rage") skl = 15;
                             from_skl += skl;
+                            noprof_cc += 3;
                         }
                         //Crusader
                         if (act == "Laws of Valor") aps_up += 8;
@@ -1619,11 +1799,25 @@ namespace DPS_Diablo3
 
         //--------------------------------------------//
 
+        public void web_choice()
+        {
+            cb_web.Items.Clear();
+            if (Settings.Default.web5_name != "") cb_web.Items.Add(Settings.Default.web5_name);
+            if (Settings.Default.web4_name != "") cb_web.Items.Add(Settings.Default.web4_name);
+            if (Settings.Default.web3_name != "") cb_web.Items.Add(Settings.Default.web3_name);
+            if (Settings.Default.web2_name != "") cb_web.Items.Add(Settings.Default.web2_name);
+            if (Settings.Default.web1_name != "") cb_web.Items.Add(Settings.Default.web1_name);
+        }
+        
         public void import()
         {
+            Settings.Default.Save();
+            web_choice();
+            //MessageBox.Show(Settings.Default.web1_name);
+
             p_lvl = para_lvl;
             tsmi_clear_Click(null,null);
-            //lb_para_lvl.Text = p_lvl;
+            lb_para_lvl.Text = p_lvl;
 
             if (lb_adv.Text == "def") b_adv.PerformClick();
             
@@ -1679,8 +1873,10 @@ namespace DPS_Diablo3
 
         private void b_web_Click(object sender, EventArgs e)
         {
+            cb_web.DroppedDown = false;
             b_web.Enabled = false;
             tb_pers.Enabled = false;
+            cb_web.Enabled = false;
             bw.RunWorkerAsync();
             bw.WorkerReportsProgress = true;
             //pb_load.Visible = true;
@@ -1705,6 +1901,7 @@ namespace DPS_Diablo3
 
         private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            tb_pers.Text = lng.tb_pers;
             pb_load.Visible = false;
             if (mainstat != 0)
             {
@@ -1722,6 +1919,7 @@ namespace DPS_Diablo3
             }
             b_web.Enabled = true;
             tb_pers.Enabled = true;
+            cb_web.Enabled = true;
         }
 
         private void b_Parse_Click(object sender, EventArgs e)
@@ -1831,8 +2029,8 @@ namespace DPS_Diablo3
             if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Text) == true)
             {
                 Readonly_clear(tb_pers, null);
-                tb_pers.Paste();
-                b_web_Click(null,null);
+                //tb_pers.Paste();
+                //b_web_Click(null,null);
             }
         }
 
@@ -1885,7 +2083,7 @@ namespace DPS_Diablo3
 
         private void tsmi_qload_Click(object sender, EventArgs e)
         {
-            if (Settings.Default.lb_para_lvl != "" && frm_para.Visible != true) paragonToolStripMenuItem_Click(null, null);
+            //if (Settings.Default.lb_para_lvl != "" && frm_para.Visible != true) cb_paragon_CheckedChanged(null, null);//paragonToolStripMenuItem_Click(null, null);
             //paragon();            
             foreach (NumericUpDown nud in frm_para.Controls.OfType<NumericUpDown>()) nud.Value = 0;
 
@@ -2118,13 +2316,16 @@ namespace DPS_Diablo3
                 if (pars_ver[i].Contains("Version"))
                 {
                     string vers = pars_ver[i].Substring(pars_ver[i].IndexOf("title=\"Version") + 15, 3).Trim();
-                    if (vers != string.Format("{0:F1}", ver).ToString().Trim().Replace(sep, "."))
+                    double new_ver = 0;
+                    try { new_ver = Convert.ToDouble(vers.Replace(".", sep)); } catch { }
+                    if (vers != string.Format("{0:F1}", ver).ToString().Trim().Replace(sep, ".") && new_ver > ver)
                     {
                         if (MessageBox.Show(
                         "Download?", "New version: " + vers, MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk
                         ) == DialogResult.Yes)
                         {
-                            System.Diagnostics.Process.Start("https://dl.dropboxusercontent.com/u/14539335/DPS_Diablo3.zip");
+                            //System.Diagnostics.Process.Start("https://dl.dropboxusercontent.com/u/14539335/DPS_Diablo3.zip");
+                            System.Diagnostics.Process.Start("http://bit.ly/d3calc");
                         }                        
                         
                         //pan_ver.Visible = true;
@@ -2260,7 +2461,14 @@ namespace DPS_Diablo3
             frm_para.KeyDown +=new KeyEventHandler(frm_para_KeyDown);
 
             frm_para.Deactivate +=new EventHandler(frm_para_Deactivate);
+            //frm_para.Activated += new EventHandler(frm_para_Activated);
+            frm_para.FormBorderStyle = FormBorderStyle.SizableToolWindow;
         }
+
+        //void frm_para_Activated(object sender, EventArgs e)
+        //{
+        //    HideFromAltTab(frm_para.Handle);
+        //}
 
         private void frm_para_Deactivate(object sender, EventArgs e)
         {
@@ -2278,108 +2486,237 @@ namespace DPS_Diablo3
 
         public void paragon()
         {
-            int ypos = 1;
 
-            lb_para_main.Location = new Point(4, ypos + 2);
-            lb_para_main.AutoSize = true;
-            lb_para_main.Text = lng.lb_imaint + ":";
-            frm_para.Controls.Add(lb_para_main);
+            if (!frm_para.Controls.Contains(lb_para_main))
+            {
+                int ypos = 1;
 
-            nud_para_main.Location = new Point(123, ypos);
-            nud_para_main.Size = new Size(65, 20);
-            nud_para_main.Maximum = 10000;
-            nud_para_main.Increment = 5;
-            nud_para_main.Name = "para_main";
-            //ValueChanged += nud_para_ValueChanged
-            frm_para.Controls.Add(nud_para_main);
+                lb_para_main.Location = new Point(1, ypos + 2);
+                lb_para_main.AutoSize = true;
+                lb_para_main.Text = lng.lb_imaint + ":";
+                frm_para.Controls.Add(lb_para_main);
 
-            ypos += 25;
-            lb_para_as.Location = new Point(4, ypos + 2);
-            lb_para_as.AutoSize = true;
-            lb_para_as.Text = lng.lb_as + ":";
-            frm_para.Controls.Add(lb_para_as);
+                nud_para_main.Location = new Point(113, ypos);
+                nud_para_main.Size = new Size(50, 20);
+                //nud_para_main.Value = 0;
+                nud_para_main.Maximum = 10000;
+                nud_para_main.Increment = 5;
+                nud_para_main.Name = "para_main";
+                //ValueChanged += nud_para_ValueChanged
+                frm_para.Controls.Add(nud_para_main);
 
-            nud_para_as.Location = new Point(123, ypos);
-            nud_para_as.Size = new Size(65, 20);
-            nud_para_as.Maximum = 10;
-            nud_para_as.Increment = 0.2M;
-            nud_para_as.DecimalPlaces = 1;
-            nud_para_as.Name = "para_as";
-            //ValueChanged += nud_para_ValueChanged
-            frm_para.Controls.Add(nud_para_as);
+                b_para_main.Location = new Point(166, ypos-1);
+                b_para_main.Size = new Size(31, 21);
+                b_para_main.Name = nud_para_main.Name;
+                b_para_main.Click += new EventHandler(maxvalue);
+                frm_para.Controls.Add(b_para_main);
 
-            ypos += 25;
-            lb_para_cdr.Location = new Point(4, ypos + 2);
-            lb_para_cdr.AutoSize = true;
-            lb_para_cdr.Text = lng.lb_cdr + ":";
-            frm_para.Controls.Add(lb_para_cdr);
+                ypos += 25;
+                lb_para_as.Location = new Point(1, ypos + 2);
+                lb_para_as.AutoSize = true;
+                lb_para_as.Text = lng.lb_as + ":";
+                frm_para.Controls.Add(lb_para_as);
 
-            nud_para_cdr.Location = new Point(123, ypos);
-            nud_para_cdr.Size = new Size(65, 20);
-            nud_para_cdr.Maximum = 10;
-            nud_para_cdr.Increment = 0.2M;
-            nud_para_cdr.DecimalPlaces = 1;
-            nud_para_cdr.Name = "para_cdr";
-            //ValueChanged += nud_para_ValueChanged
-            frm_para.Controls.Add(nud_para_cdr);
+                nud_para_as.Location = new Point(113, ypos);
+                nud_para_as.Size = new Size(50, 20);
+                nud_para_as.Maximum = 10;
+                nud_para_as.Increment = 0.2M;
+                nud_para_as.DecimalPlaces = 1;
+                nud_para_as.Name = "para_as";
+                //ValueChanged += nud_para_ValueChanged
+                frm_para.Controls.Add(nud_para_as);
 
-            ypos += 25;
-            lb_para_cc.Location = new Point(4, ypos + 2);
-            lb_para_cc.AutoSize = true;
-            lb_para_cc.Text = lng.lb_icct + ":";
-            frm_para.Controls.Add(lb_para_cc);
+                b_para_as.Location = new Point(166, ypos - 1);
+                b_para_as.Size = new Size(31, 21);
+                b_para_as.Name = nud_para_as.Name;
+                b_para_as.Click += new EventHandler(maxvalue);
+                frm_para.Controls.Add(b_para_as);
 
-            nud_para_cc.Location = new Point(123, ypos);
-            nud_para_cc.Size = new Size(65, 20);
-            nud_para_cc.Maximum = 5;
-            nud_para_cc.Increment = 0.1M;
-            nud_para_cc.DecimalPlaces = 1;
-            nud_para_cc.Name = "para_cc";
-            //ValueChanged += nud_para_ValueChanged
-            frm_para.Controls.Add(nud_para_cc);
+                ypos += 25;
+                lb_para_cdr.Location = new Point(1, ypos + 2);
+                lb_para_cdr.AutoSize = true;
+                lb_para_cdr.Text = lng.lb_cdr + ":";
+                frm_para.Controls.Add(lb_para_cdr);
 
-            ypos += 25;
-            lb_para_cd.Location = new Point(4, ypos + 2);
-            lb_para_cd.AutoSize = true;
-            lb_para_cd.Text = lng.lb_icdt + ":";
-            frm_para.Controls.Add(lb_para_cd);
+                nud_para_cdr.Location = new Point(113, ypos);
+                nud_para_cdr.Size = new Size(50, 20);
+                nud_para_cdr.Maximum = 10;
+                nud_para_cdr.Increment = 0.2M;
+                nud_para_cdr.DecimalPlaces = 1;
+                nud_para_cdr.Name = "para_cdr";
+                //ValueChanged += nud_para_ValueChanged
+                frm_para.Controls.Add(nud_para_cdr);
 
-            nud_para_cd.Location = new Point(123, ypos);
-            nud_para_cd.Size = new Size(65, 20);
-            nud_para_cd.Maximum = 50;
-            nud_para_cd.Increment = 1;
-            nud_para_cd.Name = "para_cd";
-            //ValueChanged += nud_para_ValueChanged
-            frm_para.Controls.Add(nud_para_cd);
+                b_para_cdr.Location = new Point(166, ypos - 1);
+                b_para_cdr.Size = new Size(31, 21);
+                b_para_cdr.Name = nud_para_cdr.Name;
+                b_para_cdr.Click += new EventHandler(maxvalue);
+                frm_para.Controls.Add(b_para_cdr);
 
-            ypos += 30;
-            lb_para.Location = new Point(4, ypos + 1);
-            lb_para.AutoSize = true;
-            lb_para.Text = lng.lb_paragon;
-            frm_para.Controls.Add(lb_para);
+                ypos += 25;
+                lb_para_cc.Location = new Point(1, ypos + 2);
+                lb_para_cc.AutoSize = true;
+                lb_para_cc.Text = lng.lb_icct + ":";
+                frm_para.Controls.Add(lb_para_cc);
 
-            lb_para_lvl.Location = new Point(123, ypos);
-            lb_para_lvl.AutoSize = true;
-            lb_para_lvl.Text = p_lvl.Trim();
-            //lb_para_lvl.Text = para_lvl;
-            frm_para.Controls.Add(lb_para_lvl);
+                nud_para_cc.Location = new Point(113, ypos);
+                nud_para_cc.Size = new Size(50, 20);
+                nud_para_cc.Maximum = 5;
+                nud_para_cc.Increment = 0.1M;
+                nud_para_cc.DecimalPlaces = 1;
+                nud_para_cc.Name = "para_cc";
+                //ValueChanged += nud_para_ValueChanged
+                frm_para.Controls.Add(nud_para_cc);
 
-            ypos += 25;
-            b_para_save.Location = new Point(15, ypos);
-            b_para_save.Name = "para_save";
-            b_para_save.Text = "Save";
-            b_para_save.Click +=new EventHandler(b_para_save_Click);
-            frm_para.Controls.Add(b_para_save);
-            b_para_load.Location = new Point(105, ypos);
-            b_para_load.Name = "para_load";
-            b_para_load.Text = "Load";
-            b_para_load.Click +=new EventHandler(b_para_load_Click);
-            frm_para.Controls.Add(b_para_load);
+                b_para_cc.Location = new Point(166, ypos - 1);
+                b_para_cc.Size = new Size(31, 21);
+                b_para_cc.Name = nud_para_cc.Name;
+                b_para_cc.Click += new EventHandler(maxvalue);
+                frm_para.Controls.Add(b_para_cc);
+
+                ypos += 25;
+                lb_para_cd.Location = new Point(1, ypos + 2);
+                lb_para_cd.AutoSize = true;
+                lb_para_cd.Text = lng.lb_icdt + ":";
+                frm_para.Controls.Add(lb_para_cd);
+
+                nud_para_cd.Location = new Point(113, ypos);
+                nud_para_cd.Size = new Size(50, 20);
+                nud_para_cd.Maximum = 50;
+                nud_para_cd.Increment = 1;
+                nud_para_cd.Name = "para_cd";
+                //ValueChanged += nud_para_ValueChanged
+                frm_para.Controls.Add(nud_para_cd);
+
+                b_para_cd.Location = new Point(166, ypos - 1);
+                b_para_cd.Size = new Size(31, 21);
+                b_para_cd.Name = nud_para_cd.Name;
+                b_para_cd.Click += new EventHandler(maxvalue);
+                frm_para.Controls.Add(b_para_cd);
+
+                ypos += 29;
+                lb_para.Location = new Point(1, ypos);
+                lb_para.AutoSize = true;
+                lb_para.Text = lng.lb_paragon;
+                frm_para.Controls.Add(lb_para);
+
+                lb_para_lvl.Location = new Point(115, ypos);
+                lb_para_lvl.AutoSize = true;
+                lb_para_lvl.Text = p_lvl.Trim();
+                //lb_para_lvl.Text = para_lvl;
+                frm_para.Controls.Add(lb_para_lvl);
+
+                ypos += 25;
+                b_para_save.Location = new Point(18, ypos);
+                b_para_save.Name = "para_save";
+                b_para_save.Text = "Save";
+                b_para_save.Click += new EventHandler(b_para_save_Click);
+                frm_para.Controls.Add(b_para_save);
+                b_para_load.Location = new Point(110, ypos);
+                b_para_load.Name = "para_load";
+                b_para_load.Text = "Load";
+                b_para_load.Click += new EventHandler(b_para_load_Click);
+                frm_para.Controls.Add(b_para_load);
+
+                //SendKeys.Send(Keys.F7.ToString());
+
+            }
+
+            foreach (Button btn in frm_para.Controls.OfType<Button>())
+                if (btn.Name != "para_save" && btn.Name != "para_load")
+                {
+                    foreach (NumericUpDown nud in frm_para.Controls.OfType<NumericUpDown>())
+                        if (nud.Name == btn.Name)
+                            if ((int)nud.Value == nud.Maximum) btn.Image = Resources.min_hor;//strelka_left;
+                            else btn.Image = Resources.max_hor;//strelka_right;
+                }
+
+            //b_para_main.Image = Resources.min_hor;
+
+            //b_para_main.Text = "Max";
+            //b_para_main.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 
             frm_para.Show();
 
             para_prep();
 
+        }
+
+        private void maxvalue(object sender, EventArgs e)
+        {
+            var b_sender = (Button)sender;
+            int flag = 0;
+
+            if (b_sender.Name == "para_main")
+                if ((int)nud_para_main.Value == nud_para_main.Maximum)
+                {
+                    nud_para_main.Value = 0;
+                    flag = 1;
+                }
+                else 
+                {
+                    nud_para_main.Value = nud_para_main.Maximum;
+                    if (nud_para_main.Value < nud_para_main.Maximum) flag = 2;
+                }
+
+            if (b_sender.Name == "para_as")
+                if ((int)nud_para_as.Value == nud_para_as.Maximum) 
+                {
+                    nud_para_as.Value = 0;
+                    flag = 1;
+                }
+                else 
+                {
+                    nud_para_as.Value = nud_para_as.Maximum;
+                    if (nud_para_as.Value < nud_para_as.Maximum) flag = 2;
+                }
+
+            if (b_sender.Name == "para_cdr")
+                if ((int)nud_para_cdr.Value == nud_para_cdr.Maximum) 
+                {
+                    nud_para_cdr.Value = 0;
+                    flag = 1;
+                }
+                else 
+                {
+                    nud_para_cdr.Value = nud_para_cdr.Maximum;
+                    if (nud_para_cdr.Value < nud_para_cdr.Maximum) flag = 2;
+                }
+
+            if (b_sender.Name == "para_cc")
+                if ((int)nud_para_cc.Value == nud_para_cc.Maximum) 
+                {
+                    nud_para_cc.Value = 0;
+                    flag = 1;
+                }
+                else 
+                {
+                    nud_para_cc.Value = nud_para_cc.Maximum;
+                    if (nud_para_cc.Value < nud_para_cc.Maximum) flag = 2;
+                }
+
+            if (b_sender.Name == "para_cd")
+                if ((int)nud_para_cd.Value == nud_para_cd.Maximum)
+                {
+                    nud_para_cd.Value = 0;
+                    flag = 1;
+                }
+                else 
+                {
+                    nud_para_cd.Value = nud_para_cd.Maximum;
+                    if (nud_para_cd.Value < nud_para_cd.Maximum) flag = 2;
+                }
+
+            //MessageBox.Show("Значение: " + ((int)nud_para_cc.Value).ToString() + ", Максимум: " + nud_para_cc.Maximum.ToString());            
+
+            if (flag != 2)
+            {
+                if (flag == 0) b_sender.Image = Resources.min_hor;//strelka_left;
+                else b_sender.Image = Resources.max_hor;//strelka_right;
+            }
+
+            flag = 0;
+            lb_para_as.Focus();
         }
 
         public void para_prep ()
@@ -2571,7 +2908,84 @@ namespace DPS_Diablo3
         }
 
 
+        private void cb_web_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (cb_web.SelectedItem.ToString() == Settings.Default.web1_name) tb_pers.Text = Settings.Default.web1_www;
+            if (cb_web.SelectedItem.ToString() == Settings.Default.web2_name) tb_pers.Text = Settings.Default.web2_www;
+            if (cb_web.SelectedItem.ToString() == Settings.Default.web3_name) tb_pers.Text = Settings.Default.web3_www;
+            if (cb_web.SelectedItem.ToString() == Settings.Default.web4_name) tb_pers.Text = Settings.Default.web4_www;
+            if (cb_web.SelectedItem.ToString() == Settings.Default.web5_name) tb_pers.Text = Settings.Default.web5_www;
+
+            b_web_Click(null, null);
         }
+
+        private void cb_web_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                ((ComboBox)sender).Items.Clear();
+                //((ComboBox)sender).SelectedIndex = -1;
+                ((ComboBox)sender).Items.Add("1");
+                ((ComboBox)sender).Items.Clear();
+                Settings.Default.web5_name = ""; Settings.Default.web4_name = ""; Settings.Default.web3_name = ""; Settings.Default.web2_name = ""; Settings.Default.web1_name = "";
+                Settings.Default.web5_www = ""; Settings.Default.web4_www = ""; Settings.Default.web3_www = ""; Settings.Default.web2_www = ""; Settings.Default.web1_www = "";
+                Settings.Default.Save();
+                //((ComboBox)sender).Refresh();
+            }
+        }
+
+        private void control_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                right_hold = true;
+            }
+        }
+
+        void control_MouseLeave(object sender, EventArgs e)
+        {
+            if (right_hold == true)
+            {
+                right_hold = false;
+
+                Point curr = new Point(Cursor.Position.X, Cursor.Position.Y);
+                Point last = curr;
+                if (Cursor.Position.X > this.Location.X + this.Width || Cursor.Position.X < this.Location.X
+                    || Cursor.Position.Y > this.Location.Y + this.Height || Cursor.Position.Y < this.Location.Y)
+                {
+                    //MessageBox.Show("Курсор по X: " + Cursor.Position.X + "Окно по иксу: " + this.Location.X + " Окно длиной: " + this.Width);
+                    last = new Point(this.Location.X + 2, this.Location.Y + 2);
+                    if (Cursor.Position.X < this.Location.X && Cursor.Position.Y < this.Location.Y) 
+                        last = new Point(this.Location.X + this.Width - 8, this.Location.Y + 22);
+                }
+
+                Cursor.Position = new System.Drawing.Point(last.X - 2, last.Y - 2);
+                mouse_event((int)(MouseEventFlags.LEFTDOWN), 0, 0, 0, 0);
+                mouse_event((int)(MouseEventFlags.LEFTUP), 0, 0, 0, 0);
+                Cursor.Position = new System.Drawing.Point(curr.X, curr.Y);
+
+                //Form no_menu = new Form();
+                //no_menu.Visible = false;
+                //no_menu.Size = new System.Drawing.Size(0, 0);
+                //no_menu.ShowInTaskbar = false;
+                //no_menu.FormBorderStyle = FormBorderStyle.SizableToolWindow;
+                //no_menu.Opacity = 0.0;
+                //no_menu.Show();
+                //no_menu.Dispose();
+            }
+        }
+
+        private void cb_web_DropDown(object sender, EventArgs e)
+        {
+            if (cb_web.Items.Count > 0) tb_pers.Text = lng.tb_pers_choice;
+        }
+
+        private void cb_web_DropDownClosed(object sender, EventArgs e)
+        {
+            if (cb_web.SelectedIndex == -1 || tb_pers.Text == lng.tb_pers_choice) tb_pers.Text = lng.tb_pers;
+        }
+
+       }
 
 
     }

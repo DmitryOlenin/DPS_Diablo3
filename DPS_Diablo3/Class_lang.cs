@@ -16,19 +16,21 @@ namespace DPS_Diablo3
         tt1t, tt2t, tt3t, tt4t, tt5t, tt6t, tt7t, tt8t, tt9t, tt10t, tt11t, tt12t, tt13t, tt14t, tt15t, tt16t, tt17t, tt7_1t, tt18t, tt19t,
         tt20t, tt21t, tt22t, tt23t, tt24t, tt25t, tt26t, tt27t, tt28t, tt29t, tt30t, tt31t, tt32t, tt33t, tt34t, tt35t, tt36t, tt37t, tt38t, tt39t, tt40t, tt41t
         ,lb_resultt_none, lb_resultt_dots, b_advt_def, b_statt_cdr, b_statt_dps, b_wept_wd, b_wept_skill
-        , lb_as_dpst, lb_stat_dpst, lb_cc_dpst, lb_cd_dpst, lb_elem_dpst, lb_dmg_dpst, lb_elite_dpst, tb_pers, lb_changes, lb_import, gb_result, gb_increase
+        , lb_as_dpst, lb_stat_dpst, lb_cc_dpst, lb_cd_dpst, lb_elem_dpst, lb_dmg_dpst, lb_elite_dpst, tb_pers, tb_pers_choice, lb_changes, lb_import, gb_result, gb_increase
         , warn, mess_imp, mess_nopers, mess_noint
         , qu, an, q1, a1_1, a1_2, q2, a2_1, q3, a3_1, a3_2, q4, a4_1, q5, a5_1, q6, a6_1, q7, a7_1, a7_2, q8, a8_1, a8_2, q9, a9_1, q10, a10_1, q11, a11_1, a11_2, q12, a12_1
-        , lb_as, lb_cdr, lb_paragon
+        , lb_as, lb_cdr, lb_paragon, cb_paragon, cb_paragon_off
         ;
 
         public void Lang_rus()
         {
+            cb_paragon = "Paragon";
+            cb_paragon_off = "Paragon OFF";
             lb_paragon = "Уровень парагона: ";
             lb_as = "Скорость атаки";
             lb_cdr = "Снижение времени";
             warn = "Внимание";
-            mess_imp = "Неверная строка импорта";
+            mess_imp = "Неверная строка импорта. Должна быть вида:\n <...>.battle.net/d3/<...>/profile/<...>/hero/<...>";
             mess_nopers = "Персонаж не найден";
             mess_noint = "Проблемы с интернетом";
             gb_result = "Результаты расчётов";
@@ -37,6 +39,7 @@ namespace DPS_Diablo3
             lb_changes = "Варианты расчёта изменений";
             lb_import = "Вставьте адрес профиля из браузера:";
             tb_pers = "Строка \"http://\" из Battle.Net";
+            tb_pers_choice = "Персонажи для импорта:";
             lb_dmg_at = "Урон оружия";
             lb_perc_at = "+% урона оружия";
             lb_speed_at = "+% скорости оружия";
@@ -202,11 +205,13 @@ namespace DPS_Diablo3
 
         public void Lang_eng()
         {
+            cb_paragon = "Paragon";
+            cb_paragon_off = "Paragon OFF";
             lb_paragon = "Paragon level: ";
             lb_as = "Attack speed";
             lb_cdr = "Cooldown reduce";
             warn = "Warning";
-            mess_imp = "Wrong input string";
+            mess_imp = "Wrong input string. It must be like:\n <...>.battle.net/d3/<...>/profile/<...>/hero/<...>";
             mess_nopers = "Profile not found";
             mess_noint = "Problems with internet";
             gb_result = "The results of calculations";
@@ -215,6 +220,7 @@ namespace DPS_Diablo3
             lb_changes = "Options of advanced calculation";
             lb_import = "Insert the profile address from the browser:";
             tb_pers = "String \"http://\" from armory";
+            tb_pers_choice = "Characters for import:";
             lb_dmg_at = "Weapon Damage";
             lb_perc_at = "+% Weapon Damage";
             lb_speed_at = "+% Attack speed";

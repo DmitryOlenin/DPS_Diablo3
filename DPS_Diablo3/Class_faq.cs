@@ -376,30 +376,30 @@ namespace DPS_Diablo3
 
             pos += 60;
 
-            lab_faq_q9.Text = lng.qu;
-            lab_faq_q9.AutoSize = true;
-            lab_faq_q9.Location = new Point(0, pos);
-            lab_faq_q9.Font = new Font("Arial", 8.00F, System.Drawing.FontStyle.Bold);
+            //lab_faq_q9.Text = lng.qu;
+            //lab_faq_q9.AutoSize = true;
+            //lab_faq_q9.Location = new Point(0, pos);
+            //lab_faq_q9.Font = new Font("Arial", 8.00F, System.Drawing.FontStyle.Bold);
 
-            lab_faq_a9.Text = lng.an;
-            lab_faq_a9.AutoSize = true;
-            lab_faq_a9.Location = new Point(0, pos + 15);
-            lab_faq_a9.Font = new Font("Arial", 8.00F, System.Drawing.FontStyle.Bold);
+            //lab_faq_a9.Text = lng.an;
+            //lab_faq_a9.AutoSize = true;
+            //lab_faq_a9.Location = new Point(0, pos + 15);
+            //lab_faq_a9.Font = new Font("Arial", 8.00F, System.Drawing.FontStyle.Bold);
 
-            lab_faq_qu9.AutoSize = true;
-            lab_faq_an9.AutoSize = true;
-            lab_faq_qu9.Location = new Point(60, pos + 1);
-            lab_faq_qu9.Text = lng.q9;
-            pan_faq.Controls.Add(lab_faq_q9);
-            pan_faq.Controls.Add(lab_faq_qu9);
-            pan_faq.Controls.Add(lab_faq_a9);
-            lab_faq_an9.Location = new Point(60, pos + 16);
-            lab_faq_an9.Text = lng.a9_1;
-            pan_faq.Controls.Add(lab_faq_an9);
+            //lab_faq_qu9.AutoSize = true;
+            //lab_faq_an9.AutoSize = true;
+            //lab_faq_qu9.Location = new Point(60, pos + 1);
+            //lab_faq_qu9.Text = lng.q9;
+            //pan_faq.Controls.Add(lab_faq_q9);
+            //pan_faq.Controls.Add(lab_faq_qu9);
+            //pan_faq.Controls.Add(lab_faq_a9);
+            //lab_faq_an9.Location = new Point(60, pos + 16);
+            //lab_faq_an9.Text = lng.a9_1;
+            //pan_faq.Controls.Add(lab_faq_an9);
 
-            // ---------------------------------------------------- //
+            //// ---------------------------------------------------- //
 
-            pos += 45;
+            //pos += 45;
 
             lab_faq_q10.Text = lng.qu;
             lab_faq_q10.AutoSize = true;

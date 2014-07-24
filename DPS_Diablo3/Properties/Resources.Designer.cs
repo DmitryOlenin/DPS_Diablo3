@@ -83,6 +83,26 @@ namespace DPS_Diablo3.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap max_hor {
+            get {
+                object obj = ResourceManager.GetObject("max_hor", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap min_hor {
+            get {
+                object obj = ResourceManager.GetObject("min_hor", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap strelka_close {
             get {
                 object obj = ResourceManager.GetObject("strelka_close", resourceCulture);
@@ -93,9 +113,29 @@ namespace DPS_Diablo3.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap strelka_left {
+            get {
+                object obj = ResourceManager.GetObject("strelka_left", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap strelka_open {
             get {
                 object obj = ResourceManager.GetObject("strelka_open", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap strelka_right {
+            get {
+                object obj = ResourceManager.GetObject("strelka_right", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

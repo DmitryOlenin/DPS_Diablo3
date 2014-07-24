@@ -78,6 +78,7 @@
     </Compile>
     <EmbeddedResource Include="dps_diablo.resx">
       <DependentUpon>dps_diablo.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -120,10 +121,19 @@
     <None Include="Resources\2_strelka_close.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\2_strelka.png" />
+    <None Include="Resources\2_strelka_up.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\2_strelka_up.png" />
+    <None Include="Resources\strelka_left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\strelka_right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\max_hor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\min_hor.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

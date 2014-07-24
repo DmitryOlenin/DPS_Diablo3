@@ -874,5 +874,125 @@ namespace DPS_Diablo3.Properties {
                 this["lb_para_lvl"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string web1_name {
+            get {
+                return ((string)(this["web1_name"]));
+            }
+            set {
+                this["web1_name"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string web2_name {
+            get {
+                return ((string)(this["web2_name"]));
+            }
+            set {
+                this["web2_name"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string web3_name {
+            get {
+                return ((string)(this["web3_name"]));
+            }
+            set {
+                this["web3_name"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string web4_name {
+            get {
+                return ((string)(this["web4_name"]));
+            }
+            set {
+                this["web4_name"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string web5_name {
+            get {
+                return ((string)(this["web5_name"]));
+            }
+            set {
+                this["web5_name"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string web1_www {
+            get {
+                return ((string)(this["web1_www"]));
+            }
+            set {
+                this["web1_www"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string web2_www {
+            get {
+                return ((string)(this["web2_www"]));
+            }
+            set {
+                this["web2_www"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string web3_www {
+            get {
+                return ((string)(this["web3_www"]));
+            }
+            set {
+                this["web3_www"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string web4_www {
+            get {
+                return ((string)(this["web4_www"]));
+            }
+            set {
+                this["web4_www"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string web5_www {
+            get {
+                return ((string)(this["web5_www"]));
+            }
+            set {
+                this["web5_www"] = value;
+            }
+        }
     }
 }

@@ -172,21 +172,21 @@
             this.toolTip22 = new System.Windows.Forms.ToolTip(this.components);
             this.b_wep = new System.Windows.Forms.Button();
             this.pan_wep = new System.Windows.Forms.Panel();
-            this.nud_elite_w = new System.Windows.Forms.NumericUpDown();
-            this.lb_elite_w = new System.Windows.Forms.Label();
+            this.nud_as_w = new System.Windows.Forms.NumericUpDown();
             this.lb_elem_w = new System.Windows.Forms.Label();
+            this.lb_iac_w = new System.Windows.Forms.Label();
             this.nud_acp_w = new System.Windows.Forms.NumericUpDown();
             this.nud_elem_w = new System.Windows.Forms.NumericUpDown();
             this.lb_main_w = new System.Windows.Forms.Label();
             this.lb_cd_w = new System.Windows.Forms.Label();
             this.nud_cd_w = new System.Windows.Forms.NumericUpDown();
             this.tb_dmg1_w = new System.Windows.Forms.TextBox();
-            this.lb_acp_w = new System.Windows.Forms.Label();
             this.tb_dmg2_w = new System.Windows.Forms.TextBox();
             this.nud_damp_w = new System.Windows.Forms.NumericUpDown();
-            this.lb_damp_w = new System.Windows.Forms.Label();
+            this.lb_acp_w = new System.Windows.Forms.Label();
             this.nud_main_w = new System.Windows.Forms.NumericUpDown();
             this.lb_dam_w = new System.Windows.Forms.Label();
+            this.lb_damp_w = new System.Windows.Forms.Label();
             this.toolTip23 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip24 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip25 = new System.Windows.Forms.ToolTip(this.components);
@@ -244,7 +244,6 @@
             this.bw = new System.ComponentModel.BackgroundWorker();
             this.toolTip36 = new System.Windows.Forms.ToolTip(this.components);
             this.lb_version_check = new System.Windows.Forms.LinkLabel();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_qsave = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_qload = new System.Windows.Forms.ToolStripMenuItem();
@@ -278,6 +277,7 @@
             this.gb_result = new System.Windows.Forms.GroupBox();
             this.cb_choice = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cb_web = new System.Windows.Forms.ComboBox();
             this.pan_divider = new System.Windows.Forms.Panel();
             this.lb_changes = new System.Windows.Forms.Label();
             this.gb_increase = new System.Windows.Forms.GroupBox();
@@ -285,6 +285,7 @@
             this.lb_elite_dps = new System.Windows.Forms.Label();
             this.gb_roll = new System.Windows.Forms.GroupBox();
             this.cb_paragon = new System.Windows.Forms.CheckBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             ((System.ComponentModel.ISupportInitialize)(this.nud_ac)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_main)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cc)).BeginInit();
@@ -305,7 +306,7 @@
             this.pan_skill.SuspendLayout();
             this.pan_skillup.SuspendLayout();
             this.pan_wep.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_elite_w)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_as_w)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_acp_w)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_elem_w)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cd_w)).BeginInit();
@@ -330,9 +331,10 @@
             this.pan_list.SuspendLayout();
             this.cms_web.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_load)).BeginInit();
-            this.menuStrip1.SuspendLayout();
             this.gb_result.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.gb_increase.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lb_idmg1
@@ -1501,61 +1503,72 @@
             // 
             // pan_wep
             // 
-            this.pan_wep.Controls.Add(this.nud_elite_w);
-            this.pan_wep.Controls.Add(this.lb_elite_w);
+            this.pan_wep.Controls.Add(this.nud_as_w);
             this.pan_wep.Controls.Add(this.lb_elem_w);
+            this.pan_wep.Controls.Add(this.lb_iac_w);
             this.pan_wep.Controls.Add(this.nud_acp_w);
             this.pan_wep.Controls.Add(this.nud_elem_w);
             this.pan_wep.Controls.Add(this.lb_main_w);
             this.pan_wep.Controls.Add(this.lb_cd_w);
             this.pan_wep.Controls.Add(this.nud_cd_w);
             this.pan_wep.Controls.Add(this.tb_dmg1_w);
-            this.pan_wep.Controls.Add(this.lb_acp_w);
             this.pan_wep.Controls.Add(this.tb_dmg2_w);
             this.pan_wep.Controls.Add(this.nud_damp_w);
-            this.pan_wep.Controls.Add(this.lb_damp_w);
+            this.pan_wep.Controls.Add(this.lb_acp_w);
             this.pan_wep.Controls.Add(this.nud_main_w);
             this.pan_wep.Controls.Add(this.lb_dam_w);
+            this.pan_wep.Controls.Add(this.lb_damp_w);
             this.pan_wep.Location = new System.Drawing.Point(447, 263);
             this.pan_wep.Name = "pan_wep";
             this.pan_wep.Size = new System.Drawing.Size(224, 158);
             this.pan_wep.TabIndex = 99;
             // 
-            // nud_elite_w
+            // nud_as_w
             // 
-            this.nud_elite_w.Location = new System.Drawing.Point(138, 135);
-            this.nud_elite_w.Minimum = new decimal(new int[] {
-            100,
+            this.nud_as_w.DecimalPlaces = 1;
+            this.nud_as_w.Increment = new decimal(new int[] {
+            1,
             0,
             0,
-            -2147483648});
-            this.nud_elite_w.Name = "nud_elite_w";
-            this.nud_elite_w.Size = new System.Drawing.Size(84, 20);
-            this.nud_elite_w.TabIndex = 1002;
-            // 
-            // lb_elite_w
-            // 
-            this.lb_elite_w.AutoSize = true;
-            this.lb_elite_w.Location = new System.Drawing.Point(0, 137);
-            this.lb_elite_w.Name = "lb_elite_w";
-            this.lb_elite_w.Size = new System.Drawing.Size(106, 13);
-            this.lb_elite_w.TabIndex = 1001;
-            this.lb_elite_w.Text = "+-% Урона по элите";
+            65536});
+            this.nud_as_w.Location = new System.Drawing.Point(138, 25);
+            this.nud_as_w.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.nud_as_w.Name = "nud_as_w";
+            this.nud_as_w.Size = new System.Drawing.Size(84, 20);
+            this.nud_as_w.TabIndex = 1002;
             // 
             // lb_elem_w
             // 
             this.lb_elem_w.AutoSize = true;
-            this.lb_elem_w.Location = new System.Drawing.Point(0, 115);
+            this.lb_elem_w.Location = new System.Drawing.Point(0, 137);
             this.lb_elem_w.Name = "lb_elem_w";
             this.lb_elem_w.Size = new System.Drawing.Size(127, 13);
             this.lb_elem_w.TabIndex = 131;
             this.lb_elem_w.Text = "+- Элементальный урон";
             // 
+            // lb_iac_w
+            // 
+            this.lb_iac_w.AutoSize = true;
+            this.lb_iac_w.Location = new System.Drawing.Point(0, 27);
+            this.lb_iac_w.Name = "lb_iac_w";
+            this.lb_iac_w.Size = new System.Drawing.Size(95, 13);
+            this.lb_iac_w.TabIndex = 1001;
+            this.lb_iac_w.Text = "Скорость оружия";
+            // 
             // nud_acp_w
             // 
             this.nud_acp_w.Location = new System.Drawing.Point(138, 69);
+            this.nud_acp_w.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             this.nud_acp_w.Minimum = new decimal(new int[] {
-            100,
+            10,
             0,
             0,
             -2147483648});
@@ -1565,7 +1578,7 @@
             // 
             // nud_elem_w
             // 
-            this.nud_elem_w.Location = new System.Drawing.Point(138, 113);
+            this.nud_elem_w.Location = new System.Drawing.Point(138, 135);
             this.nud_elem_w.Minimum = new decimal(new int[] {
             100,
             0,
@@ -1578,7 +1591,7 @@
             // lb_main_w
             // 
             this.lb_main_w.AutoSize = true;
-            this.lb_main_w.Location = new System.Drawing.Point(0, 27);
+            this.lb_main_w.Location = new System.Drawing.Point(0, 93);
             this.lb_main_w.Name = "lb_main_w";
             this.lb_main_w.Size = new System.Drawing.Size(121, 13);
             this.lb_main_w.TabIndex = 129;
@@ -1587,7 +1600,7 @@
             // lb_cd_w
             // 
             this.lb_cd_w.AutoSize = true;
-            this.lb_cd_w.Location = new System.Drawing.Point(0, 93);
+            this.lb_cd_w.Location = new System.Drawing.Point(0, 115);
             this.lb_cd_w.Name = "lb_cd_w";
             this.lb_cd_w.Size = new System.Drawing.Size(66, 13);
             this.lb_cd_w.TabIndex = 127;
@@ -1595,7 +1608,7 @@
             // 
             // nud_cd_w
             // 
-            this.nud_cd_w.Location = new System.Drawing.Point(138, 91);
+            this.nud_cd_w.Location = new System.Drawing.Point(138, 113);
             this.nud_cd_w.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -1618,17 +1631,6 @@
             this.tb_dmg1_w.Size = new System.Drawing.Size(41, 20);
             this.tb_dmg1_w.TabIndex = 118;
             // 
-            // lb_acp_w
-            // 
-            this.lb_acp_w.AutoSize = true;
-            this.lb_acp_w.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lb_acp_w.ForeColor = System.Drawing.Color.Black;
-            this.lb_acp_w.Location = new System.Drawing.Point(0, 71);
-            this.lb_acp_w.Name = "lb_acp_w";
-            this.lb_acp_w.Size = new System.Drawing.Size(114, 13);
-            this.lb_acp_w.TabIndex = 125;
-            this.lb_acp_w.Text = "+-% скорости оружия";
-            // 
             // tb_dmg2_w
             // 
             this.tb_dmg2_w.Location = new System.Drawing.Point(181, 3);
@@ -1640,8 +1642,13 @@
             // nud_damp_w
             // 
             this.nud_damp_w.Location = new System.Drawing.Point(138, 47);
+            this.nud_damp_w.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             this.nud_damp_w.Minimum = new decimal(new int[] {
-            100,
+            10,
             0,
             0,
             -2147483648});
@@ -1649,20 +1656,20 @@
             this.nud_damp_w.Size = new System.Drawing.Size(84, 20);
             this.nud_damp_w.TabIndex = 90;
             // 
-            // lb_damp_w
+            // lb_acp_w
             // 
-            this.lb_damp_w.AutoSize = true;
-            this.lb_damp_w.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lb_damp_w.ForeColor = System.Drawing.Color.Black;
-            this.lb_damp_w.Location = new System.Drawing.Point(0, 49);
-            this.lb_damp_w.Name = "lb_damp_w";
-            this.lb_damp_w.Size = new System.Drawing.Size(96, 13);
-            this.lb_damp_w.TabIndex = 123;
-            this.lb_damp_w.Text = "+-% урона оружия";
+            this.lb_acp_w.AutoSize = true;
+            this.lb_acp_w.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lb_acp_w.ForeColor = System.Drawing.Color.Black;
+            this.lb_acp_w.Location = new System.Drawing.Point(0, 71);
+            this.lb_acp_w.Name = "lb_acp_w";
+            this.lb_acp_w.Size = new System.Drawing.Size(111, 13);
+            this.lb_acp_w.TabIndex = 125;
+            this.lb_acp_w.Text = "+% скорости оружия";
             // 
             // nud_main_w
             // 
-            this.nud_main_w.Location = new System.Drawing.Point(138, 25);
+            this.nud_main_w.Location = new System.Drawing.Point(138, 91);
             this.nud_main_w.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -1684,9 +1691,20 @@
             this.lb_dam_w.ForeColor = System.Drawing.Color.Black;
             this.lb_dam_w.Location = new System.Drawing.Point(0, 5);
             this.lb_dam_w.Name = "lb_dam_w";
-            this.lb_dam_w.Size = new System.Drawing.Size(85, 13);
+            this.lb_dam_w.Size = new System.Drawing.Size(73, 13);
             this.lb_dam_w.TabIndex = 117;
-            this.lb_dam_w.Text = "+- Урон оружия";
+            this.lb_dam_w.Text = "Урон оружия";
+            // 
+            // lb_damp_w
+            // 
+            this.lb_damp_w.AutoSize = true;
+            this.lb_damp_w.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lb_damp_w.ForeColor = System.Drawing.Color.Black;
+            this.lb_damp_w.Location = new System.Drawing.Point(0, 49);
+            this.lb_damp_w.Name = "lb_damp_w";
+            this.lb_damp_w.Size = new System.Drawing.Size(93, 13);
+            this.lb_damp_w.TabIndex = 123;
+            this.lb_damp_w.Text = "+% урона оружия";
             // 
             // nud_cdr1
             // 
@@ -2175,7 +2193,7 @@
             this.tb_pers.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tb_pers.Location = new System.Drawing.Point(248, 234);
             this.tb_pers.Name = "tb_pers";
-            this.tb_pers.Size = new System.Drawing.Size(174, 20);
+            this.tb_pers.Size = new System.Drawing.Size(156, 20);
             this.tb_pers.TabIndex = 21;
             this.tb_pers.TabStop = false;
             this.tb_pers.Text = "Address \"http://\" from armory";
@@ -2220,22 +2238,6 @@
             this.lb_version_check.Name = "lb_version_check";
             this.lb_version_check.Size = new System.Drawing.Size(100, 23);
             this.lb_version_check.TabIndex = 142;
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("menuStrip1.BackgroundImage")));
-            this.menuStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.файлToolStripMenuItem,
-            this.сервисToolStripMenuItem,
-            this.справкаToolStripMenuItem,
-            this.paragonToolStripMenuItem,
-            this.правкаToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(675, 24);
-            this.menuStrip1.TabIndex = 141;
-            this.menuStrip1.Text = "menuStrip1";
             // 
             // файлToolStripMenuItem
             // 
@@ -2322,12 +2324,14 @@
             this.tsmi_adv.ShortcutKeys = System.Windows.Forms.Keys.F8;
             this.tsmi_adv.Size = new System.Drawing.Size(150, 22);
             this.tsmi_adv.Text = "&Simple";
+            this.tsmi_adv.Visible = false;
             this.tsmi_adv.Click += new System.EventHandler(this.tsmi_adv_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(147, 6);
+            this.toolStripSeparator2.Visible = false;
             // 
             // tsmi_exit
             // 
@@ -2507,7 +2511,7 @@
             this.cb_choice.BackColor = System.Drawing.SystemColors.Window;
             this.cb_choice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_choice.FormattingEnabled = true;
-            this.cb_choice.Location = new System.Drawing.Point(455, 234);
+            this.cb_choice.Location = new System.Drawing.Point(455, 236);
             this.cb_choice.Name = "cb_choice";
             this.cb_choice.Size = new System.Drawing.Size(211, 21);
             this.cb_choice.TabIndex = 22;
@@ -2516,10 +2520,23 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.cb_web);
             this.panel1.Location = new System.Drawing.Point(226, 216);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(214, 55);
             this.panel1.TabIndex = 146;
+            // 
+            // cb_web
+            // 
+            this.cb_web.FormattingEnabled = true;
+            this.cb_web.Location = new System.Drawing.Point(20, 16);
+            this.cb_web.Name = "cb_web";
+            this.cb_web.Size = new System.Drawing.Size(174, 21);
+            this.cb_web.TabIndex = 0;
+            this.cb_web.DropDown += new System.EventHandler(this.cb_web_DropDown);
+            this.cb_web.SelectionChangeCommitted += new System.EventHandler(this.cb_web_SelectionChangeCommitted);
+            this.cb_web.DropDownClosed += new System.EventHandler(this.cb_web_DropDownClosed);
+            this.cb_web.MouseDown += new System.Windows.Forms.MouseEventHandler(this.cb_web_MouseDown);
             // 
             // pan_divider
             // 
@@ -2594,15 +2611,31 @@
             // 
             this.cb_paragon.Appearance = System.Windows.Forms.Appearance.Button;
             this.cb_paragon.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.cb_paragon.Image = global::DPS_Diablo3.Properties.Resources.strelka_open;
-            this.cb_paragon.Location = new System.Drawing.Point(226, 191);
+            this.cb_paragon.Image = ((System.Drawing.Image)(resources.GetObject("cb_paragon.Image")));
+            this.cb_paragon.Location = new System.Drawing.Point(226, 190);
             this.cb_paragon.Name = "cb_paragon";
-            this.cb_paragon.Size = new System.Drawing.Size(214, 20);
+            this.cb_paragon.Size = new System.Drawing.Size(214, 22);
             this.cb_paragon.TabIndex = 1001;
             this.cb_paragon.Text = "Paragon";
             this.cb_paragon.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.cb_paragon.UseVisualStyleBackColor = true;
             this.cb_paragon.CheckedChanged += new System.EventHandler(this.cb_paragon_CheckedChanged);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("menuStrip1.BackgroundImage")));
+            this.menuStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.файлToolStripMenuItem,
+            this.сервисToolStripMenuItem,
+            this.справкаToolStripMenuItem,
+            this.paragonToolStripMenuItem,
+            this.правкаToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(675, 24);
+            this.menuStrip1.TabIndex = 141;
+            this.menuStrip1.Text = "menuStrip1";
             // 
             // dps_diablo
             // 
@@ -2678,7 +2711,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "dps_diablo";
-            this.Text = "DPS - Diablo3 ver. 2.1";
+            this.Text = "DPS - Diablo3 ver. 2.2";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.dps_diablo_FormClosed);
             this.Load += new System.EventHandler(this.dps_diablo_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dps_diablo_KeyDown);
@@ -2710,7 +2743,7 @@
             this.pan_skillup.PerformLayout();
             this.pan_wep.ResumeLayout(false);
             this.pan_wep.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_elite_w)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_as_w)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_acp_w)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_elem_w)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cd_w)).EndInit();
@@ -2738,12 +2771,13 @@
             this.pan_list.PerformLayout();
             this.cms_web.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pb_load)).EndInit();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.gb_result.ResumeLayout(false);
             this.gb_result.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.gb_increase.ResumeLayout(false);
             this.gb_increase.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2958,7 +2992,6 @@
         private System.Windows.Forms.Label lb_cdt;
         private System.Windows.Forms.ContextMenuStrip cms_web;
         private System.Windows.Forms.ToolStripMenuItem Paste;
-        private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tsmi_load;
         private System.Windows.Forms.ToolStripMenuItem tsmi_qload;
@@ -2998,14 +3031,16 @@
         private System.Windows.Forms.NumericUpDown nud_cdr11;
         private System.Windows.Forms.NumericUpDown nud_cdr12;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown nud_elite_w;
-        private System.Windows.Forms.Label lb_elite_w;
+        private System.Windows.Forms.NumericUpDown nud_as_w;
+        private System.Windows.Forms.Label lb_iac_w;
         private System.Windows.Forms.NumericUpDown nud_elite;
         private System.Windows.Forms.Label lb_eliteс;
         private System.Windows.Forms.Label lb_elite;
         private System.Windows.Forms.Label lb_elite_dps;
         private System.Windows.Forms.GroupBox gb_roll;
         private System.Windows.Forms.CheckBox cb_paragon;
+        private System.Windows.Forms.ComboBox cb_web;
+        private System.Windows.Forms.MenuStrip menuStrip1;
 
     }
 }

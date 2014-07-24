@@ -18,6 +18,8 @@ using DPS_Diablo3.parse;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.Security;
+using System.Threading;
 
 namespace DPS_Diablo3
 {
@@ -29,7 +31,54 @@ namespace DPS_Diablo3
             ((TextBox)sender).BackColor = Color.White;
             if (((TextBox)sender).Text == "" || ((TextBox)sender).Text == "min2" || ((TextBox)sender).Text == "weapon2" || ((TextBox)sender).Text == "weapon1" || ((TextBox)sender).Text == "max2" || ((TextBox)sender).Text == "skill2" || ((TextBox)sender).Text == "100%" || ((TextBox)sender).Text.Contains("http"))
                 ((TextBox)sender).Text = "";
-            if (((TextBox)sender).Name == "tb_pers") ((TextBox)sender).Text = "";
+            if (((TextBox)sender).Name == "tb_pers")
+            {
+                ((TextBox)sender).Text = "";
+
+                //IDataObject idat = null;
+                //Exception threadEx = null;
+                //Thread staThread = new Thread(
+                //    delegate()
+                //    {
+                //        try { idat = Clipboard.GetDataObject(); }
+                //        catch (Exception ex) { threadEx = ex;}
+                //    });
+                //staThread.SetApartmentState(ApartmentState.STA);
+                //staThread.Start();
+                //staThread.Join();
+
+                string inp = "Import string";
+                if (Clipboard.ContainsText()) inp = (String)Clipboard.GetDataObject().GetData(DataFormats.Text);
+                Uri nUrl = null;
+                //if (Uri.TryCreate(inp, UriKind.Absolute, out nUrl))
+                //{
+                //    inp = nUrl.ToString();
+                //}
+                //Uri sch = new Uri(inp);
+                //if (!(Uri.IsWellFormedUriString(inp, UriKind.Absolute) && (sch.Scheme == "http" || sch.Scheme == "https"))) MessageBox.Show("!@#");
+
+                //try {
+                    //if (Clipboard.ContainsText() && Clipboard.GetDataObject().GetDataPresent(DataFormats.Text)) inp = (String)Clipboard.GetDataObject().GetData(DataFormats.Text); 
+                //}
+                //catch { }
+                //MessageBox.Show(inp+"длина строки: "); MessageBox.Show(inp.Length.ToString());
+
+                //if (inp.IndexOf("battle.net") > 0 && inp.IndexOf("d3") > 0 && inp.IndexOf("profile") > 0 && inp.IndexOf("hero") > 0)
+                if ((inp != null && inp.Length > 20 && inp.Contains("battle.net") && inp.Contains("d3") && inp.Contains("profile") && inp.Contains("hero"))
+                    && (Uri.TryCreate(inp, UriKind.RelativeOrAbsolute, out nUrl)))
+                {
+                    tb_pers.Paste();
+                    b_web_Click(null, null);
+                }
+                else
+                {
+                    if (inp != null && inp.Length>0) MessageBox.Show(lng.mess_imp, lng.warn, MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    if (Settings.Default.web1_www != "" && cb_web.Items.Count>0) cb_web.DroppedDown = true;
+                    ((TextBox)sender).Focus();
+                }
+                //Clipboard.Clear();
+
+            }
         }
 
         private void Readonly_insert(object sender, string settings, decimal sett_dec, string fl)
