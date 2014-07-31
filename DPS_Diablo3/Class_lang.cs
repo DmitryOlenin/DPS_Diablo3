@@ -19,11 +19,21 @@ namespace DPS_Diablo3
         , lb_as_dpst, lb_stat_dpst, lb_cc_dpst, lb_cd_dpst, lb_elem_dpst, lb_dmg_dpst, lb_elite_dpst, tb_pers, tb_pers_choice, lb_changes, lb_import, gb_result, gb_increase
         , warn, mess_imp, mess_nopers, mess_noint
         , qu, an, q1, a1_1, a1_2, q2, a2_1, q3, a3_1, a3_2, q4, a4_1, q5, a5_1, q6, a6_1, q7, a7_1, a7_2, q8, a8_1, a8_2, q9, a9_1, q10, a10_1, q11, a11_1, a11_2, q12, a12_1
-        , lb_as, lb_cdr, lb_paragon, cb_paragon, cb_paragon_off
+        , lb_as, lb_cdr, lb_paragon, cb_paragon, cb_paragon_off, lb_curr
+        , lb_cooldown, lb_cdr12, lb_cdr34, lb_cdr56, lb_cdr78, lb_cdr910, lb_cdr1112
+        , lb_dpst_inc
         ;
 
         public void Lang_rus()
         {
+            lb_curr = "Оставшиеся очки: ";
+            lb_cooldown = "Время отката скилла";
+            lb_cdr12 = "CDR Шляпа/Наплечники";
+            lb_cdr34 = "CDR Перчатки/Амулет";
+            lb_cdr56 = "CDR Л.кольцо/П.кольцо";
+            lb_cdr78 = "CDR Л.рука/П.рука";
+            lb_cdr910 = "CDR Борн/Кримсон";
+            lb_cdr1112 = "CDR Парагон/Пассивка";
             cb_paragon = "Paragon";
             cb_paragon_off = "Paragon OFF";
             lb_paragon = "Уровень парагона: ";
@@ -118,13 +128,14 @@ namespace DPS_Diablo3
             Save_dialog1t = "Внимание";
             Save_dialog2t = "Хотите сохранить? ";
             Save_dialog3t = "Предыдущие данные будут перезаписаны!";
-            lb_as_dpst = "+ 1% AC увеличит DPS:";
-            lb_stat_dpst = "+ 100 Stat увеличит DPS:";
-            lb_cc_dpst = "+ 1% КШ увеличит DPS:";
-            lb_cd_dpst = "+ 10% КУ увеличит DPS:";
-            lb_elem_dpst = "+ 1% Elem увеличит DPS:";
-            lb_dmg_dpst = "+ 10 Dmg увеличит DPS:";
-            lb_elite_dpst = "+ 1% Elite увеличит DPS:";
+            lb_dpst_inc = " увеличит DPS:";
+            lb_as_dpst = "AC";
+            lb_stat_dpst = "Stat";
+            lb_cc_dpst = "КШ";
+            lb_cd_dpst = "КУ";
+            lb_elem_dpst = "Elem";
+            lb_dmg_dpst = "Dmg";
+            lb_elite_dpst = "Elite";
             lb_eliteс = "+-% Урона по элите";
 
             tt1t = "Сохраняет данные, прошлые будут перезаписаны.";
@@ -205,6 +216,14 @@ namespace DPS_Diablo3
 
         public void Lang_eng()
         {
+            lb_curr = "Remaining points: ";
+            lb_cooldown = "Skill cooldown";
+            lb_cdr12 = "CDR Diamond/Shoulders";
+            lb_cdr34 = "CDR Gloves/Amulet";
+            lb_cdr56 = "CDR Left Ring/Right Ring";
+            lb_cdr78 = "CDR Main Hand/Offhand";
+            lb_cdr910 = "CDR Born/Crimson";
+            lb_cdr1112 = "CDR Paragon/Passive";
             cb_paragon = "Paragon";
             cb_paragon_off = "Paragon OFF";
             lb_paragon = "Paragon level: ";
@@ -304,13 +323,14 @@ namespace DPS_Diablo3
             Save_dialog1t = "Attention!";
             Save_dialog2t = "Do you want to save data?";
             Save_dialog3t = "Previous data will be overwritten!";
-            lb_as_dpst = "+1% AS increase DPS:";
-            lb_stat_dpst = "+100 Stat increase DPS:";
-            lb_cc_dpst = "+1% CC increase DPS:";
-            lb_cd_dpst = "+10% CD increase DPS:";
-            lb_elem_dpst = "+1% Elem. increase DPS:";
-            lb_dmg_dpst = "+10 Av. Dmg increase DPS:";
-            lb_elite_dpst = "+1% Elite increase DPS:";
+            lb_dpst_inc = " increase DPS:";
+            lb_as_dpst = "AS";
+            lb_stat_dpst = "Stat";
+            lb_cc_dpst = "CC";
+            lb_cd_dpst = "CD";
+            lb_elem_dpst = "Elem";
+            lb_dmg_dpst = "Dmg";
+            lb_elite_dpst = "Elite";
             lb_eliteс = "+-% Elite damage";
 
             tt1t = "Save data. Previous data will be overwritten!";

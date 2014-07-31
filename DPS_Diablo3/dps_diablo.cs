@@ -58,10 +58,16 @@ namespace DPS_Diablo3
         //private const int WS_EX_TOOLWINDOW = 0x00000080;
 
         public string[] pars_hero;
+        public string[] pars_profile;
         public List<string> passive_skill, active_skill, active_skill_rune;
 
+        public List<string> id;
+        public List<int> updated;
+
+        public System.IO.StreamReader sr;
+
         public string 
-             hero_parse, head, torso, feet, hands, shoulders, legs, bracers, mainHand, offHand, waist, rightFinger, leftFinger, neck
+             hero_parse, profile_parse, head, torso, feet, hands, shoulders, legs, bracers, mainHand, offHand, waist, rightFinger, leftFinger, neck
             , head_parse, torso_parse, feet_parse, hands_parse, shoulders_parse, legs_parse, bracers_parse, mainHand_parse, offHand_parse, waist_parse, rightFinger_parse, leftFinger_parse, neck_parse
             , item_parse
             , sep = Convert.ToChar(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator).ToString()
@@ -74,7 +80,7 @@ namespace DPS_Diablo3
             wepdamage_wd, otherdamage_wd, cleardamage_wd, critdamage_wd, overdamage_wd, speedtotal_wd, result_wd, petdamage_wd, skill_wd,
               damage1, damage2, ac1, ac2, main, acincr, cc, cd, off_min, off_max, am_min, am_max,
               r1_min, r1_max, r2_min, r2_max, other_min, other_max, fromskills, elem, toskill, elite, skill,
-              result_old, result_old_wd,
+              result_old=0, result_old_wd,
               dmg1_1, dmg1_2, dmg2_1, dmg2_2, ac1_a, ac2_a, dmg1_p, dmg2_p, ac1_p, ac2_p, dmg1_1_a, dmg1_2_a, dmg2_1_a, dmg2_2_a,
               skill1_usage, skill2_usage, skill1, skill2, elem1, elem2, toskill1, toskill2, ac1w, elite1, elite1w,
               coold, cdr_all, skill_base, skill_other
@@ -84,17 +90,18 @@ namespace DPS_Diablo3
               , damage_min = 0, damage_max = 0, elem_all = 0, aps = 0, aps_up = 0, aps_up_off = 0, aps_off = 0, damage_min_off = 0, damage_max_off = 0
               , crit_damage = 0, crit_chance = 0, elite_damage = 0, off_crit_chance = 0, off_del_Physical = 0, off_min_Physical = 0
               , rings_count = 0, r1_del_Physical = 0, r1_min_Physical = 0, r2_del_Physical = 0, r2_min_Physical = 0, am_del_Physical = 0, am_min_Physical = 0
-              , cooldown
-              , ver = 2.2
+              , cooldown, finery
+              , ver = 2.3
               ;
 
-        public bool para_check = false, right_hold = false;
+        public bool para_check = false, right_hold = false, left_cdr = false, two_handed = false, akkhan = false;
 
         public Double[] cdr = new Double[] {0,0,0,0,0,0,0,0,0,0,0};
 
         public Class_lang lng = new Class_lang();
         
-        public int mainstat = 0, to_skl = 0, cnt = 0, from_skl, cdr_n=0, para_level = 0, level1 = 0, level2 = 0, noprof_cc = 0, noprof_as=0;
+        public int mainstat = 0, to_skl = 0, cnt = 0, from_skl, from_skl_prof=0, cdr_n=0, para_level = 0, level1 = 0, level2 = 0, noprof_cc = 0, noprof_as=0,
+            sockets;
 
         decimal lev2 = 0, curr_para = 0, prev_para = 0, coold_pass=0;
 
@@ -108,6 +115,8 @@ namespace DPS_Diablo3
         public Label lb_para_cd = new Label();
         public Label lb_para = new Label();
         public Label lb_para_lvl = new Label();
+        public Label lb_curr = new Label();
+        public Label lb_curr_lvl = new Label();
         public NumericUpDown nud_para_main = new NumericUpDown();
         public NumericUpDown nud_para_as = new NumericUpDown();
         public NumericUpDown nud_para_cdr = new NumericUpDown();
@@ -209,8 +218,43 @@ namespace DPS_Diablo3
                     nud.TextChanged += new EventHandler(nud_TextChanged);
 
             foreach (NumericUpDown nud in pan_cdr.Controls.OfType<NumericUpDown>())
-                //if (nud.Name != "nud_cooldown")
-                    nud.ValueChanged += nud_cdr_ValueChanged;
+            {
+                nud.ValueChanged += nud_cdr_ValueChanged;
+                nud.KeyUp += new KeyEventHandler(nud_cdr_KeyUp);
+                //nud.Leave += nud_cdr_ValueChanged;
+            }
+
+            this.MouseClick += new MouseEventHandler(dps_diablo_MouseClick);
+            foreach (Label lb in this.Controls.OfType<Label>()) lb.MouseClick += new MouseEventHandler(dps_diablo_MouseClick);
+            foreach (Panel lb in this.Controls.OfType<Panel>()) lb.MouseClick += new MouseEventHandler(dps_diablo_MouseClick);
+            gb_increase.MouseClick += new MouseEventHandler(dps_diablo_MouseClick);
+            foreach (Label lb in gb_increase.Controls.OfType<Label>()) lb.MouseClick += new MouseEventHandler(dps_diablo_MouseClick);
+            foreach (Control control in this.Controls.OfType<Panel>())
+                foreach (Label lb in control.Controls.OfType<Label>()) lb.MouseClick += new MouseEventHandler(dps_diablo_MouseClick);                
+
+            foreach (NumericUpDown nud in gb_increase.Controls.OfType<NumericUpDown>())
+                nud.ValueChanged += new EventHandler(nud_inc_ValueChanged);
+        }
+
+        void dps_diablo_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (left_cdr == true) nud_cdr_ValueChanged(null,null);
+            left_cdr = false;
+        }
+
+        void nud_cdr_KeyUp(object sender, KeyEventArgs e)
+        {
+            left_cdr = true;
+            //if ((e.KeyCode > Keys.D0 && e.KeyCode < Keys.D9) || (e.KeyCode > Keys.NumPad0 && e.KeyCode < Keys.NumPad9))
+            //{
+            //    left_cdr = true;
+            //    //MessageBox.Show(e.KeyCode.ToString());
+            //}
+        }
+
+        void nud_inc_ValueChanged(object sender, EventArgs e)
+        {
+            if (result > 0) b_start_Click(null,null);//incr_stats(((NumericUpDown)sender).Name);
         }
 
         public void White()
@@ -225,6 +269,7 @@ namespace DPS_Diablo3
 
         public void Save_settings()
         {
+            Settings.Default.pers_name = pers_name;
             Settings.Default.tb_damage1 = tb_damage1.Text;
             Settings.Default.tb_damage2 = tb_damage2.Text;
             Settings.Default.tb_ac1 = tb_ac1.Text;
@@ -242,6 +287,7 @@ namespace DPS_Diablo3
             Settings.Default.tb_r2_min = tb_r2_min.Text;
             Settings.Default.tb_r2_max = tb_r2_max.Text;
             Settings.Default.tb_fromskills = tb_fromskills.Text;
+            Settings.Default.from_skl_prof = from_skl_prof.ToString();
             Settings.Default.tb_elem = tb_elem.Text;
             Settings.Default.tb_toskill = tb_toskill.Text;
             Settings.Default.tb_elite = tb_elite.Text;
@@ -286,6 +332,8 @@ namespace DPS_Diablo3
             Settings.Default.nud_cdr8 = nud_cdr8.Value;
             Settings.Default.nud_cdr9 = nud_cdr9.Value;
             Settings.Default.nud_cdr10 = nud_cdr10.Value;
+            Settings.Default.nud_cdr11 = nud_cdr11.Value;
+            Settings.Default.nud_cdr12 = nud_cdr12.Value;
             Settings.Default.bt_lang = bt_lang.Text;
 
             overview = new SettingsTable();
@@ -357,6 +405,7 @@ namespace DPS_Diablo3
 
             for (int i = 0; i < overview.dataset.Tables[0].Rows.Count; i++)
             {
+                if (overview.dataset.Tables["Strings"].Rows[i][0].ToString() == "pers_name") Settings.Default.pers_name = overview.dataset.Tables["Strings"].Rows[i][1].ToString();
                 if (overview.dataset.Tables["Strings"].Rows[i][0].ToString() == "tb_damage1") Settings.Default.tb_damage1 = overview.dataset.Tables["Strings"].Rows[i][1].ToString();
                 if (overview.dataset.Tables["Strings"].Rows[i][0].ToString() == "tb_damage2") Settings.Default.tb_damage2 = overview.dataset.Tables["Strings"].Rows[i][1].ToString();
                 if (overview.dataset.Tables["Strings"].Rows[i][0].ToString() == "tb_ac1") Settings.Default.tb_ac1 = overview.dataset.Tables["Strings"].Rows[i][1].ToString();
@@ -374,6 +423,7 @@ namespace DPS_Diablo3
                 if (overview.dataset.Tables["Strings"].Rows[i][0].ToString() == "tb_r2_min") Settings.Default.tb_r2_min = overview.dataset.Tables["Strings"].Rows[i][1].ToString();
                 if (overview.dataset.Tables["Strings"].Rows[i][0].ToString() == "tb_r2_max") Settings.Default.tb_r2_max = overview.dataset.Tables["Strings"].Rows[i][1].ToString();
                 if (overview.dataset.Tables["Strings"].Rows[i][0].ToString() == "tb_fromskills") Settings.Default.tb_fromskills = overview.dataset.Tables["Strings"].Rows[i][1].ToString();
+                if (overview.dataset.Tables["Strings"].Rows[i][0].ToString() == "from_skl_prof") Settings.Default.from_skl_prof = overview.dataset.Tables["Strings"].Rows[i][1].ToString();
                 if (overview.dataset.Tables["Strings"].Rows[i][0].ToString() == "tb_elem") Settings.Default.tb_elem = overview.dataset.Tables["Strings"].Rows[i][1].ToString();
                 if (overview.dataset.Tables["Strings"].Rows[i][0].ToString() == "tb_toskill") Settings.Default.tb_toskill = overview.dataset.Tables["Strings"].Rows[i][1].ToString();
                 if (overview.dataset.Tables["Strings"].Rows[i][0].ToString() == "tb_elite") Settings.Default.tb_elite = overview.dataset.Tables["Strings"].Rows[i][1].ToString();
@@ -422,6 +472,8 @@ namespace DPS_Diablo3
                 if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_cdr8") Settings.Default.nud_cdr8 = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
                 if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_cdr9") Settings.Default.nud_cdr9 = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
                 if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_cdr10") Settings.Default.nud_cdr10 = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
+                if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_cdr11") Settings.Default.nud_cdr11 = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
+                if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_cdr12") Settings.Default.nud_cdr12 = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
             }
 
             Settings.Default.Save();
@@ -499,9 +551,94 @@ namespace DPS_Diablo3
             }
         }
 
+        private void incr_stats(string name)
+        {
+
+            if (name == "nud_stat_dps" || name == "all")
+            {
+                main = main + Convert.ToSingle(nud_stat_dps.Value);
+                Calculate();
+                lb_main.Text = (result - result_old).ToString("N0");
+                main = main - Convert.ToSingle(nud_stat_dps.Value);
+            }
+            if (name == "nud_elite_dps" || name == "all")
+            {
+                elite = elite + Convert.ToSingle(nud_elite_dps.Value);
+                Calculate();
+                lb_elite.Text = (result - result_old).ToString("N0");
+                elite = elite - Convert.ToSingle(nud_elite_dps.Value);
+            }
+            if (name == "nud_as_dps" || name == "all")
+            {
+                acincr = acincr + Convert.ToSingle(nud_as_dps.Value);
+                Calculate();
+                lb_ac.Text = (result - result_old).ToString("N0");
+                acincr = acincr - Convert.ToSingle(nud_as_dps.Value);
+            }
+            if (name == "nud_cc_dps" || name == "all")
+            {
+                cc = cc + Convert.ToSingle(nud_cc_dps.Value);
+                Calculate();
+                lb_cc.Text = (result - result_old).ToString("N0");
+                cc = cc - Convert.ToSingle(nud_cc_dps.Value);
+            }
+            if (name == "nud_cd_dps" || name == "all")
+            {
+                cd = cd + Convert.ToSingle(nud_cd_dps.Value);
+                Calculate();
+                lb_cd.Text = (result - result_old).ToString("N0");
+                cd = cd - Convert.ToSingle(nud_cd_dps.Value);
+            }
+            if (name == "nud_elem_dps" || name == "all")
+            {
+
+                skill_base = (skill1 * skill1_usage / 100 * ((elem1 + Convert.ToSingle(nud_elem_dps.Value)) / 100 + 1) * (toskill1 / 100 + 1));
+                skill_other = (skill2 * skill2_usage / 100 * (elem2 / 100 + 1) * (toskill2 / 100 + 1));
+                skill = skill_base + skill_other;
+                Calculate();
+                lb_elem.Text = (result - result_old).ToString("N0");
+                skill_base = (skill1 * skill1_usage / 100 * ((elem1) / 100 + 1) * (toskill1 / 100 + 1));
+                skill = skill_base + skill_other;
+            }
+            if (name == "nud_dmg_dps" || name == "all")
+            {
+                other_min = other_min + Convert.ToSingle(nud_dmg_dps.Value);
+                other_max = other_max + Convert.ToSingle(nud_dmg_dps.Value);
+                Calculate();
+                lb_dmg.Text = (result - result_old).ToString("N0");
+                other_min = other_min - Convert.ToSingle(nud_dmg_dps.Value);
+                other_max = other_max - Convert.ToSingle(nud_dmg_dps.Value);
+            }
+            
+            foreach (Label lb in gb_increase.Controls.OfType<Label>())
+                lb.Visible = true;
+
+            //MessageBox.Show("Новый: "  + result.ToString() + " Старый: " + result_old.ToString());
+
+            //acincr = acincr + Convert.ToDouble(nud_as_dps.Value); lb_ac.Visible = true; Calculate(); lb_ac.Text = (result - result_old).ToString("N0"); acincr = acincr - Convert.ToDouble(nud_as_dps.Value);
+            //main = main + Convert.ToDouble(nud_stat_dps.Value); lb_main.Visible = true; Calculate(); lb_main.Text = (result - result_old).ToString("N0"); main = main - Convert.ToDouble(nud_stat_dps.Value);
+            //elite = elite + Convert.ToDouble(nud_elite_dps.Value); lb_elite.Visible = true; Calculate(); lb_elite.Text = (result - result_old).ToString("N0"); elite = elite - Convert.ToDouble(nud_elite_dps.Value);
+            //cc = cc + Convert.ToDouble(nud_cc_dps.Value); lb_cc.Visible = true; Calculate(); lb_cc.Text = (result - result_old).ToString("N0"); cc = cc - Convert.ToDouble(nud_cc_dps.Value);
+            //cd = cd + Convert.ToDouble(nud_cd_dps.Value); lb_cd.Visible = true; Calculate(); lb_cd.Text = (result - result_old).ToString("N0"); cd = cd - Convert.ToDouble(nud_cd_dps.Value);
+            //if (lb_adv.Text == "adv")
+            //{
+            //    elem1 = elem1 + Convert.ToDouble(nud_elem_dps.Value);
+            //    lb_elem.Visible = true;
+            //    skill_base = (skill1 * skill1_usage / 100 * (elem1 / 100 + 1) * (toskill1 / 100 + 1));
+            //    skill_other = (skill2 * skill2_usage / 100 * (elem2 / 100 + 1) * (toskill2 / 100 + 1));
+            //    skill = (skill1 * skill1_usage / 100 * (elem1 / 100 + 1) * (toskill1 / 100 + 1)) + (skill2 * skill2_usage / 100 * (elem2 / 100 + 1) * (toskill2 / 100 + 1));
+            //    Calculate();
+            //    lb_elem.Text = (result - result_old).ToString("N0");
+            //    elem1 = elem1 - Convert.ToDouble(nud_elem_dps.Value);
+            //}
+            ////if (name == "nud_dmg_dps" || name == "all")
+            //other_min = other_min + (Convert.ToDouble(nud_dmg_dps.Value) * 2); lb_dmg.Visible = true; Calculate(); lb_dmg.Text = (result - result_old).ToString("N0"); other_min = other_min - (Convert.ToDouble(nud_dmg_dps.Value) * 2);
+        }
+
         private void b_start_Click(object sender, EventArgs e)
         {
             pan_roll.Visible = true;
+            result = 0; result_old = 0;
 
             Check_lines();
             if (lb_result.Text == lng.lb_resultt)
@@ -536,7 +673,7 @@ namespace DPS_Diablo3
                     //    ac1 = Math.Round((ac1 / ((100 + ac1_p) / 100)), 1) * ((100 + ac1_p) / 100);
                     //}
                     //MessageBox.Show(ac1.ToString());
-                    ac1 = Math.Round((ac1 / ((100 + ac1_p) / 100)), 1) * ((100 + ac1_p) / 100);
+                    ac1 = Math.Round((ac1 / ((100 + ac1_p) / 100)), 2) * ((100 + ac1_p) / 100);
                     dmg1_1 = Math.Round(Convert.ToSingle(tb_dmg1_1_a.Text.Replace(".", sep)) / (dmg1_p / 100 + 1));
                     dmg1_2 = Math.Round(Convert.ToSingle(tb_dmg1_2_a.Text.Replace(".", sep)) / (dmg1_p / 100 + 1));
                     damage1 = (dmg1_1 + dmg1_2) / 2 * ac1 * (dmg1_p / 100 + 1);
@@ -617,7 +754,7 @@ namespace DPS_Diablo3
                 lb_result_profile.Text = result_profile.ToString("N0");
                 lb_result.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
                 lb_result_profile.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-                result_old = result;
+                if (result_old == 0) result_old = result;
 
                 //if (cb_wd.Checked)
                 //Считаем урон питомцев WD
@@ -630,31 +767,7 @@ namespace DPS_Diablo3
                     lb_start.Text = lb_start.Text + "wd";
                 }
 
-                acincr = acincr + 1; lb_ac.Visible = true; Calculate(); lb_ac.Text = (result - result_old).ToString("N0"); acincr = acincr - 1;
-                main = main + 100; lb_main.Visible = true; Calculate(); lb_main.Text = (result - result_old).ToString("N0"); main = main - 100;
-                elite = elite + 1; lb_elite.Visible = true; Calculate(); lb_elite.Text = (result - result_old).ToString("N0"); elite = elite - 1;
-                cc = cc + 1; lb_cc.Visible = true; Calculate(); lb_cc.Text = (result - result_old).ToString("N0"); cc = cc - 1;
-                cd = cd + 10; lb_cd.Visible = true; Calculate(); lb_cd.Text = (result - result_old).ToString("N0"); cd = cd - 10;
-                if (lb_adv.Text == "adv")
-                {
-                    elem1 = elem1 + 1;
-                    lb_elem.Visible = true;
-                    skill_base = (skill1 * skill1_usage / 100 * (elem1 / 100 + 1) * (toskill1 / 100 + 1));
-                    skill_other = (skill2 * skill2_usage / 100 * (elem2 / 100 + 1) * (toskill2 / 100 + 1));
-                    skill = (skill1 * skill1_usage / 100 * (elem1 / 100 + 1) * (toskill1 / 100 + 1)) + (skill2 * skill2_usage / 100 * (elem2 / 100 + 1) * (toskill2 / 100 + 1));
-                    Calculate();
-                    lb_elem.Text = (result - result_old).ToString("N0");
-                    elem1 = elem1 - 1;
-                }
-                else
-                {
-                    elem = elem + 1;
-                    lb_elem.Visible = true;
-                    Calculate();
-                    lb_elem.Text = (result - result_old).ToString("N0");
-                    elem = elem - 1;
-                }
-                other_min = other_min + 20; lb_dmg.Visible = true; Calculate(); lb_dmg.Text = (result - result_old).ToString("N0"); other_min = other_min - 20;
+                incr_stats("all");
 
                 if (lb_state.Text == "wep" && lb_adv.Text == "adv")
                 {
@@ -779,10 +892,14 @@ namespace DPS_Diablo3
                 else result = overdamage * skill / 100 / coold;
 
             speedtotal_profile = 2 / (1 / ac1 + 1 / ac2) * ((acincr - noprof_as) / 100 + 1);
-            critdamage_profile = cleardamage * ((cc - noprof_cc) / 100 * cd / 100 + 1);
+            //MessageBox.Show("скорость1: " + ac1.ToString() + " скорость2: " + ac2.ToString() + " увеличение: " + acincr.ToString() + " непроф: " + noprof_as.ToString());
+            critdamage_profile = cleardamage * ((cc - noprof_cc) / 100 * cd / 100 + 1) * (Convert.ToSingle(from_skl_prof) / 100 + 1);
+            //MessageBox.Show("Прибавочка: " + (Convert.ToSingle(from_skl_prof) / 100 + 1).ToString());
 
             //result_profile = critdamage * speedtotal;
             result_profile = critdamage_profile * speedtotal_profile;
+
+            //MessageBox.Show("wepd: " + wepdamage.ToString() + " other: " + otherdamage.ToString() + " clear:" + cleardamage.ToString() + "\n speed: " + speedtotal_profile.ToString() + " crit: " + critdamage_profile.ToString() + " result: " + result_profile.ToString());
         }
 
         public void CalculateWD()
@@ -887,6 +1004,14 @@ namespace DPS_Diablo3
 
         public void Lang()
         {
+            lb_curr.Text = lng.lb_curr;
+            lb_cooldown.Text = lng.lb_cooldown;
+            lb_cdr12.Text = lng.lb_cdr12;
+            lb_cdr34.Text = lng.lb_cdr34;
+            lb_cdr56.Text = lng.lb_cdr56;
+            lb_cdr78.Text = lng.lb_cdr78;
+            lb_cdr910.Text = lng.lb_cdr910;
+            lb_cdr1112.Text = lng.lb_cdr1112;
             //cb_paragon.Text = lng.cb_paragon;
             gb_result.Text = lng.gb_result;
             gb_increase.Text = lng.gb_increase;
@@ -969,13 +1094,21 @@ namespace DPS_Diablo3
             //b_load.Text = lng.b_loadt;
             //b_clear.Text = lng.b_cleart;
             lb_auth.Text = lng.lb_autht;
+
+            lb_as_dpsi.Text = lng.lb_dpst_inc;
             lb_as_dps.Text = lng.lb_as_dpst;
             lb_stat_dps.Text = lng.lb_stat_dpst;
+            lb_stat_dpsi.Text = lng.lb_dpst_inc;
             lb_cc_dps.Text = lng.lb_cc_dpst;
+            lb_cc_dpsi.Text = lng.lb_dpst_inc;
             lb_cd_dps.Text = lng.lb_cd_dpst;
+            lb_cd_dpsi.Text = lng.lb_dpst_inc;
             lb_elem_dps.Text = lng.lb_elem_dpst;
+            lb_elem_dpsi.Text = lng.lb_dpst_inc;
             lb_dmg_dps.Text = lng.lb_dmg_dpst;
+            lb_dmg_dpsi.Text = lng.lb_dpst_inc;
             lb_elite_dps.Text = lng.lb_elite_dpst;
+            lb_elite_dpsi.Text = lng.lb_dpst_inc;
             lb_eliteс.Text = lng.lb_eliteс;
             //lb_elite_w.Text = lng.lb_eliteс;
 
@@ -1067,14 +1200,14 @@ namespace DPS_Diablo3
 
         private void cooldown_import()
         {
-            nud_cdr1.Value = Convert.ToDecimal(cdr[0]);
-            nud_cdr2.Value = Convert.ToDecimal(cdr[1]);
-            nud_cdr3.Value = Convert.ToDecimal(cdr[2]);
-            nud_cdr4.Value = Convert.ToDecimal(cdr[3]);
-            nud_cdr5.Value = Convert.ToDecimal(cdr[4]);
-            nud_cdr6.Value = Convert.ToDecimal(cdr[5]);
-            nud_cdr7.Value = Convert.ToDecimal(cdr[6]);
-            nud_cdr8.Value = Convert.ToDecimal(cdr[7]);
+            nud_cdr7.Value = Convert.ToDecimal(cdr[0]);
+            nud_cdr8.Value = Convert.ToDecimal(cdr[1]);
+            nud_cdr1.Value = Convert.ToDecimal(cdr[2]);
+            nud_cdr2.Value = Convert.ToDecimal(cdr[3]);
+            nud_cdr3.Value = Convert.ToDecimal(cdr[4]);
+            nud_cdr4.Value = Convert.ToDecimal(cdr[5]);
+            nud_cdr5.Value = Convert.ToDecimal(cdr[6]);
+            nud_cdr6.Value = Convert.ToDecimal(cdr[7]);
             nud_cdr9.Value = Convert.ToDecimal(cdr[8]);
             nud_cdr10.Value = Convert.ToDecimal(cdr[9]);
             nud_cdr12.Value = coold_pass;
@@ -1121,7 +1254,8 @@ namespace DPS_Diablo3
         }
 
 
-        private StreamReader webresp(string param)
+        //private StreamReader webresp(string param)
+        private String webresp(string param)
         {
             string host = "eu.battle.net";
             if (tb_pers.Text.Contains("us.battle.net")) host = "us.battle.net";
@@ -1129,24 +1263,25 @@ namespace DPS_Diablo3
             if (tb_pers.Text.Contains("tw.battle.net")) host = "tw.battle.net";
             System.Net.WebRequest req_item = System.Net.WebRequest.Create(@"http://" + host + "/api/d3/data/" + param);
 
-            if (b_parse.Visible)
-            {
-                WebProxy myProxy = new WebProxy("localhost", 4001);
-                myProxy.BypassProxyOnLocal = true;
-                req_item.Proxy = myProxy;
-            }
-            else
-            {
+            //if (b_parse.Visible)
+            //{
+            //    WebProxy myProxy = new WebProxy("localhost", 4001);
+            //    myProxy.BypassProxyOnLocal = true;
+            //    req_item.Proxy = myProxy;
+            //}
+            //else
+            //{
                 IWebProxy myProxy = WebRequest.DefaultWebProxy;
                 myProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
                 req_item.Proxy = myProxy;
-            }
+            //}
 
             System.Net.WebResponse resp = req_item.GetResponse();
             System.IO.Stream stream = resp.GetResponseStream();
-            System.IO.StreamReader sr = new System.IO.StreamReader(stream);
-           
-            return sr;
+            //System.IO.StreamReader 
+            string text;
+            using (sr = new System.IO.StreamReader(stream)) text=sr.ReadToEnd();
+            return text;
         }
 
         private void web_req()
@@ -1160,6 +1295,7 @@ namespace DPS_Diablo3
             string battletag_code = "";
             string battletag_www = "";
             string hero_id = "";
+            string profile_www = "";
 
             int g = 0, h = 0;
             noprof_cc = 0;
@@ -1189,24 +1325,25 @@ namespace DPS_Diablo3
                 battletag_www = "http://" + host + "/api/d3/profile/" + battletag_name + "-" + battletag_code + "/hero/" + hero_id;
                 System.Net.WebRequest req_hero = System.Net.WebRequest.Create(battletag_www);
 
-                if (b_parse.Visible)
-                {
-                    WebProxy myProxy = new WebProxy("localhost", 4001);
-                    myProxy.BypassProxyOnLocal = true;
-                    req_hero.Proxy = myProxy;
-                }
-                else
-                {
+                //if (b_parse.Visible)
+                //{
+                //    WebProxy myProxy = new WebProxy("localhost", 4001);
+                //    myProxy.BypassProxyOnLocal = true;
+                //    req_hero.Proxy = myProxy;
+                //}
+                //else
+                //{
                     IWebProxy myProxy = WebRequest.DefaultWebProxy;
                     myProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
                     req_hero.Proxy = myProxy;
-                }
+                //}
 
                 try
                 {
                     System.Net.WebResponse resp = req_hero.GetResponse();
                     System.IO.Stream stream = resp.GetResponseStream();
-                    System.IO.StreamReader sr = new System.IO.StreamReader(stream);
+                    //System.IO.StreamReader 
+                    using(sr = new System.IO.StreamReader(stream))
                     hero_parse = sr.ReadToEnd();
                 }
                 catch (WebException webEx)
@@ -1221,6 +1358,118 @@ namespace DPS_Diablo3
                 else if (hero_parse.Length>20)
                 {
                     skill_damage = "100"; phys_up = ""; dps_min = ""; aps_item = ""; dps_min_off = ""; phys_up_off = ""; aps_item_off = "";
+
+                    //if (b_parse.Visible == true)
+                    //{
+                        profile_www = "http://" + host + "/api/d3/profile/" + battletag_name + "-" + battletag_code + "/";
+                        System.Net.WebRequest req_profile = System.Net.WebRequest.Create(profile_www);
+                        //IWebProxy myProxy = WebRequest.DefaultWebProxy;
+                        //myProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
+                        req_profile.Proxy = myProxy;
+                        System.Net.WebResponse resp = req_profile.GetResponse();
+                        System.IO.Stream stream = resp.GetResponseStream();
+                        //System.IO.StreamReader 
+                        using(sr = new System.IO.StreamReader(stream))
+                        profile_parse = sr.ReadToEnd();
+
+                        //string path = @"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\Profile_1.txt";
+                        //System.IO.File.WriteAllText(path, profile_parse);
+
+                        pars_profile = profile_parse.Split('\n');  //парсим строку и получаем стринговый массив
+
+                        //MessageBox.Show(pars_profile[4].Replace(@"""id"" :", "").Replace(",", "").Trim());
+
+                        id = new List<string>() { };
+                        updated = new List<int>() { };
+
+                        SortedList<string, string> id_upd = new SortedList<string, string>();
+                        string id_s = "", name="";
+                        //int upd_s = 0;
+
+                        for (int i = 0; i < pars_profile.Length; i++)
+                        {
+                            if (pars_profile[i].Contains(@"""name"" :")) name = pars_profile[i].Replace(@"""name"" :", "").Replace(",", "").Replace("\"", "").Trim();
+                            if (pars_profile[i].Contains(@"""id"" :")) id_s = pars_profile[i].Replace(@"""id"" :", "").Replace(",", "").Trim() + "#" + name;
+                            if (pars_profile[i].Contains("last-updated") && id_s != "")
+                            {
+                                //try { upd_s = Convert.ToInt32(pars_profile[i].Replace("\"last-updated\" :", "").Trim()); }
+                                //catch { upd_s = 0; }
+                                //id_upd.Add(Convert.ToInt32(pars_profile[i].Replace("\"last-updated\" :", "").Trim()), id_s);
+                                id_upd.Add(pars_profile[i].Replace("\"last-updated\" :", "").Trim(), id_s);
+                            }
+                            if (pars_profile[i].Contains("lastHeroPlayed")) break;
+                        }
+
+                        IEnumerable<KeyValuePair<string, string>> id_upd_r = id_upd.Reverse();
+                        cnt = 1;
+
+                        string hero_other, battletag_other;
+
+                        foreach (KeyValuePair<string, string> kvp in id_upd_r)
+                        {
+                            //MessageBox.Show("ID: " + kvp.Value + " last time: " + kvp.Key.ToString());
+                            if (Settings.Default.web1_name == "") //&& kvp.Value.Substring(0, kvp.Value.IndexOf("#")) != hero_id)
+                            {
+                                battletag_other = "http://" + host + "/api/d3/profile/" + battletag_name + "-" + battletag_code + "/hero/" + kvp.Value.Substring(0, kvp.Value.IndexOf("#"));
+                                //MessageBox.Show("Положение # " + kvp.Value.IndexOf("#").ToString() + " Длина строки: " + kvp.Value.Length.ToString());
+                                hero_other = battletag_name + "#" + battletag_code + " - " + kvp.Value.Substring(kvp.Value.IndexOf("#") + 1, kvp.Value.Length - kvp.Value.IndexOf("#") - 1);
+                                //MessageBox.Show("Герой: " + hero_other + "\nАдрес:\n" + battletag_other);
+                                if (cnt == 1)
+                                {
+                                    Settings.Default.web5_name = hero_other;
+                                    Settings.Default.web5_www = battletag_other;
+                                }
+                                if (cnt == 2)
+                                {
+                                    Settings.Default.web4_name = hero_other;
+                                    Settings.Default.web4_www = battletag_other;
+                                }
+                                if (cnt == 3)
+                                {
+                                    Settings.Default.web3_name = hero_other;
+                                    Settings.Default.web3_www = battletag_other;
+                                }
+                                if (cnt == 4)
+                                {
+                                    Settings.Default.web2_name = hero_other;
+                                    Settings.Default.web2_www = battletag_other;
+                                }
+                                if (cnt == 5)
+                                {
+                                    Settings.Default.web1_name = hero_other;
+                                    Settings.Default.web1_www = battletag_other;
+                                }
+                            }
+                            if (cnt > 4) break;
+                            cnt += 1;
+                        }
+
+                        //foreach (int i in id_upd.Keys)
+                        //{
+                        //    MessageBox.Show("ID: " + id_upd[i] + " last time: " + i.ToString());
+                        //}
+
+                        //for (int i = 0; i < pars_profile.Length; i++)
+                        //{
+                        //    if (pars_profile[i].Contains(@"""id"" :")) 
+                        //    {
+                        //        try { id.Add(pars_profile[i].Replace(@"""id"" :", "").Replace(",", "").Trim()); }
+                        //        catch { id.Add("0"); }
+                        //    }
+                        //    if (pars_profile[i].Contains("last-updated")) 
+                        //    {
+                        //        try { updated.Add(Convert.ToInt32(pars_profile[i].Replace("\"last-updated\" :", "").Trim())); }
+                        //        catch { updated.Add(0); }
+                        //    }
+                        //    if (pars_profile[i].Contains("lastHeroPlayed")) break;
+                        //}
+
+                        //for (int i = 0; i < id.Count; i++)
+                        //{
+                        //    //MessageBox.Show("ID: " + id[i] + " last time: " + updated[i].ToString());
+
+                        //}    
+                    //}
 
                     pars_hero = hero_parse.Split('\n');  //парсим строку и получаем стринговый массив
 
@@ -1334,18 +1583,21 @@ namespace DPS_Diablo3
                     ; damage_min = 0; damage_max = 0; elem_all = 0; aps = 0; aps_up = 0; aps_up_off = 0; aps_off = 0; damage_min_off = 0; damage_max_off = 0
                     ; crit_damage = 0; crit_chance = 0; elite_damage = 0; off_crit_chance = 0; off_del_Physical = 0; off_min_Physical = 0
                     ; rings_count = 0; r1_del_Physical = 0; r1_min_Physical = 0; r2_del_Physical = 0; r2_min_Physical = 0; am_del_Physical = 0; am_min_Physical = 0
-                    ; from_skl = 0; coold_pass = 0;
+                    ; from_skl = 0; from_skl_prof = 0; coold_pass = 0; sockets = 0; finery = 0;
 
                     //head_parse = ""; torso_parse = ""; feet_parse = ""; hands_parse = ""; shoulders_parse = ""; legs_parse = ""; bracers_parse = ""; mainHand_parse = ""; offHand_parse = ""; waist_parse = ""; rightFinger_parse = ""; leftFinger_parse = ""; neck_parse = "";
 
                     set_parse();
                     pers_name = pers.name + " - " + pers.paragonLevel;
                     para_lvl = pers.paragonLevel;
+                    two_handed = false;
+
+                    //MessageBox.Show("Увеличение скорости атаки: " + aps_up.ToString());
 
                     if (pers.items.mainHand != null)
                     {
                         mainHand = pers.items.mainHand.tooltipParams;
-                        mainHand_parse = webresp(mainHand).ReadToEnd();
+                        mainHand_parse = webresp(mainHand);//.ReadToEnd();
                         if (mainHand_parse.Contains("Critical Hit Damage Increased by 130")) crit_damage = crit_damage + 130;
                         if (mainHand_parse.Contains("Critical Hit Damage Increased by 125")) crit_damage = crit_damage + 125;
                         if (mainHand_parse.Contains("Critical Hit Damage Increased by 120")) crit_damage = crit_damage + 120;
@@ -1356,22 +1608,31 @@ namespace DPS_Diablo3
                         if (mainHand_parse.Contains("Flawless Imperial Diamond")) elite_damage = elite_damage + 18;
                         if (mainHand_parse.Contains("Imperial Diamond")) elite_damage = elite_damage + 17;
                         if (mainHand_parse.Contains("Marquise Diamond")) elite_damage = elite_damage + 16;
+                        if (mainHand_parse.Contains("\"twoHanded\" : true")) two_handed = true;
                         mh();
                     }
-
 
                     foreach (string pass in passive_skill)
                     {
                         //Barbarian
-                        if (pass == "Berserker Rage") from_skl += 25;
+                        if (pass == "Berserker Rage")
+                        {
+                            from_skl += 25;
+                            from_skl_prof += 25;
+                        }
                         if (pass == "No Escape") from_skl += 25;
                         if (pass == "Brawler") from_skl += 20;
                         if (pass == "Weapons Master" && (weapon_id.Contains("Sword") || weapon_id.Contains("Dagger"))) from_skl += 8;
                         if (pass == "Weapons Master" && (weapon_id.Contains("Mace") || weapon_id.Contains("Axe"))) off_crit_chance += 5;
                         if (pass == "Weapons Master" && (weapon_id.Contains("Polearm") || weapon_id.Contains("Spear"))) aps_up += 8;
                         //Crusader
+                        if (pass == "Finery") finery = 1;
                         if (pass == "Blunt" || pass == "Towering Shield") from_skl += 20;
-                        if (pass == "Holy Cause") from_skl += 10;
+                        if (pass == "Holy Cause")
+                        {
+                            from_skl += 10;
+                            from_skl_prof += 10;
+                        }
                         if (pass == "Fanaticism")
                         {
                             aps_up += 15;
@@ -1382,7 +1643,7 @@ namespace DPS_Diablo3
                             aps_up += 15;
                             coold_pass += 15;
                         }
-                        if (pass == "Lord Commander") coold_pass += 35;
+                        //if (pass == "Lord Commander") coold_pass += 35;
                         //Demon Hunter
                         if (pass == "Steady Aim" || pass == "Cull the Weak") from_skl += 20;
                         if (pass == "Archery" && weapon_id.Contains("Bow")) from_skl += 8;
@@ -1418,6 +1679,7 @@ namespace DPS_Diablo3
                         }
                         //Crusader
                         if (act == "Laws of Valor") aps_up += 8;
+                        if (act == "Akarat's Champion" && akkhan) from_skl += 35;
                         //Demon Hunter
                         if (act == "Marked for Death") from_skl += 20;
                         //Monk
@@ -1439,10 +1701,12 @@ namespace DPS_Diablo3
                         if (act == "Energy Armor") foreach (string rune in active_skill_rune) if (rune == "Pinpoint Barrier") off_crit_chance += 5;
                     }
 
+                    int amount=0;
+
                     if (pers.items.offHand != null)
                     {
                         offHand = pers.items.offHand.tooltipParams;
-                        offHand_parse = webresp(offHand).ReadToEnd();
+                        offHand_parse = webresp(offHand);//.ReadToEnd();
                         if (offHand_parse.Contains("Critical Hit Damage Increased by 130")) crit_damage = crit_damage + 130;
                         if (offHand_parse.Contains("Critical Hit Damage Increased by 125")) crit_damage = crit_damage + 125;
                         if (offHand_parse.Contains("Critical Hit Damage Increased by 120")) crit_damage = crit_damage + 120;
@@ -1453,84 +1717,93 @@ namespace DPS_Diablo3
                         if (offHand_parse.Contains("Flawless Imperial Diamond")) elite_damage = elite_damage + 18;
                         else if (offHand_parse.Contains("Imperial Diamond")) elite_damage = elite_damage + 17;
                         if (offHand_parse.Contains("Marquise Diamond")) elite_damage = elite_damage + 16;
+                        if (offHand_parse.Contains("Marquise Diamond")) elite_damage = elite_damage + 16;
+                        amount = new Regex(@"transmogItem[\s\S]*Shield_105").Matches(offHand_parse).Count;
+                        //MessageBox.Show(amount.ToString());
+                        //!offHand_parse.Contains("\"transmogItem\" : {\n\"id\" : \"Unique_Shield_105_x1\"")
+                        if (two_handed && amount < 1 && offHand_parse.Contains("Hellskull"))
+                        {
+                            from_skl += 10;
+                            from_skl_prof += 10;
+                        }
                         offh(offHand_parse);
                     }
 
                     if (pers.items.head != null)
                     {
                         head = pers.items.head.tooltipParams;
-                        head_parse = webresp(head).ReadToEnd();
+                        head_parse = webresp(head);//.ReadToEnd();
                         offh(head_parse);
+                    }
+
+                    if (pers.items.shoulders != null)
+                    {
+                        shoulders = pers.items.shoulders.tooltipParams;
+                        shoulders_parse = webresp(shoulders);//.ReadToEnd();
+                        offh(shoulders_parse);
+                    }
+
+                    if (pers.items.hands != null)
+                    {
+                        hands = pers.items.hands.tooltipParams;
+                        hands_parse = webresp(hands);//.ReadToEnd();
+                        offh(hands_parse);
+                    }
+
+                    if (pers.items.neck != null)
+                    {
+                        neck = pers.items.neck.tooltipParams;
+                        neck_parse = webresp(neck);//.ReadToEnd();
+                        offh(neck_parse);
+                    }
+
+                    if (pers.items.leftFinger != null)
+                    {
+                        leftFinger = pers.items.leftFinger.tooltipParams;
+                        leftFinger_parse = webresp(leftFinger);//.ReadToEnd();
+                        offh(leftFinger_parse);
+                    }
+
+                    if (pers.items.rightFinger != null)
+                    {
+                        rightFinger = pers.items.rightFinger.tooltipParams;
+                        rightFinger_parse = webresp(rightFinger);//.ReadToEnd();
+                        offh(rightFinger_parse);
                     }
 
                     if (pers.items.torso != null)
                     {
                         torso = pers.items.torso.tooltipParams;
-                        torso_parse = webresp(torso).ReadToEnd();
+                        torso_parse = webresp(torso);//.ReadToEnd();
                         offh(torso_parse);
                     }
 
                     if (pers.items.feet != null)
                     {
                         feet = pers.items.feet.tooltipParams;
-                        feet_parse = webresp(feet).ReadToEnd();
+                        feet_parse = webresp(feet);//.ReadToEnd();
                         offh(feet_parse);
-                    }
-
-                    if (pers.items.hands != null)
-                    {
-                        hands = pers.items.hands.tooltipParams;
-                        hands_parse = webresp(hands).ReadToEnd();
-                        offh(hands_parse);
-                    }
-
-                    if (pers.items.shoulders != null)
-                    {
-                        shoulders = pers.items.shoulders.tooltipParams;
-                        shoulders_parse = webresp(shoulders).ReadToEnd();
-                        offh(shoulders_parse);
                     }
 
                     if (pers.items.legs != null)
                     {
                         legs = pers.items.legs.tooltipParams;
-                        legs_parse = webresp(legs).ReadToEnd();
+                        legs_parse = webresp(legs);//.ReadToEnd();
                         offh(legs_parse);
                     }
 
                     if (pers.items.bracers != null)
                     {
                         bracers = pers.items.bracers.tooltipParams;
-                        bracers_parse = webresp(bracers).ReadToEnd();
+                        bracers_parse = webresp(bracers);//.ReadToEnd();
                         offh(bracers_parse);
                     }
 
                     if (pers.items.waist != null)
                     {
                         waist = pers.items.waist.tooltipParams;
-                        waist_parse = webresp(waist).ReadToEnd();
+                        waist_parse = webresp(waist);//.ReadToEnd();
                         offh(waist_parse);
-                    }
-
-                    if (pers.items.rightFinger != null)
-                    {
-                        rightFinger = pers.items.rightFinger.tooltipParams;
-                        rightFinger_parse = webresp(rightFinger).ReadToEnd();
-                        offh(rightFinger_parse);
-                    }
-
-                    if (pers.items.leftFinger != null)
-                    {
-                        leftFinger = pers.items.leftFinger.tooltipParams;
-                        leftFinger_parse = webresp(leftFinger).ReadToEnd();
-                        offh(leftFinger_parse);
-                    }
-
-                    if (pers.items.neck != null)
-                    {
-                        neck = pers.items.neck.tooltipParams;
-                        neck_parse = webresp(neck).ReadToEnd();
-                        offh(neck_parse);
                     }
 
                     if (b_parse.Visible)
@@ -1583,7 +1856,11 @@ namespace DPS_Diablo3
             DataContractJsonSerializer json = new DataContractJsonSerializer(typeof(MainHand));
             MainHand mh = (MainHand)json.ReadObject(TheStream);
 
-            cdr = new Double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            if (mainHand_parse.Contains("\"Sockets\" : {\n\"min\" : 1")) sockets += 1;
+            if (mainHand_parse.Contains("\"Sockets\" : {\n\"min\" : 2")) sockets += 2;
+            if (mainHand_parse.Contains("\"Sockets\" : {\n\"min\" : 3")) sockets += 3;
+
+            //cdr = new Double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             cdr_n = 0;
 
             string[] pars_mh = mainHand_parse.Split('\n');  //парсим строку и получаем стринговый массив
@@ -1667,10 +1944,13 @@ namespace DPS_Diablo3
 
         public void offh(string forparse)
         {
-
+            if (forparse.Contains("\"Sockets\" : {\n\"min\" : 1")) sockets += 1;
+            if (forparse.Contains("\"Sockets\" : {\n\"min\" : 2")) sockets += 2;
+            if (forparse.Contains("\"Sockets\" : {\n\"min\" : 3")) sockets += 3;
             //if (forparse == head_parse) MessageBox.Show(head_parse.Length.ToString());
 
             int cdr_flag = 0;
+            cdr_n += 1;
 
             string [] pars_item = forparse.Split('\n');  //парсим строку и получаем стринговый массив
 
@@ -1679,7 +1959,6 @@ namespace DPS_Diablo3
                 if (pars_item[i].Contains("Captain Crimson's") || pars_item[i].Contains("Born's")) cdr_flag = 1;
                 if (pars_item[i].Contains("Reduces cooldown of all skills by") && (cdr_flag == 0 || !pars_item[i].Contains("10.0%")))
                 {
-                    cdr_n += 1;
                     int start = pars_item[i].IndexOf(@"Reduces cooldown of all skills by") + 34;
                     int end = pars_item[i].IndexOf(@"%");
                     try {cdr[cdr_n] = Convert.ToDouble(pars_item[i].Substring(start, end - start).Replace(".", sep));} catch { }
@@ -1815,15 +2094,19 @@ namespace DPS_Diablo3
             web_choice();
             //MessageBox.Show(Settings.Default.web1_name);
 
+            if (finery == 1) finery = ((sockets * 1.5) / 100 + 1); else finery = 1;
+
+            //MessageBox.Show("Сокетов всего: " + sockets.ToString() + " Finery: " + finery.ToString() + " Mainstat: " + mainstat + " Итого: " + Math.Round(mainstat * finery).ToString());
+
             p_lvl = para_lvl;
             tsmi_clear_Click(null,null);
             lb_para_lvl.Text = p_lvl;
 
-            if (lb_adv.Text == "def") b_adv.PerformClick();
+            //if (lb_adv.Text == "def") b_adv.PerformClick();
             
             if (skill_damage != "") tb_skill1.Text = skill_damage;
             if (skill_damage != "") tb_skill.Text = skill_damage;
-            if (mainstat != 0) tb_main.Text = mainstat.ToString();
+            if (mainstat != 0) tb_main.Text = Math.Round(mainstat * finery).ToString();
             if (phys_up != "") tb_dmg1_p.Text = (Math.Round(Convert.ToDouble(phys_up.Replace(".", sep)), 2) * 100).ToString().Replace(sep, ".");
             if (phys_up != "") Readonly_clear(tb_dmg1_p, null);//tb_dmg1_p_MouseClick_1(null, null);
             if (damage_min != 0) tb_dmg1_1_a.Text = damage_min.ToString().Replace(sep, ".");
@@ -1866,7 +2149,7 @@ namespace DPS_Diablo3
             }
             if (from_skl > 0) tb_fromskills.Text = from_skl.ToString().Replace(sep, ".");
 
-            this.Text = this.Text + "                                            " + pers_name;
+            if (!this.Text.Contains(pers_name)) this.Text = this.Text + "                                            " + pers_name;
             cooldown_import();
             b_start.PerformClick();
         }
@@ -1946,8 +2229,8 @@ namespace DPS_Diablo3
             System.Net.WebRequest req_ver = System.Net.WebRequest.Create(@"https://github.com/DmitryOlenin/DPS_Diablo3");
             System.Net.WebResponse resp = req_ver.GetResponse();
             System.IO.Stream stream = resp.GetResponseStream();
-            System.IO.StreamReader sr = new System.IO.StreamReader(stream);
-
+            //System.IO.StreamReader 
+            sr = new System.IO.StreamReader(stream);
             string test = sr.ReadToEnd();
 
 
@@ -2083,9 +2366,14 @@ namespace DPS_Diablo3
 
         private void tsmi_qload_Click(object sender, EventArgs e)
         {
+            pers_name = Settings.Default.pers_name;
+            if (!this.Text.Contains(pers_name)) this.Text = this.Text + "                                            " + pers_name;
+
             //if (Settings.Default.lb_para_lvl != "" && frm_para.Visible != true) cb_paragon_CheckedChanged(null, null);//paragonToolStripMenuItem_Click(null, null);
             //paragon();            
             foreach (NumericUpDown nud in frm_para.Controls.OfType<NumericUpDown>()) nud.Value = 0;
+
+            from_skl_prof = Convert.ToInt16(Settings.Default.from_skl_prof);
 
             List<TextBox> form_box = new List<TextBox> { tb_damage1, tb_ac1, tb_main, tb_acincr, tb_cc, tb_cd, tb_off_min, tb_off_max, tb_am_min, tb_am_max, tb_r1_min, tb_r1_max, tb_r2_min, tb_r2_max, tb_fromskills, tb_elem, tb_toskill, tb_elite, tb_skill, tb_dmg1_1_a, tb_dmg1_2_a, tb_skill1, tb_elem1, tb_toskill1, tb_dmg1_w, tb_dmg2_w };
             List<string> set_box = new List<string> { Settings.Default.tb_damage1, Settings.Default.tb_ac1, Settings.Default.tb_main, Settings.Default.tb_acincr, Settings.Default.tb_cc, Settings.Default.tb_cd, Settings.Default.tb_off_min, Settings.Default.tb_off_max, Settings.Default.tb_am_min, Settings.Default.tb_am_max, Settings.Default.tb_r1_min, Settings.Default.tb_r1_max, Settings.Default.tb_r2_min, Settings.Default.tb_r2_max, Settings.Default.tb_fromskills, Settings.Default.tb_elem, Settings.Default.tb_toskill, Settings.Default.tb_elite, Settings.Default.tb_skill, Settings.Default.tb_dmg1_1_a, Settings.Default.tb_dmg1_2_a, Settings.Default.tb_skill1, Settings.Default.tb_elem1, Settings.Default.tb_toskill1, Settings.Default.tb_dmg1_w, Settings.Default.tb_dmg2_w };
@@ -2101,8 +2389,8 @@ namespace DPS_Diablo3
                 Readonly_insert(form_box_ro[i], set_box_ro[i], 0, "ReadOnly");
             }
 
-            List<NumericUpDown> form_nud = new List<NumericUpDown> { nud_garg, nud_dogs, nud_fet, nud_elemp, nud_damp, nud_speedp, nud_main_w, nud_damp_w, nud_acp_w, nud_cd_w, nud_elem_w, nud_cooldown, nud_cdr1, nud_cdr2, nud_cdr3, nud_cdr4, nud_cdr5, nud_cdr6, nud_cdr7, nud_cdr8, nud_cdr9, nud_cdr10, nud_para_main, nud_para_as, nud_para_cdr, nud_para_cc, nud_para_cd };
-            List<decimal> set_nud = new List<decimal> { Settings.Default.nud_garg, Settings.Default.nud_dogs, Settings.Default.nud_fet, Settings.Default.nud_elemp, Settings.Default.nud_damp, Settings.Default.nud_speedp, Settings.Default.nud_main_w, Settings.Default.nud_damp_w, Settings.Default.nud_acp_w, Settings.Default.nud_cd_w, Settings.Default.nud_elem_w, Settings.Default.nud_cooldown, Settings.Default.nud_cdr1, Settings.Default.nud_cdr2, Settings.Default.nud_cdr3, Settings.Default.nud_cdr4, Settings.Default.nud_cdr5, Settings.Default.nud_cdr6, Settings.Default.nud_cdr7, Settings.Default.nud_cdr8, Settings.Default.nud_cdr9, Settings.Default.nud_cdr10, Settings.Default.nud_para_main, Settings.Default.nud_para_as, Settings.Default.nud_para_cdr, Settings.Default.nud_para_cc, Settings.Default.nud_para_cd };
+            List<NumericUpDown> form_nud = new List<NumericUpDown> { nud_garg, nud_dogs, nud_fet, nud_elemp, nud_damp, nud_speedp, nud_main_w, nud_damp_w, nud_acp_w, nud_cd_w, nud_elem_w, nud_cooldown, nud_cdr1, nud_cdr2, nud_cdr3, nud_cdr4, nud_cdr5, nud_cdr6, nud_cdr7, nud_cdr8, nud_cdr9, nud_cdr10, nud_cdr11, nud_cdr12, nud_para_main, nud_para_as, nud_para_cdr, nud_para_cc, nud_para_cd };
+            List<decimal> set_nud = new List<decimal> { Settings.Default.nud_garg, Settings.Default.nud_dogs, Settings.Default.nud_fet, Settings.Default.nud_elemp, Settings.Default.nud_damp, Settings.Default.nud_speedp, Settings.Default.nud_main_w, Settings.Default.nud_damp_w, Settings.Default.nud_acp_w, Settings.Default.nud_cd_w, Settings.Default.nud_elem_w, Settings.Default.nud_cooldown, Settings.Default.nud_cdr1, Settings.Default.nud_cdr2, Settings.Default.nud_cdr3, Settings.Default.nud_cdr4, Settings.Default.nud_cdr5, Settings.Default.nud_cdr6, Settings.Default.nud_cdr7, Settings.Default.nud_cdr8, Settings.Default.nud_cdr9, Settings.Default.nud_cdr10, Settings.Default.nud_cdr11, Settings.Default.nud_cdr12, Settings.Default.nud_para_main, Settings.Default.nud_para_as, Settings.Default.nud_para_cdr, Settings.Default.nud_para_cc, Settings.Default.nud_para_cd };
 
             for (int i = 0; i < form_nud.Count; i++)
             {
@@ -2163,6 +2451,22 @@ namespace DPS_Diablo3
 
         private void tsmi_clear_Click(object sender, EventArgs e)
         {
+            result_old = 0;
+            nud_as_dps.Value = 1; //lb_ac.Visible = false;
+            nud_stat_dps.Value = 100; //lb_main.Visible = false;
+            nud_cc_dps.Value = 1; //lb_cc.Visible = false;
+            nud_cd_dps.Value = 10; //lb_cd.Visible = false;
+            nud_elem_dps.Value = 1; //lb_elem.Visible = false;
+            nud_dmg_dps.Value = 10; //lb_dmg.Visible = false;
+            nud_elite_dps.Value = 1; //lb_elite.Visible = false; 
+
+            foreach (Label lb in gb_increase.Controls.OfType<Label>())
+            {
+                //int amount = new Regex("_").Matches(lb.Name).Count;
+                //if (amount < 2) lb.Visible = false; 
+                if ((lb.Name.Length - lb.Name.Replace("_", "").Length) / "_".Length < 2) lb.Visible = false; 
+            }
+
             lb_changed.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             lb_result.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             lb_result_profile.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -2253,7 +2557,7 @@ namespace DPS_Diablo3
             Lang();
 
             foreach (NumericUpDown numud in frm_para.Controls.OfType<NumericUpDown>()) numud.Value = 0;
-            para_lvl = ""; lb_para_lvl.Text = "";
+            para_lvl = ""; lb_para_lvl.Text = ""; lb_curr_lvl.Text = "";
         }
 
         private void tsmi_adv_Click(object sender, EventArgs e)
@@ -2594,7 +2898,7 @@ namespace DPS_Diablo3
                 b_para_cd.Click += new EventHandler(maxvalue);
                 frm_para.Controls.Add(b_para_cd);
 
-                ypos += 29;
+                ypos += 27;
                 lb_para.Location = new Point(1, ypos);
                 lb_para.AutoSize = true;
                 lb_para.Text = lng.lb_paragon;
@@ -2606,12 +2910,25 @@ namespace DPS_Diablo3
                 //lb_para_lvl.Text = para_lvl;
                 frm_para.Controls.Add(lb_para_lvl);
 
-                ypos += 25;
+                ypos += 17;
+                lb_curr.Location = new Point(1, ypos);
+                lb_curr.AutoSize = true;
+                lb_curr.Text = lng.lb_curr;
+                frm_para.Controls.Add(lb_curr);
+
+                lb_curr_lvl.Location = new Point(115, ypos);
+                lb_curr_lvl.AutoSize = true;
+                //lb_curr_lvl.Text = p_lvl.Trim();
+                //lb_para_lvl.Text = para_lvl;
+                frm_para.Controls.Add(lb_curr_lvl);
+
+                ypos += 21;
                 b_para_save.Location = new Point(18, ypos);
                 b_para_save.Name = "para_save";
                 b_para_save.Text = "Save";
                 b_para_save.Click += new EventHandler(b_para_save_Click);
                 frm_para.Controls.Add(b_para_save);
+
                 b_para_load.Location = new Point(110, ypos);
                 b_para_load.Name = "para_load";
                 b_para_load.Text = "Load";
@@ -2763,6 +3080,10 @@ namespace DPS_Diablo3
             Paragon.Default.lb_para_lvl = lb_para_lvl.Text;
             Paragon.Default.Save();
 
+            //cb_paragon.Checked = !cb_paragon.Checked;
+            //frm_para_Deactivate(null, null);
+            lb_as_dps.Focus();
+
             //MessageBox.Show(Paragon.Default.lb_para_lvl.ToString());
         }
 
@@ -2827,7 +3148,8 @@ namespace DPS_Diablo3
                     curr_para = 0;
                 }
 
-                lb_para_lvl.Text = p_lvl.Trim() + " (" + curr_para.ToString() + ")";
+                lb_para_lvl.Text = p_lvl.Trim();// +" (" + curr_para.ToString() + ")";
+                lb_curr_lvl.Text = curr_para.ToString();
 
                 //MessageBox.Show(nud_sender.Name);
                 if (nud_sender.Name == "para_cdr") this.nud_cdr11.Value = nud_sender.Value;
@@ -2858,6 +3180,8 @@ namespace DPS_Diablo3
             else cb_paragon.Image = Resources.strelka_open;
             
             cb_paragon.Refresh();
+
+            //label1.Text = cb_paragon.CheckState.ToString();
 
             if (Environment.OSVersion.Version.Major >= 6 && DwmIsCompositionEnabled())
             {

@@ -994,5 +994,53 @@ namespace DPS_Diablo3.Properties {
                 this["web5_www"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal nud_cdr11 {
+            get {
+                return ((decimal)(this["nud_cdr11"]));
+            }
+            set {
+                this["nud_cdr11"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal nud_cdr12 {
+            get {
+                return ((decimal)(this["nud_cdr12"]));
+            }
+            set {
+                this["nud_cdr12"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public string from_skl_prof {
+            get {
+                return ((string)(this["from_skl_prof"]));
+            }
+            set {
+                this["from_skl_prof"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string pers_name {
+            get {
+                return ((string)(this["pers_name"]));
+            }
+            set {
+                this["pers_name"] = value;
+            }
+        }
     }
 }

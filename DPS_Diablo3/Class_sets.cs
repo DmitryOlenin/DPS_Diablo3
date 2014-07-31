@@ -24,12 +24,13 @@ namespace DPS_Diablo3
     public partial class dps_diablo : Form
     {
 
-        List<string> main500 = new List<string> { "Jade Harvester", "Vyr", "Marauder", "Inna", "Akkhan", "Firebird", "Helltooth" };
+        List<string> main500 = new List<string> { "Jade Harvester", "Vyr", "Marauder", "Inna", "of Akkhan", "Firebird", "Helltooth" };
         List<string> main250 = new List<string> { "Chantodo", "Manajuma", "Sage", "Shenlong", "Zunimassa", "Natalya" };
         List<string> storms_set = new List<string> { "Eight-Demon Boots", "Fists of Thunder", "Heart of the Crashing Wave", "Mantle of the Upside-Down Sinners", "Mask of the Searing Sky", "Scales of the Dancing Serpent" };
 
         public void set_parse()
         {
+            akkhan = false;
             int set = 0; int rorg = 0;
 
             for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains("Ring of Royal Grandeur")) rorg += 1;
@@ -69,9 +70,9 @@ namespace DPS_Diablo3
             for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains("Blackthorne")) set += 1;
             if (set > 1) elite_damage = elite_damage + 10;
             set = 0;
-            
-            for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains("Hallowed")) set += 1;
-            if (set > 1) aps_up = aps_up + 5;
+
+            for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains("T12_Legendary_Set_Hallowed")) set += 1;
+            if (set > 3) aps_up = aps_up + 10;
             set = 0;
 
             for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains("T12_Legendary_Set_Cains")) set += 1;
@@ -92,6 +93,10 @@ namespace DPS_Diablo3
             
             for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains("Bul-Kathos's Solemn Vow") || pars_hero[i].Contains("Bul-Kathos's Warrior Blood")) set += 1;
             if (set > 1) mainstat = mainstat + 250;
+            set = 0;
+
+            for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains("of Akkhan")) set += 1;
+            if ((set > 5) || (set > 4 && rorg != 0)) akkhan = true;
             set = 0;
         }
 
