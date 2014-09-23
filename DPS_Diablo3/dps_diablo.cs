@@ -34,7 +34,7 @@ namespace DPS_Diablo3
         [DllImport("user32.dll")]
         static extern void mouse_event(int dwFlags, int dx, int dy,
                               int dwData, int dwExtraInfo);
-        
+
         [Flags]
         public enum MouseEventFlags
         {
@@ -66,7 +66,7 @@ namespace DPS_Diablo3
 
         public System.IO.StreamReader sr;
 
-        public string 
+        public string
              hero_parse, profile_parse, head, torso, feet, hands, shoulders, legs, bracers, mainHand, offHand, waist, rightFinger, leftFinger, neck
             , head_parse, torso_parse, feet_parse, hands_parse, shoulders_parse, legs_parse, bracers_parse, mainHand_parse, offHand_parse, waist_parse, rightFinger_parse, leftFinger_parse, neck_parse
             , item_parse
@@ -74,13 +74,15 @@ namespace DPS_Diablo3
             , skill_damage = "", phys_up = "", dps_min = "", aps_item = "", dps_min_off = "", phys_up_off = "", aps_item_off = ""
             , pers_name, pers_n, first_skill, weapon_id, weapon_2h, para_lvl
             , version, p_lvl = ""
+            , para_cdr = "max", para_as = "max", para_cc = "max", para_cd = "max"
+            , nud_ps_prev_imp="", nud_ps_next_imp=""
             ;
-        
+
         public double wepdamage, otherdamage, cleardamage, critdamage, overdamage, speedtotal, result, result_profile, speedtotal_profile, critdamage_profile,
             wepdamage_wd, otherdamage_wd, cleardamage_wd, critdamage_wd, overdamage_wd, speedtotal_wd, result_wd, petdamage_wd, skill_wd,
               damage1, damage2, ac1, ac2, main, acincr, cc, cd, off_min, off_max, am_min, am_max,
               r1_min, r1_max, r2_min, r2_max, other_min, other_max, fromskills, elem, toskill, elite, skill,
-              result_old=0, result_old_wd,
+              result_old = 0, result_old_wd,
               dmg1_1, dmg1_2, dmg2_1, dmg2_2, ac1_a, ac2_a, dmg1_p, dmg2_p, ac1_p, ac2_p, dmg1_1_a, dmg1_2_a, dmg2_1_a, dmg2_2_a,
               skill1_usage, skill2_usage, skill1, skill2, elem1, elem2, toskill1, toskill2, ac1w, elite1, elite1w,
               coold, cdr_all, skill_base, skill_other
@@ -91,24 +93,26 @@ namespace DPS_Diablo3
               , crit_damage = 0, crit_chance = 0, elite_damage = 0, off_crit_chance = 0, off_del_Physical = 0, off_min_Physical = 0
               , rings_count = 0, r1_del_Physical = 0, r1_min_Physical = 0, r2_del_Physical = 0, r2_min_Physical = 0, am_del_Physical = 0, am_min_Physical = 0
               , cooldown, finery
-              , ver = 2.3
+              , ver = 2.4
+              , acincr_s, cc_s, cd_s
+              , from_skl
               ;
 
         public bool para_check = false, right_hold = false, left_cdr = false, two_handed = false, akkhan = false;
 
-        public Double[] cdr = new Double[] {0,0,0,0,0,0,0,0,0,0,0};
+        public Double[] cdr = new Double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
         public Class_lang lng = new Class_lang();
-        
-        public int mainstat = 0, to_skl = 0, cnt = 0, from_skl, from_skl_prof=0, cdr_n=0, para_level = 0, level1 = 0, level2 = 0, noprof_cc = 0, noprof_as=0,
-            sockets;
 
-        decimal lev2 = 0, curr_para = 0, prev_para = 0, coold_pass=0;
+        public int mainstat = 0, to_skl = 0, cnt = 0, from_skl_prof = 0, cdr_n = 0, para_level = 0, level1 = 0, level2 = 0, noprof_cc = 0, noprof_as = 0,
+            sockets, acincr_i=0, cc_i=0, cd_i=0, nud_ps_prev_val = 0, nud_ps_next_val = 0;
+
+        decimal lev2 = 0, curr_para = 0, prev_para = 0, coold_pass = 0;
 
         public static SettingsTable overview;
 
         public Form frm_para = new Form();
-        public Label lb_para_main = new Label();
+        //29.08.2014// public Label lb_para_main = new Label();
         public Label lb_para_as = new Label();
         public Label lb_para_cdr = new Label();
         public Label lb_para_cc = new Label();
@@ -117,14 +121,14 @@ namespace DPS_Diablo3
         public Label lb_para_lvl = new Label();
         public Label lb_curr = new Label();
         public Label lb_curr_lvl = new Label();
-        public NumericUpDown nud_para_main = new NumericUpDown();
+        //29.08.2014// public NumericUpDown nud_para_main = new NumericUpDown();
         public NumericUpDown nud_para_as = new NumericUpDown();
         public NumericUpDown nud_para_cdr = new NumericUpDown();
         public NumericUpDown nud_para_cc = new NumericUpDown();
         public NumericUpDown nud_para_cd = new NumericUpDown();
         public Button b_para_save = new Button();
         public Button b_para_load = new Button();
-        public Button b_para_main = new Button();
+        //29.08.2014// public Button b_para_main = new Button();
         public Button b_para_as = new Button();
         public Button b_para_cdr = new Button();
         public Button b_para_cc = new Button();
@@ -142,7 +146,7 @@ namespace DPS_Diablo3
 
             web_choice();
 
-            pan_divider_Paint(null,null);
+            pan_divider_Paint(null, null);
 
             version = "DPS - Diablo3 ver. " + string.Format("{0:F1}", ver).ToString().Replace(sep, ".");
             this.Text = version;
@@ -151,13 +155,14 @@ namespace DPS_Diablo3
 
             //faq();
             para_form_create();
+            para_seasons_create();//22.09.2014// 
 
             //MessageBox.Show(CultureInfo.CurrentCulture.EnglishName);
             if (lb_adv.Text == "def") tsmi_adv_Click(null, null);
-            
-            #if DEBUG
+
+#if DEBUG
             b_parse.Visible = true;
-            #endif
+#endif
 
             //comb_region.SelectedIndex = 0;
             this.KeyPreview = true;
@@ -168,7 +173,7 @@ namespace DPS_Diablo3
                 else Settings.Default.bt_lang = "RUS";
                 Settings.Default.Save();
             }
-            
+
             bt_lang.Text = Settings.Default.bt_lang;
             if (bt_lang.Text == "ENG") lng.Lang_rus(); else lng.Lang_eng();
             Lang();
@@ -187,8 +192,8 @@ namespace DPS_Diablo3
             //}
 
             List<string> ro = new List<string> { "tb_dmg2_1_a", "tb_dmg2_p", "tb_dmg1_p", "tb_dmg2_2_a", "tb_skill2", "tb_skill1_usage", "tb_skill2_usage", "tb_damage2", "tb_ac2", "tb_toskill2", "tb_elem2", "tb_ac1_p", "tb_ac2_p", "tb_pers" };
-            List<string> click_dot = new List<string> { "tb_damage1", "tb_damage2", "tb_ac1", "tb_ac2", "tb_acincr", "tb_cc", "tb_cd" };
-            List<string> click = new List<string> { "tb_fromskills", "tb_elem", "tb_toskill", "tb_elite", "tb_skill", "tb_main", "tb_off_min", "tb_off_max", "tb_am_min", "tb_am_max", "tb_r1_min", "tb_r1_max", "tb_r2_min", "tb_r2_max", "tb_dmg1_1_a", "tb_dmg1_2_a", "tb_dmg2_1_a", "tb_dmg2_2_a", "tb_dmg1_p", "tb_dmg2_p", "tb_skill_usage", "tb_skill2_usage", "tb_skill1", "tb_skill2", "tb_toskill2", "tb_elem2", "tb_toskill1", "tb_elem1", "tb_ac1_p", "tb_ac2_p", "tb_dmg1_w", "tb_dmg2_w" };
+            List<string> click_dot = new List<string> { "tb_damage1", "tb_damage2", "tb_ac1", "tb_ac2", "tb_acincr", "tb_cc", "tb_cd", "tb_fromskills" };
+            List<string> click = new List<string> { "tb_elem", "tb_toskill", "tb_elite", "tb_skill", "tb_main", "tb_off_min", "tb_off_max", "tb_am_min", "tb_am_max", "tb_r1_min", "tb_r1_max", "tb_r2_min", "tb_r2_max", "tb_dmg1_1_a", "tb_dmg1_2_a", "tb_dmg2_1_a", "tb_dmg2_2_a", "tb_dmg1_p", "tb_dmg2_p", "tb_skill_usage", "tb_skill2_usage", "tb_skill1", "tb_skill2", "tb_toskill2", "tb_elem2", "tb_toskill1", "tb_elem1", "tb_ac1_p", "tb_ac2_p", "tb_dmg1_w", "tb_dmg2_w" };
 
             foreach (Control control in this.Controls.OfType<TextBox>())
             {
@@ -230,15 +235,19 @@ namespace DPS_Diablo3
             gb_increase.MouseClick += new MouseEventHandler(dps_diablo_MouseClick);
             foreach (Label lb in gb_increase.Controls.OfType<Label>()) lb.MouseClick += new MouseEventHandler(dps_diablo_MouseClick);
             foreach (Control control in this.Controls.OfType<Panel>())
-                foreach (Label lb in control.Controls.OfType<Label>()) lb.MouseClick += new MouseEventHandler(dps_diablo_MouseClick);                
+                foreach (Label lb in control.Controls.OfType<Label>()) lb.MouseClick += new MouseEventHandler(dps_diablo_MouseClick);
 
             foreach (NumericUpDown nud in gb_increase.Controls.OfType<NumericUpDown>())
+            {
                 nud.ValueChanged += new EventHandler(nud_inc_ValueChanged);
+                nud.TextChanged += new EventHandler(nud_inc_ValueChanged);
+            }
+
         }
 
         void dps_diablo_MouseClick(object sender, MouseEventArgs e)
         {
-            if (left_cdr == true) nud_cdr_ValueChanged(null,null);
+            if (left_cdr == true) nud_cdr_ValueChanged(null, null);
             left_cdr = false;
         }
 
@@ -254,7 +263,12 @@ namespace DPS_Diablo3
 
         void nud_inc_ValueChanged(object sender, EventArgs e)
         {
-            if (result > 0) b_start_Click(null,null);//incr_stats(((NumericUpDown)sender).Name);
+            var nud = (NumericUpDown)sender;
+            if (result > 0)
+            {
+                b_start_Click(null, null);//incr_stats(((NumericUpDown)sender).Name);
+                nud.Focus();
+            }
         }
 
         public void White()
@@ -321,6 +335,7 @@ namespace DPS_Diablo3
             Settings.Default.nud_acp_w = nud_acp_w.Value;
             Settings.Default.nud_cd_w = nud_cd_w.Value;
             Settings.Default.nud_elem_w = nud_elem_w.Value;
+            Settings.Default.nud_elite_w = nud_elite_w.Value;
             Settings.Default.nud_cooldown = nud_cooldown.Value;
             Settings.Default.nud_cdr1 = nud_cdr1.Value;
             Settings.Default.nud_cdr2 = nud_cdr2.Value;
@@ -334,6 +349,7 @@ namespace DPS_Diablo3
             Settings.Default.nud_cdr10 = nud_cdr10.Value;
             Settings.Default.nud_cdr11 = nud_cdr11.Value;
             Settings.Default.nud_cdr12 = nud_cdr12.Value;
+            Settings.Default.nud_cdr13 = nud_cdr13.Value;
             Settings.Default.bt_lang = bt_lang.Text;
 
             overview = new SettingsTable();
@@ -366,7 +382,7 @@ namespace DPS_Diablo3
                 }
             }
 
-            Settings.Default.nud_para_main = nud_para_main.Value;
+            //29.08.2014// Settings.Default.nud_para_main = nud_para_main.Value;
             Settings.Default.nud_para_as = nud_para_as.Value;
             Settings.Default.nud_para_cdr = nud_para_cdr.Value;
             Settings.Default.nud_para_cc = nud_para_cc.Value;
@@ -461,6 +477,7 @@ namespace DPS_Diablo3
                 if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_acp_w") Settings.Default.nud_acp_w = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
                 if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_cd_w") Settings.Default.nud_cd_w = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
                 if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_elem_w") Settings.Default.nud_elem_w = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
+                if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_elite_w") Settings.Default.nud_elite_w = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
                 if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_cooldown") Settings.Default.nud_cooldown = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
                 if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_cdr1") Settings.Default.nud_cdr1 = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
                 if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_cdr2") Settings.Default.nud_cdr2 = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
@@ -474,6 +491,7 @@ namespace DPS_Diablo3
                 if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_cdr10") Settings.Default.nud_cdr10 = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
                 if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_cdr11") Settings.Default.nud_cdr11 = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
                 if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_cdr12") Settings.Default.nud_cdr12 = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
+                if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_cdr13") Settings.Default.nud_cdr13 = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
             }
 
             Settings.Default.Save();
@@ -568,6 +586,13 @@ namespace DPS_Diablo3
                 lb_elite.Text = (result - result_old).ToString("N0");
                 elite = elite - Convert.ToSingle(nud_elite_dps.Value);
             }
+            if (name == "nud_skill_dps" || name == "all")
+            {
+                fromskills = fromskills + Convert.ToSingle(nud_skill_dps.Value);
+                Calculate();
+                lb_skill.Text = (result - result_old).ToString("N0");
+                fromskills = fromskills - Convert.ToSingle(nud_skill_dps.Value);
+            }
             if (name == "nud_as_dps" || name == "all")
             {
                 acincr = acincr + Convert.ToSingle(nud_as_dps.Value);
@@ -593,11 +618,12 @@ namespace DPS_Diablo3
             {
 
                 skill_base = (skill1 * skill1_usage / 100 * ((elem1 + Convert.ToSingle(nud_elem_dps.Value)) / 100 + 1) * (toskill1 / 100 + 1));
-                skill_other = (skill2 * skill2_usage / 100 * (elem2 / 100 + 1) * (toskill2 / 100 + 1));
+                skill_other = (skill2 * skill2_usage / 100 * ((elem2 + Convert.ToSingle(nud_elem_dps.Value)) / 100 + 1) * (toskill2 / 100 + 1));
                 skill = skill_base + skill_other;
                 Calculate();
                 lb_elem.Text = (result - result_old).ToString("N0");
                 skill_base = (skill1 * skill1_usage / 100 * ((elem1) / 100 + 1) * (toskill1 / 100 + 1));
+                skill_other = (skill2 * skill2_usage / 100 * ((elem2) / 100 + 1) * (toskill2 / 100 + 1));
                 skill = skill_base + skill_other;
             }
             if (name == "nud_dmg_dps" || name == "all")
@@ -609,7 +635,7 @@ namespace DPS_Diablo3
                 other_min = other_min - Convert.ToSingle(nud_dmg_dps.Value);
                 other_max = other_max - Convert.ToSingle(nud_dmg_dps.Value);
             }
-            
+
             foreach (Label lb in gb_increase.Controls.OfType<Label>())
                 lb.Visible = true;
 
@@ -726,11 +752,11 @@ namespace DPS_Diablo3
                     }
                     skill = Convert.ToSingle(tb_skill.Text.Replace(".", sep));
                 }
-                main = Convert.ToSingle(tb_main.Text.Replace(".", sep)) + Convert.ToSingle(nud_para_main.Value);
-                acincr = Convert.ToSingle(nud_para_as.Value);
-                if (tb_acincr.Text != "") acincr += Convert.ToSingle(tb_acincr.Text.Replace(".", sep));
-                cc = Convert.ToSingle(tb_cc.Text.Replace(".", sep)) + Convert.ToSingle(nud_para_cc.Value);
-                cd = Convert.ToSingle(tb_cd.Text.Replace(".", sep)) + Convert.ToSingle(nud_para_cd.Value);
+                main = Convert.ToSingle(tb_main.Text.Replace(".", sep)); //29.08.2014// + Convert.ToSingle(nud_para_main.Value);
+                //29.08.2014// acincr = Convert.ToSingle(nud_para_as.Value);
+                if (tb_acincr.Text != "") acincr = Convert.ToSingle(tb_acincr.Text.Replace(".", sep)); else acincr = 0;
+                cc = Convert.ToSingle(tb_cc.Text.Replace(".", sep)); //29.08.2014//  +Convert.ToSingle(nud_para_cc.Value);
+                cd = Convert.ToSingle(tb_cd.Text.Replace(".", sep)); //29.08.2014//  +Convert.ToSingle(nud_para_cd.Value);
                 off_min = 0; off_max = 0; am_min = 0; am_max = 0; r1_min = 0; r1_max = 0; r2_min = 0; r2_max = 0; other_min = 0; other_max = 0;
                 if (tb_off_min.Text != "") off_min = Convert.ToSingle(tb_off_min.Text.Replace(".", sep));
                 if (tb_off_max.Text != "") off_max = Convert.ToSingle(tb_off_max.Text.Replace(".", sep));
@@ -784,8 +810,6 @@ namespace DPS_Diablo3
                     if (nud_acp_w.Value > 0) asi = Convert.ToSingle(nud_acp_w.Value);
                     if (nud_damp_w.Value > 0) dmgi = Convert.ToSingle(nud_damp_w.Value);
 
-                    //MessageBox.Show (dmg1.ToString());
-
                     //ac1w = Math.Round((ac1 * 100 / (100 + ac1_p)), 1) * ((100 + ac1_p + Convert.ToSingle(nud_acp_w.Value)) / 100);
                     //damage1 = (dmg1_1 + dmg1_2 + Convert.ToSingle(tb_dmg1_w.Text.Replace(".", sep)) + Convert.ToSingle(tb_dmg2_w.Text.Replace(".", sep))) / 2 * ac1w * ((dmg1_p + Convert.ToSingle(nud_damp_w.Value)) / 100 + 1);
 
@@ -801,7 +825,8 @@ namespace DPS_Diablo3
                     else
                     {
                         if (nud_as_w.Value > 0) ac1 = Math.Round((as1 / ((100 + ac1_p) / 100)), 1) * ((100 + asi) / 100);
-                        if (Convert.ToSingle(nud_acp_w.Value) + ac1_p == 0) ac1 = Math.Round((as1 / ((100 + ac1_p) / 100)), 1) * ((100 + 0) / 100);
+                        if (Convert.ToSingle(nud_acp_w.Value) + ac1_p == 0) ac1 = Math.Round((as1 / ((100 + ac1_p) / 100)), 2) * ((100 + 0) / 100);
+                        //MessageBox.Show(asi.ToString() + " ac1_p: " + ac1_p.ToString() + " ac1: " + ac1.ToString());
                         dmg1_1 = Math.Round(dmg1 / (dmgi / 100 + 1));
                         dmg1_2 = Math.Round(dmg2 / (dmgi / 100 + 1));
                         if (nud_damp_w.Value > 0)
@@ -818,17 +843,19 @@ namespace DPS_Diablo3
                     //damage1 = (dmg1 + dmg2) / 2 * ac1w * (dmgi / 100 + 1);
 
                     main += Convert.ToSingle(nud_main_w.Value);
-                    //elite = elite + Convert.ToSingle(nud_elite_w.Value);
+                    elite += Convert.ToSingle(nud_elite_w.Value);
                     cd += Convert.ToSingle(nud_cd_w.Value);
                     elem1 += Convert.ToSingle(nud_elem_w.Value);
+                    elem2 += Convert.ToSingle(nud_elem_w.Value);
                     skill = (skill1 * skill1_usage / 100 * (elem1 / 100 + 1) * (toskill1 / 100 + 1)) + (skill2 * skill2_usage / 100 * (elem2 / 100 + 1) * (toskill2 / 100 + 1));
                     Calculate();
                     lb_changed.Text = result.ToString("N0") + " (" + (result * 100 / result_old - 100).ToString("N2") + "%)";
                     lb_start.Text = lb_start.Text + "changed";
                 }
                 else
-                    if (nud_main.Value != 0 || nud_ac.Value != 0 || nud_cc.Value != 0 || nud_cd.Value != 0 || nud_elem.Value != 0 || nud_damage.Value != 0 || nud_elite.Value != 0)
+                    if (nud_main.Value != 0 || nud_ac.Value != 0 || nud_cc.Value != 0 || nud_cd.Value != 0 || nud_elem.Value != 0 || nud_damage.Value != 0 || nud_elite.Value != 0 || nud_skill.Value != 0)
                     {
+                        fromskills += Convert.ToSingle(nud_skill.Value);
                         main = main + Convert.ToSingle(nud_main.Value);
                         elite = elite + Convert.ToSingle(nud_elite.Value);
                         acincr = acincr + Convert.ToSingle(nud_ac.Value);
@@ -837,7 +864,7 @@ namespace DPS_Diablo3
                         if (lb_adv.Text == "adv")
                         {
                             skill_base = (skill1 * skill1_usage / 100 * ((elem1 + Convert.ToSingle(nud_elem.Value)) / 100 + 1) * (toskill1 / 100 + 1));
-                            skill_other = (skill2 * skill2_usage / 100 * (elem2 / 100 + 1) * (toskill2 / 100 + 1));
+                            skill_other = (skill2 * skill2_usage / 100 * ((elem2 + Convert.ToSingle(nud_elem.Value)) / 100 + 1) * (toskill2 / 100 + 1));
                             skill = skill_base + skill_other;
                         }
 
@@ -868,7 +895,7 @@ namespace DPS_Diablo3
             para_check = false;
             foreach (NumericUpDown nud in frm_para.Controls.OfType<NumericUpDown>())
                 if (nud.Value > 0) para_check = true;
-            if (para_check == false) cb_paragon.Text = lng.cb_paragon_off;
+            if (para_check == false && nud_cdr12.Value <= 0) cb_paragon.Text = lng.cb_paragon_off;
             else cb_paragon.Text = lng.cb_paragon;
         }
 
@@ -988,7 +1015,7 @@ namespace DPS_Diablo3
 
         private void lb_auth_Click(object sender, EventArgs e)
         {
-            if (bt_lang.Text == "ENG") System.Diagnostics.Process.Start("http://glasscannon.ru/forum/viewtopic.php?f=5&t=149");
+            if (bt_lang.Text == "ENG") System.Diagnostics.Process.Start("http://horadric.ru/forum/viewtopic.php?f=16&t=26771");
             else System.Diagnostics.Process.Start("http://www.diablofans.com/forums/diablo-iii-general-forums/diablo-iii-general-discussion/89743-offline-dps-calculator-diablo-3");
         }
 
@@ -1004,6 +1031,12 @@ namespace DPS_Diablo3
 
         public void Lang()
         {
+            lb_para_seasons_prev.Text = lng.lb_para_seasons_prev;
+            lb_para_seasons_next.Text = lng.lb_para_seasons_next;
+            lb_para_seasons_exp_prev.Text = lng.lb_para_seasons_exp_prev;
+            lb_para_seasons_exp_next.Text = lng.lb_para_seasons_exp_next;
+            lb_para_seasons_exp_sum.Text = lng.lb_para_seasons_exp_sum;
+            lb_para_seasons_exp_lvl.Text = lng.lb_para_seasons_exp_lvl;
             lb_curr.Text = lng.lb_curr;
             lb_cooldown.Text = lng.lb_cooldown;
             lb_cdr12.Text = lng.lb_cdr12;
@@ -1012,6 +1045,7 @@ namespace DPS_Diablo3
             lb_cdr78.Text = lng.lb_cdr78;
             lb_cdr910.Text = lng.lb_cdr910;
             lb_cdr1112.Text = lng.lb_cdr1112;
+            lb_cdr13.Text = lng.lb_cdr13;
             //cb_paragon.Text = lng.cb_paragon;
             gb_result.Text = lng.gb_result;
             gb_increase.Text = lng.gb_increase;
@@ -1034,6 +1068,7 @@ namespace DPS_Diablo3
             lb_acp_w.Text = lng.lb_speed_at; //lng.lb_acp_wt;
             lb_cd_w.Text = lng.lb_cd_wt;
             lb_elem_w.Text = lng.lb_elem_wt;
+            lb_elite_w.Text = lng.lb_elite_wt;
             //lb_wd.Text = lng.lb_wdt;
             lb_garg.Text = lng.lb_gargt;
             lb_dogs.Text = lng.lb_dogst;
@@ -1109,10 +1144,13 @@ namespace DPS_Diablo3
             lb_dmg_dpsi.Text = lng.lb_dpst_inc;
             lb_elite_dps.Text = lng.lb_elite_dpst;
             lb_elite_dpsi.Text = lng.lb_dpst_inc;
-            lb_eliteс.Text = lng.lb_eliteс;
+            lb_eliteс.Text = lng.lb_elitec;
+            lb_skillc.Text = lng.lb_skillc;
+            lb_skill_dps.Text = lng.lb_skill_dpst;
+            lb_skill_dpsi.Text = lng.lb_dpst_inc;
             //lb_elite_w.Text = lng.lb_eliteс;
 
-            lb_para_main.Text = lng.lb_imaint + ":";
+            //29.08.2014// lb_para_main.Text = lng.lb_imaint + ":";
             lb_para_as.Text = lng.lb_as + ":";
             lb_para_cdr.Text = lng.lb_cdr + ":";
             lb_para_cc.Text = lng.lb_icct + ":";
@@ -1208,8 +1246,9 @@ namespace DPS_Diablo3
             nud_cdr4.Value = Convert.ToDecimal(cdr[5]);
             nud_cdr5.Value = Convert.ToDecimal(cdr[6]);
             nud_cdr6.Value = Convert.ToDecimal(cdr[7]);
-            nud_cdr9.Value = Convert.ToDecimal(cdr[8]);
-            nud_cdr10.Value = Convert.ToDecimal(cdr[9]);
+            nud_cdr13.Value = Convert.ToDecimal(cdr[8]); //waist
+            nud_cdr9.Value = Convert.ToDecimal(cdr[9]);
+            nud_cdr10.Value = Convert.ToDecimal(cdr[10]);
             nud_cdr12.Value = coold_pass;
             int flag = 0;
             for (int i = 0; i < 10; i++)
@@ -1271,16 +1310,16 @@ namespace DPS_Diablo3
             //}
             //else
             //{
-                IWebProxy myProxy = WebRequest.DefaultWebProxy;
-                myProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
-                req_item.Proxy = myProxy;
+            IWebProxy myProxy = WebRequest.DefaultWebProxy;
+            myProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
+            req_item.Proxy = myProxy;
             //}
 
             System.Net.WebResponse resp = req_item.GetResponse();
             System.IO.Stream stream = resp.GetResponseStream();
             //System.IO.StreamReader 
             string text;
-            using (sr = new System.IO.StreamReader(stream)) text=sr.ReadToEnd();
+            using (sr = new System.IO.StreamReader(stream)) text = sr.ReadToEnd();
             return text;
         }
 
@@ -1333,9 +1372,9 @@ namespace DPS_Diablo3
                 //}
                 //else
                 //{
-                    IWebProxy myProxy = WebRequest.DefaultWebProxy;
-                    myProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
-                    req_hero.Proxy = myProxy;
+                IWebProxy myProxy = WebRequest.DefaultWebProxy;
+                myProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
+                req_hero.Proxy = myProxy;
                 //}
 
                 try
@@ -1343,132 +1382,164 @@ namespace DPS_Diablo3
                     System.Net.WebResponse resp = req_hero.GetResponse();
                     System.IO.Stream stream = resp.GetResponseStream();
                     //System.IO.StreamReader 
-                    using(sr = new System.IO.StreamReader(stream))
-                    hero_parse = sr.ReadToEnd();
+                    using (sr = new System.IO.StreamReader(stream))
+                        hero_parse = sr.ReadToEnd();
                 }
                 catch (WebException webEx)
                 {
                     //MessageBox.Show(webEx.Message);
-                    MessageBox.Show(webEx.Message+"\n"+lng.mess_imp, lng.warn, MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    MessageBox.Show(webEx.Message + "\n" + lng.mess_imp, lng.warn, MessageBoxButtons.OK, MessageBoxIcon.Question);
                     hero_parse = "completedQuests";
                 }
 
                 if (hero_parse.Contains("NOTFOUND")) MessageBox.Show(lng.mess_nopers, lng.warn, MessageBoxButtons.OK, MessageBoxIcon.Question);
                 else if (!(hero_parse.Contains("completedQuests"))) MessageBox.Show(lng.mess_noint, lng.warn, MessageBoxButtons.OK, MessageBoxIcon.Question);
-                else if (hero_parse.Length>20)
+                else if (hero_parse.Length > 20)
                 {
                     skill_damage = "100"; phys_up = ""; dps_min = ""; aps_item = ""; dps_min_off = ""; phys_up_off = ""; aps_item_off = "";
 
                     //if (b_parse.Visible == true)
                     //{
-                        profile_www = "http://" + host + "/api/d3/profile/" + battletag_name + "-" + battletag_code + "/";
-                        System.Net.WebRequest req_profile = System.Net.WebRequest.Create(profile_www);
-                        //IWebProxy myProxy = WebRequest.DefaultWebProxy;
-                        //myProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
-                        req_profile.Proxy = myProxy;
-                        System.Net.WebResponse resp = req_profile.GetResponse();
-                        System.IO.Stream stream = resp.GetResponseStream();
-                        //System.IO.StreamReader 
-                        using(sr = new System.IO.StreamReader(stream))
+                    profile_www = "http://" + host + "/api/d3/profile/" + battletag_name + "-" + battletag_code + "/";
+                    System.Net.WebRequest req_profile = System.Net.WebRequest.Create(profile_www);
+                    //IWebProxy myProxy = WebRequest.DefaultWebProxy;
+                    //myProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
+                    req_profile.Proxy = myProxy;
+                    System.Net.WebResponse resp = req_profile.GetResponse();
+                    System.IO.Stream stream = resp.GetResponseStream();
+                    //System.IO.StreamReader 
+                    using (sr = new System.IO.StreamReader(stream))
                         profile_parse = sr.ReadToEnd();
 
-                        //string path = @"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\Profile_1.txt";
-                        //System.IO.File.WriteAllText(path, profile_parse);
+                    //string pth = @"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\Profile_1.txt";
+                    //System.IO.File.WriteAllText(pth, profile_parse);
 
-                        pars_profile = profile_parse.Split('\n');  //парсим строку и получаем стринговый массив
+                    pars_profile = profile_parse.Split('\n');  //парсим строку и получаем стринговый массив
 
-                        //MessageBox.Show(pars_profile[4].Replace(@"""id"" :", "").Replace(",", "").Trim());
+                    //MessageBox.Show(pars_profile[4].Replace(@"""id"" :", "").Replace(",", "").Trim());
 
-                        id = new List<string>() { };
-                        updated = new List<int>() { };
+                    id = new List<string>() { };
+                    updated = new List<int>() { };
 
-                        SortedList<string, string> id_upd = new SortedList<string, string>();
-                        string id_s = "", name="";
-                        //int upd_s = 0;
+                    SortedList<string, string> id_upd = new SortedList<string, string>();
+                    string id_s = "", name = "";
+                    //int upd_s = 0;
 
-                        for (int i = 0; i < pars_profile.Length; i++)
+                    for (int i = 0; i < pars_profile.Length; i++)
+                    {
+                        if (pars_profile[i].Contains(@"""name"" :")) name = pars_profile[i].Replace(@"""name"" :", "").Replace(",", "").Replace("\"", "").Trim();
+                        if (pars_profile[i].Contains(@"""id"" :")) id_s = pars_profile[i].Replace(@"""id"" :", "").Replace(",", "").Trim() + "#" + name;
+                        if (pars_profile[i].Contains("last-updated") && id_s != "")
                         {
-                            if (pars_profile[i].Contains(@"""name"" :")) name = pars_profile[i].Replace(@"""name"" :", "").Replace(",", "").Replace("\"", "").Trim();
-                            if (pars_profile[i].Contains(@"""id"" :")) id_s = pars_profile[i].Replace(@"""id"" :", "").Replace(",", "").Trim() + "#" + name;
-                            if (pars_profile[i].Contains("last-updated") && id_s != "")
-                            {
-                                //try { upd_s = Convert.ToInt32(pars_profile[i].Replace("\"last-updated\" :", "").Trim()); }
-                                //catch { upd_s = 0; }
-                                //id_upd.Add(Convert.ToInt32(pars_profile[i].Replace("\"last-updated\" :", "").Trim()), id_s);
-                                id_upd.Add(pars_profile[i].Replace("\"last-updated\" :", "").Trim(), id_s);
-                            }
-                            if (pars_profile[i].Contains("lastHeroPlayed")) break;
+                            //try { upd_s = Convert.ToInt32(pars_profile[i].Replace("\"last-updated\" :", "").Trim()); }
+                            //catch { upd_s = 0; }
+                            //id_upd.Add(Convert.ToInt32(pars_profile[i].Replace("\"last-updated\" :", "").Trim()), id_s);
+                            id_upd.Add(pars_profile[i].Replace("\"last-updated\" :", "").Trim(), id_s);
                         }
+                        if (pars_profile[i].Contains("lastHeroPlayed")) break;
+                    }
 
-                        IEnumerable<KeyValuePair<string, string>> id_upd_r = id_upd.Reverse();
-                        cnt = 1;
+                    //23.09.2014
+                    string para_soft = "", para_hc = "", para_soft_season = "", para_hc_season = "";
 
-                        string hero_other, battletag_other;
+                    for (int i = 0; i < 7; i++)
+                    {
+                        if (pars_profile[i].Contains(@"""paragonLevel"" :")) para_soft = pars_profile[i].Replace(@"""paragonLevel"" :", "").Replace(",", "").Replace("\"", "").Trim();
+                        if (pars_profile[i].Contains(@"""paragonLevelHardcore"" :")) para_hc = pars_profile[i].Replace(@"""paragonLevelHardcore"" :", "").Replace(",", "").Replace("\"", "").Trim();
+                        if (pars_profile[i].Contains(@"""paragonLevelSeason"" :")) para_soft_season = pars_profile[i].Replace(@"""paragonLevelSeason"" :", "").Replace(",", "").Replace("\"", "").Trim();
+                        if (pars_profile[i].Contains(@"""paragonLevelSeasonHardcore"" :")) para_hc_season = pars_profile[i].Replace(@"""paragonLevelSeasonHardcore"" :", "").Replace(",", "").Replace("\"", "").Trim();
+                    }
 
-                        foreach (KeyValuePair<string, string> kvp in id_upd_r)
+                    if (para_soft != "0" && para_soft_season != "0")
+                    {
+                        try
                         {
-                            //MessageBox.Show("ID: " + kvp.Value + " last time: " + kvp.Key.ToString());
-                            if (Settings.Default.web1_name == "") //&& kvp.Value.Substring(0, kvp.Value.IndexOf("#")) != hero_id)
-                            {
-                                battletag_other = "http://" + host + "/api/d3/profile/" + battletag_name + "-" + battletag_code + "/hero/" + kvp.Value.Substring(0, kvp.Value.IndexOf("#"));
-                                //MessageBox.Show("Положение # " + kvp.Value.IndexOf("#").ToString() + " Длина строки: " + kvp.Value.Length.ToString());
-                                hero_other = battletag_name + "#" + battletag_code + " - " + kvp.Value.Substring(kvp.Value.IndexOf("#") + 1, kvp.Value.Length - kvp.Value.IndexOf("#") - 1);
-                                //MessageBox.Show("Герой: " + hero_other + "\nАдрес:\n" + battletag_other);
-                                if (cnt == 1)
-                                {
-                                    Settings.Default.web5_name = hero_other;
-                                    Settings.Default.web5_www = battletag_other;
-                                }
-                                if (cnt == 2)
-                                {
-                                    Settings.Default.web4_name = hero_other;
-                                    Settings.Default.web4_www = battletag_other;
-                                }
-                                if (cnt == 3)
-                                {
-                                    Settings.Default.web3_name = hero_other;
-                                    Settings.Default.web3_www = battletag_other;
-                                }
-                                if (cnt == 4)
-                                {
-                                    Settings.Default.web2_name = hero_other;
-                                    Settings.Default.web2_www = battletag_other;
-                                }
-                                if (cnt == 5)
-                                {
-                                    Settings.Default.web1_name = hero_other;
-                                    Settings.Default.web1_www = battletag_other;
-                                }
-                            }
-                            if (cnt > 4) break;
-                            cnt += 1;
+                            nud_ps_prev_val = Convert.ToInt16(para_soft_season);
+                            nud_ps_next_val = Convert.ToInt16(para_soft);
                         }
+                        catch { }
+                    }
 
-                        //foreach (int i in id_upd.Keys)
-                        //{
-                        //    MessageBox.Show("ID: " + id_upd[i] + " last time: " + i.ToString());
-                        //}
+                    if (para_hc != "0" && para_hc_season != "0")
+                    {
+                        try
+                        {
+                            nud_ps_prev_val = Convert.ToInt16(para_hc_season);
+                            nud_ps_next_val = Convert.ToInt16(para_hc);
+                        }
+                        catch { }
+                    }
+                    //23.09.2014
 
-                        //for (int i = 0; i < pars_profile.Length; i++)
-                        //{
-                        //    if (pars_profile[i].Contains(@"""id"" :")) 
-                        //    {
-                        //        try { id.Add(pars_profile[i].Replace(@"""id"" :", "").Replace(",", "").Trim()); }
-                        //        catch { id.Add("0"); }
-                        //    }
-                        //    if (pars_profile[i].Contains("last-updated")) 
-                        //    {
-                        //        try { updated.Add(Convert.ToInt32(pars_profile[i].Replace("\"last-updated\" :", "").Trim())); }
-                        //        catch { updated.Add(0); }
-                        //    }
-                        //    if (pars_profile[i].Contains("lastHeroPlayed")) break;
-                        //}
+                    IEnumerable<KeyValuePair<string, string>> id_upd_r = id_upd.Reverse();
+                    cnt = 1;
 
-                        //for (int i = 0; i < id.Count; i++)
-                        //{
-                        //    //MessageBox.Show("ID: " + id[i] + " last time: " + updated[i].ToString());
+                    string hero_other, battletag_other;
 
-                        //}    
+                    foreach (KeyValuePair<string, string> kvp in id_upd_r)
+                    {
+                        //MessageBox.Show("ID: " + kvp.Value + " last time: " + kvp.Key.ToString());
+                        if (Settings.Default.web1_name == "") //&& kvp.Value.Substring(0, kvp.Value.IndexOf("#")) != hero_id)
+                        {
+                            battletag_other = "http://" + host + "/api/d3/profile/" + battletag_name + "-" + battletag_code + "/hero/" + kvp.Value.Substring(0, kvp.Value.IndexOf("#"));
+                            //MessageBox.Show("Положение # " + kvp.Value.IndexOf("#").ToString() + " Длина строки: " + kvp.Value.Length.ToString());
+                            hero_other = battletag_name + "#" + battletag_code + " - " + kvp.Value.Substring(kvp.Value.IndexOf("#") + 1, kvp.Value.Length - kvp.Value.IndexOf("#") - 1);
+                            //MessageBox.Show("Герой: " + hero_other + "\nАдрес:\n" + battletag_other);
+                            if (cnt == 1)
+                            {
+                                Settings.Default.web5_name = hero_other;
+                                Settings.Default.web5_www = battletag_other;
+                            }
+                            if (cnt == 2)
+                            {
+                                Settings.Default.web4_name = hero_other;
+                                Settings.Default.web4_www = battletag_other;
+                            }
+                            if (cnt == 3)
+                            {
+                                Settings.Default.web3_name = hero_other;
+                                Settings.Default.web3_www = battletag_other;
+                            }
+                            if (cnt == 4)
+                            {
+                                Settings.Default.web2_name = hero_other;
+                                Settings.Default.web2_www = battletag_other;
+                            }
+                            if (cnt == 5)
+                            {
+                                Settings.Default.web1_name = hero_other;
+                                Settings.Default.web1_www = battletag_other;
+                            }
+                        }
+                        if (cnt > 4) break;
+                        cnt += 1;
+                    }
+
+                    //foreach (int i in id_upd.Keys)
+                    //{
+                    //    MessageBox.Show("ID: " + id_upd[i] + " last time: " + i.ToString());
+                    //}
+
+                    //for (int i = 0; i < pars_profile.Length; i++)
+                    //{
+                    //    if (pars_profile[i].Contains(@"""id"" :")) 
+                    //    {
+                    //        try { id.Add(pars_profile[i].Replace(@"""id"" :", "").Replace(",", "").Trim()); }
+                    //        catch { id.Add("0"); }
+                    //    }
+                    //    if (pars_profile[i].Contains("last-updated")) 
+                    //    {
+                    //        try { updated.Add(Convert.ToInt32(pars_profile[i].Replace("\"last-updated\" :", "").Trim())); }
+                    //        catch { updated.Add(0); }
+                    //    }
+                    //    if (pars_profile[i].Contains("lastHeroPlayed")) break;
+                    //}
+
+                    //for (int i = 0; i < id.Count; i++)
+                    //{
+                    //    //MessageBox.Show("ID: " + id[i] + " last time: " + updated[i].ToString());
+
+                    //}    
                     //}
 
                     pars_hero = hero_parse.Split('\n');  //парсим строку и получаем стринговый массив
@@ -1583,11 +1654,14 @@ namespace DPS_Diablo3
                     ; damage_min = 0; damage_max = 0; elem_all = 0; aps = 0; aps_up = 0; aps_up_off = 0; aps_off = 0; damage_min_off = 0; damage_max_off = 0
                     ; crit_damage = 0; crit_chance = 0; elite_damage = 0; off_crit_chance = 0; off_del_Physical = 0; off_min_Physical = 0
                     ; rings_count = 0; r1_del_Physical = 0; r1_min_Physical = 0; r2_del_Physical = 0; r2_min_Physical = 0; am_del_Physical = 0; am_min_Physical = 0
-                    ; from_skl = 0; from_skl_prof = 0; coold_pass = 0; sockets = 0; finery = 0;
+                    ; from_skl = 0; from_skl_prof = 0; coold_pass = 0; sockets = 0; finery = 0; sunwuko = false;
 
                     //head_parse = ""; torso_parse = ""; feet_parse = ""; hands_parse = ""; shoulders_parse = ""; legs_parse = ""; bracers_parse = ""; mainHand_parse = ""; offHand_parse = ""; waist_parse = ""; rightFinger_parse = ""; leftFinger_parse = ""; neck_parse = "";
 
+                    //for (int i = 0; i < cdr.Length; i++) cdr[i] = 0;
+                    Array.Clear(cdr,0,11);
                     set_parse();
+
                     pers_name = pers.name + " - " + pers.paragonLevel;
                     para_lvl = pers.paragonLevel;
                     two_handed = false;
@@ -1609,6 +1683,11 @@ namespace DPS_Diablo3
                         if (mainHand_parse.Contains("Imperial Diamond")) elite_damage = elite_damage + 17;
                         if (mainHand_parse.Contains("Marquise Diamond")) elite_damage = elite_damage + 16;
                         if (mainHand_parse.Contains("\"twoHanded\" : true")) two_handed = true;
+                        if (two_handed && sunwuko)
+                        {
+                            from_skl += 20;
+                            from_skl_prof += 20;
+                        }
                         mh();
                     }
 
@@ -1701,7 +1780,7 @@ namespace DPS_Diablo3
                         if (act == "Energy Armor") foreach (string rune in active_skill_rune) if (rune == "Pinpoint Barrier") off_crit_chance += 5;
                     }
 
-                    int amount=0;
+                    int amount = 0;
 
                     if (pers.items.offHand != null)
                     {
@@ -1728,6 +1807,7 @@ namespace DPS_Diablo3
                         }
                         offh(offHand_parse);
                     }
+                    else cdr_n += 1;
 
                     if (pers.items.head != null)
                     {
@@ -1771,6 +1851,13 @@ namespace DPS_Diablo3
                         offh(rightFinger_parse);
                     }
 
+                    if (pers.items.waist != null)
+                    {
+                        waist = pers.items.waist.tooltipParams;
+                        waist_parse = webresp(waist);//.ReadToEnd();
+                        offh(waist_parse);
+                    }
+
                     if (pers.items.torso != null)
                     {
                         torso = pers.items.torso.tooltipParams;
@@ -1799,12 +1886,6 @@ namespace DPS_Diablo3
                         offh(bracers_parse);
                     }
 
-                    if (pers.items.waist != null)
-                    {
-                        waist = pers.items.waist.tooltipParams;
-                        waist_parse = webresp(waist);//.ReadToEnd();
-                        offh(waist_parse);
-                    }
 
                     if (b_parse.Visible)
                     {
@@ -1871,7 +1952,8 @@ namespace DPS_Diablo3
                 {
                     int start = pars_mh[i].IndexOf(@"Reduces cooldown of all skills by") + 34;
                     int end = pars_mh[i].IndexOf(@"%");
-                    try { cdr[cdr_n] = Convert.ToDouble(pars_mh[i].Substring(start, end - start).Replace(".", sep)); } catch { }
+                    try { cdr[cdr_n] = Convert.ToDouble(pars_mh[i].Substring(start, end - start).Replace(".", sep)); }
+                    catch { }
                     break;
                 }
             }
@@ -1889,7 +1971,7 @@ namespace DPS_Diablo3
             if (mh.attributesRaw.Damage_Weapon_Min_Poison != null) min_Poison = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Min_Poison.min.Replace(".", sep)), 2);
             if (mh.attributesRaw.Damage_Weapon_Min_Arcane != null) min_Arcane = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Min_Arcane.min.Replace(".", sep)), 2);
             if (mh.attributesRaw.Damage_Weapon_Min_Holy != null) min_Holy = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Min_Holy.min.Replace(".", sep)), 2);
-            
+
             if (mh.attributesRaw.Damage_Weapon_Delta_Physical != null) del_Physical = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Delta_Physical.min.Replace(".", sep)), 2);
             if (mh.attributesRaw.Damage_Weapon_Bonus_Delta_X1_Physical != null) del_X1_Physical = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Bonus_Delta_X1_Physical.min.Replace(".", sep)), 2);
             if (mh.attributesRaw.Damage_Weapon_Delta_Fire != null) del_Fire = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Delta_Fire.min.Replace(".", sep)), 2);
@@ -1925,7 +2007,7 @@ namespace DPS_Diablo3
             //----------Attacks Per Second----------//
 
             if (mh.attacksPerSecond != null) aps = Math.Round(Convert.ToDouble(mh.attacksPerSecond.min.Replace(".", sep)), 2);
-            if (mh.attributesRaw.Attacks_Per_Second_Item_Percent != null)  aps_item = mh.attributesRaw.Attacks_Per_Second_Item_Percent.min;
+            if (mh.attributesRaw.Attacks_Per_Second_Item_Percent != null) aps_item = mh.attributesRaw.Attacks_Per_Second_Item_Percent.min;
 
             //----------Critical damage----------//
 
@@ -1933,7 +2015,7 @@ namespace DPS_Diablo3
 
             //----------Damage vs elites----------//
 
-            if (mh.attributesRaw.Damage_Percent_Bonus_Vs_Elites != null) elite_damage = elite_damage + Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Percent_Bonus_Vs_Elites.min.Replace(".", sep))*100, 2);
+            if (mh.attributesRaw.Damage_Percent_Bonus_Vs_Elites != null) elite_damage = elite_damage + Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Percent_Bonus_Vs_Elites.min.Replace(".", sep)) * 100, 2);
 
             del_Physical = 0; del_X1_Physical = 0; del_Fire = 0; del_Cold = 0; del_Lightning = 0; del_Poison = 0; del_Arcane = 0; del_Holy = 0;
             min_Physical = 0; min_X1_Physical = 0; min_Fire = 0; min_Cold = 0; min_Lightning = 0; min_Poison = 0; min_Arcane = 0; min_Holy = 0;
@@ -1947,21 +2029,31 @@ namespace DPS_Diablo3
             if (forparse.Contains("\"Sockets\" : {\n\"min\" : 1")) sockets += 1;
             if (forparse.Contains("\"Sockets\" : {\n\"min\" : 2")) sockets += 2;
             if (forparse.Contains("\"Sockets\" : {\n\"min\" : 3")) sockets += 3;
-            //if (forparse == head_parse) MessageBox.Show(head_parse.Length.ToString());
 
             int cdr_flag = 0;
+            double cdr_leoric = 1;
             cdr_n += 1;
 
-            string [] pars_item = forparse.Split('\n');  //парсим строку и получаем стринговый массив
+            string gem = "";
+            string[] pars_item = forparse.Split('\n');  //парсим строку и получаем стринговый массив
 
             for (int i = 0; i < pars_item.Length; i++)
             {
+                if (pars_item[i].Contains("Increase the effect of any gem socketed into this item by")) //Leoric's Crown
+                {
+                    int start = pars_item[i].IndexOf(@"Increase the effect of any gem socketed into this item by") + 58;
+                    int end = pars_item[i].IndexOf(@"%");
+                    try { cdr_leoric = Convert.ToDouble(pars_item[i].Substring(start, end - start).Replace(".", sep))/100+1; }
+                    catch { }
+                }
                 if (pars_item[i].Contains("Captain Crimson's") || pars_item[i].Contains("Born's")) cdr_flag = 1;
                 if (pars_item[i].Contains("Reduces cooldown of all skills by") && (cdr_flag == 0 || !pars_item[i].Contains("10.0%")))
                 {
                     int start = pars_item[i].IndexOf(@"Reduces cooldown of all skills by") + 34;
                     int end = pars_item[i].IndexOf(@"%");
-                    try {cdr[cdr_n] = Convert.ToDouble(pars_item[i].Substring(start, end - start).Replace(".", sep));} catch { }
+                    try { cdr[cdr_n] = Math.Round(cdr_leoric * Convert.ToDouble(pars_item[i].Substring(start, end - start).Replace(".", sep)),1); }
+                    catch { }
+                    //if (forparse == waist_parse) MessageBox.Show(cdr_n.ToString() + " // " + cdr[cdr_n].ToString());
                 }
                 if (pars_item[i].Contains("Damage by"))
                 {
@@ -1980,9 +2072,45 @@ namespace DPS_Diablo3
                         }
                     }
                 }
+
+                //04.09.2014//
+                    //Enforcer
+                if (pars_item[i].Contains("Increase the damage of your pets by"))
+                {
+                    int start = pars_item[i].IndexOf(@"by") + 3;
+                    try { from_skl += Math.Round(Convert.ToSingle(pars_item[i].Substring(start, 5).Replace(".", sep)),2); }
+                    catch { }
+                }
+                    //Bane of the Trapped
+                if (pars_item[i].Contains("Increase damage against enemies under the effects of control-impairing effects by"))
+                {
+                    int start = pars_item[i].IndexOf(@"by") + 3;
+                    try { from_skl += Math.Round(Convert.ToSingle(pars_item[i].Substring(start, 5).Replace(".", sep)),2); }
+                    catch { }
+                }
+                    //Bane of the Powerful
+                if (pars_item[i].Contains("Gain 20% increased damage for"))
+                {
+                    from_skl += 20;
+                }
+                //04.09.2014//
+
+                //08.09.2014//
+                if (pars_item[i].Contains("Bane of the Powerful")) gem = "Bane of the Powerful";
+                if (pars_item[i].Contains(@"""jewelRank"" : 25") && gem == "Bane of the Powerful")
+                {
+                    int start = pars_item[i].IndexOf(@"""jewelRank"" :") + 14;
+                    int end = pars_item[i].IndexOf(@",");
+                    int sec = 0;
+                    try { sec = Convert.ToInt16(pars_item[i].Substring(start, end - start).Replace(".", sep)); }
+                    catch { }
+                    if (sec > 24) elite_damage += 15;
+                }
+                //08.09.2014//
+
             }
 
-            elem_Physical = 0; elem_Fire = 0; elem_Cold = 0; elem_Lightning = 0; elem_Poison = 0; elem_Arcane = 0; elem_Holy = 0; 
+            elem_Physical = 0; elem_Fire = 0; elem_Cold = 0; elem_Lightning = 0; elem_Poison = 0; elem_Arcane = 0; elem_Holy = 0;
 
             byte[] byteArray = Encoding.UTF8.GetBytes(forparse.Replace('#', '_'));
             MemoryStream TheStream = new MemoryStream(byteArray);
@@ -2030,7 +2158,7 @@ namespace DPS_Diablo3
             if (mh.attributesRaw.Damage_Dealt_Percent_Bonus_Arcane != null) elem_Arcane = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Dealt_Percent_Bonus_Arcane.min.Replace(".", sep)), 2);
             if (mh.attributesRaw.Damage_Dealt_Percent_Bonus_Holy != null) elem_Holy = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Dealt_Percent_Bonus_Holy.min.Replace(".", sep)), 2);
 
-            if (Math.Round((elem_Physical + elem_Fire + elem_Cold + elem_Lightning + elem_Poison + elem_Arcane + elem_Holy) * 100) > 0 ) elem_all = elem_all + Math.Round((elem_Physical + elem_Fire + elem_Cold + elem_Lightning + elem_Poison + elem_Arcane + elem_Holy) * 100);
+            if (Math.Round((elem_Physical + elem_Fire + elem_Cold + elem_Lightning + elem_Poison + elem_Arcane + elem_Holy) * 100) > 0) elem_all = elem_all + Math.Round((elem_Physical + elem_Fire + elem_Cold + elem_Lightning + elem_Poison + elem_Arcane + elem_Holy) * 100);
 
             //----------Attacks Per Second----------//
 
@@ -2040,7 +2168,7 @@ namespace DPS_Diablo3
 
             //----------Critical damage----------//
 
-            if (mh.attributesRaw.Crit_Damage_Percent != null) crit_damage = crit_damage + Math.Round(Convert.ToDouble(mh.attributesRaw.Crit_Damage_Percent.min.Replace(".", sep)), 2)*100;
+            if (mh.attributesRaw.Crit_Damage_Percent != null) crit_damage = crit_damage + Math.Round(Convert.ToDouble(mh.attributesRaw.Crit_Damage_Percent.min.Replace(".", sep)), 2) * 100;
 
             //----------Damage vs elites----------//
 
@@ -2087,7 +2215,7 @@ namespace DPS_Diablo3
             if (Settings.Default.web2_name != "") cb_web.Items.Add(Settings.Default.web2_name);
             if (Settings.Default.web1_name != "") cb_web.Items.Add(Settings.Default.web1_name);
         }
-        
+
         public void import()
         {
             Settings.Default.Save();
@@ -2098,12 +2226,20 @@ namespace DPS_Diablo3
 
             //MessageBox.Show("Сокетов всего: " + sockets.ToString() + " Finery: " + finery.ToString() + " Mainstat: " + mainstat + " Итого: " + Math.Round(mainstat * finery).ToString());
 
+            tsmi_clear_Click(null, null);
+
             p_lvl = para_lvl;
-            tsmi_clear_Click(null,null);
             lb_para_lvl.Text = p_lvl;
 
+            //23.09.2014
+            nud_ps_prev.Text = nud_ps_prev_val.ToString();
+            nud_ps_next.Text = nud_ps_next_val.ToString();
+            //23.09.2014
+
+            //MessageBox.Show(nud_ps_prev.Text);
+
             //if (lb_adv.Text == "def") b_adv.PerformClick();
-            
+
             if (skill_damage != "") tb_skill1.Text = skill_damage;
             if (skill_damage != "") tb_skill.Text = skill_damage;
             if (mainstat != 0) tb_main.Text = Math.Round(mainstat * finery).ToString();
@@ -2129,10 +2265,10 @@ namespace DPS_Diablo3
             if (dps_min_off != "") tb_damage2.Text = Math.Round(Convert.ToDouble(dps_min_off.Replace(".", sep)), 2).ToString().Replace(sep, ".");
             if (dps_min_off != "") Readonly_clear(tb_damage2, null);//tb_damage2_MouseClick(null, null);
             if (aps_up != 0) tb_acincr.Text = aps_up.ToString().Replace(sep, ".");
-            if (aps_up != 0 && damage_min_off != 0 && damage_max_off != 0 && aps_off != 0) tb_acincr.Text = (aps_up+15).ToString().Replace(sep, ".");
+            if (aps_up != 0 && damage_min_off != 0 && damage_max_off != 0 && aps_off != 0) tb_acincr.Text = (aps_up + 15).ToString().Replace(sep, ".");
             if (aps_item_off != "") tb_ac2_p.Text = (Math.Round(Convert.ToDouble(aps_item_off.Replace(".", sep)), 2) * 100).ToString().Replace(sep, ".");
             if (aps_item_off != "") Readonly_clear(tb_ac2_p, null);//tb_ac2_p_MouseClick(null, null);
-            tb_cc.Text = (off_crit_chance+5).ToString().Replace(sep, ".");
+            tb_cc.Text = (off_crit_chance + 5).ToString().Replace(sep, ".");
             tb_cd.Text = (crit_damage + 50).ToString().Replace(sep, ".");
             if (off_min_Physical != 0) tb_off_min.Text = off_min_Physical.ToString().Replace(sep, ".");
             if ((off_min_Physical + off_del_Physical) != 0) tb_off_max.Text = (off_min_Physical + off_del_Physical).ToString().Replace(sep, ".");
@@ -2149,7 +2285,8 @@ namespace DPS_Diablo3
             }
             if (from_skl > 0) tb_fromskills.Text = from_skl.ToString().Replace(sep, ".");
 
-            if (!this.Text.Contains(pers_name)) this.Text = this.Text + "                                            " + pers_name;
+            this.Text = version;
+            if (!this.Text.Contains(pers_name)) this.Text = this.Text + "                                            " + pers_name;
             cooldown_import();
             b_start.PerformClick();
         }
@@ -2234,7 +2371,7 @@ namespace DPS_Diablo3
             string test = sr.ReadToEnd();
 
 
-            string [] pars_ver = test.Split('\n');  //парсим строку и получаем стринговый массив
+            string[] pars_ver = test.Split('\n');  //парсим строку и получаем стринговый массив
 
             for (int i = 0; i < pars_ver.Length; i++)
             {
@@ -2242,21 +2379,21 @@ namespace DPS_Diablo3
                 {
                     string vers = pars_ver[i].Substring(pars_ver[i].IndexOf("Version") + 8, 3).Trim();
                     //
-                   // if (vers != ver.ToString()) pan_ver.Visible = true;
-                        //MessageBox.Show(vers);
+                    // if (vers != ver.ToString()) pan_ver.Visible = true;
+                    //MessageBox.Show(vers);
                     break;
                 }
             }
 
 
-            
+
             string path_test = @"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\test.txt";
             System.IO.File.WriteAllText(path_test, test);
 
 
 
             //MessageBox.Show(sr.ReadToEnd());
-            
+
             //string mh_path = @"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\mainHand.txt";
             //string off_path = @"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\offHand.txt";
             ////hero_parse = System.IO.File.ReadAllText(@"c:\GitHub\DPS_Diablo3\DPS_Diablo3\bin\Debug\WriteText1.txt");
@@ -2324,19 +2461,19 @@ namespace DPS_Diablo3
                 //MessageBox.Show("123");
                 Button b_faq1 = new Button();
                 b_faq1.Location = new Point(605, 0);
-                b_faq1.Name="Close";
-                b_faq1.Size = new System.Drawing.Size (52, 23);
+                b_faq1.Name = "Close";
+                b_faq1.Size = new System.Drawing.Size(52, 23);
                 b_faq1.FlatStyle = FlatStyle.Standard;
                 b_faq1.BackColor = Color.Red;
                 b_faq1.FlatAppearance.BorderColor = Color.Red;
                 b_faq1.FlatAppearance.BorderSize = 1;
                 b_faq1.Text = "Close";
                 b_faq1.MouseClick += new MouseEventHandler(faq);
-                faq(null,null);
+                faq(null, null);
                 this.Controls.Add(b_faq1);
                 b_faq1.BringToFront();
             }
-            else faq(null, null); 
+            else faq(null, null);
             //else
             //{
             //    b_faq.BackColor = SystemColors.Control;
@@ -2367,7 +2504,7 @@ namespace DPS_Diablo3
         private void tsmi_qload_Click(object sender, EventArgs e)
         {
             pers_name = Settings.Default.pers_name;
-            if (!this.Text.Contains(pers_name)) this.Text = this.Text + "                                            " + pers_name;
+            if (!this.Text.Contains(pers_name)) this.Text = this.Text + "                                            " + pers_name;
 
             //if (Settings.Default.lb_para_lvl != "" && frm_para.Visible != true) cb_paragon_CheckedChanged(null, null);//paragonToolStripMenuItem_Click(null, null);
             //paragon();            
@@ -2389,8 +2526,8 @@ namespace DPS_Diablo3
                 Readonly_insert(form_box_ro[i], set_box_ro[i], 0, "ReadOnly");
             }
 
-            List<NumericUpDown> form_nud = new List<NumericUpDown> { nud_garg, nud_dogs, nud_fet, nud_elemp, nud_damp, nud_speedp, nud_main_w, nud_damp_w, nud_acp_w, nud_cd_w, nud_elem_w, nud_cooldown, nud_cdr1, nud_cdr2, nud_cdr3, nud_cdr4, nud_cdr5, nud_cdr6, nud_cdr7, nud_cdr8, nud_cdr9, nud_cdr10, nud_cdr11, nud_cdr12, nud_para_main, nud_para_as, nud_para_cdr, nud_para_cc, nud_para_cd };
-            List<decimal> set_nud = new List<decimal> { Settings.Default.nud_garg, Settings.Default.nud_dogs, Settings.Default.nud_fet, Settings.Default.nud_elemp, Settings.Default.nud_damp, Settings.Default.nud_speedp, Settings.Default.nud_main_w, Settings.Default.nud_damp_w, Settings.Default.nud_acp_w, Settings.Default.nud_cd_w, Settings.Default.nud_elem_w, Settings.Default.nud_cooldown, Settings.Default.nud_cdr1, Settings.Default.nud_cdr2, Settings.Default.nud_cdr3, Settings.Default.nud_cdr4, Settings.Default.nud_cdr5, Settings.Default.nud_cdr6, Settings.Default.nud_cdr7, Settings.Default.nud_cdr8, Settings.Default.nud_cdr9, Settings.Default.nud_cdr10, Settings.Default.nud_cdr11, Settings.Default.nud_cdr12, Settings.Default.nud_para_main, Settings.Default.nud_para_as, Settings.Default.nud_para_cdr, Settings.Default.nud_para_cc, Settings.Default.nud_para_cd };
+            List<NumericUpDown> form_nud = new List<NumericUpDown> { nud_garg, nud_dogs, nud_fet, nud_elemp, nud_damp, nud_speedp, nud_main_w, nud_damp_w, nud_acp_w, nud_cd_w, nud_elem_w, nud_elite_w, nud_cooldown, nud_cdr1, nud_cdr2, nud_cdr3, nud_cdr4, nud_cdr5, nud_cdr6, nud_cdr7, nud_cdr8, nud_cdr9, nud_cdr10, nud_cdr11, nud_cdr12, nud_cdr13, nud_para_as, nud_para_cdr, nud_para_cc, nud_para_cd }; //29.08.2014//, nud_para_main
+            List<decimal> set_nud = new List<decimal> { Settings.Default.nud_garg, Settings.Default.nud_dogs, Settings.Default.nud_fet, Settings.Default.nud_elemp, Settings.Default.nud_damp, Settings.Default.nud_speedp, Settings.Default.nud_main_w, Settings.Default.nud_damp_w, Settings.Default.nud_acp_w, Settings.Default.nud_cd_w, Settings.Default.nud_elem_w, Settings.Default.nud_elite_w, Settings.Default.nud_cooldown, Settings.Default.nud_cdr1, Settings.Default.nud_cdr2, Settings.Default.nud_cdr3, Settings.Default.nud_cdr4, Settings.Default.nud_cdr5, Settings.Default.nud_cdr6, Settings.Default.nud_cdr7, Settings.Default.nud_cdr8, Settings.Default.nud_cdr9, Settings.Default.nud_cdr10, Settings.Default.nud_cdr11, Settings.Default.nud_cdr12, Settings.Default.nud_cdr13, Settings.Default.nud_para_as, Settings.Default.nud_para_cdr, Settings.Default.nud_para_cc, Settings.Default.nud_para_cd }; //29.08.2014//, Settings.Default.nud_para_main
 
             for (int i = 0; i < form_nud.Count; i++)
             {
@@ -2418,7 +2555,7 @@ namespace DPS_Diablo3
             para_prep();
 
             nud_cdr11.Value = nud_para_cdr.Value;
-           
+
             b_start.PerformClick();
         }
 
@@ -2444,13 +2581,22 @@ namespace DPS_Diablo3
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 ReadXML(openFileDialog1.FileName.ToString());
-                tsmi_clear_Click(null,null);
-                tsmi_qload_Click(null,null);
+                tsmi_clear_Click(null, null);
+                tsmi_qload_Click(null, null);
             }
         }
 
         private void tsmi_clear_Click(object sender, EventArgs e)
         {
+            nud_ps_next.Value = 1;
+            nud_ps_prev.Value = 1;
+            lb_para_seasons_exp_prev_val.Text = "";
+            lb_para_seasons_exp_next_val.Text = "";
+            lb_para_seasons_exp_sum_val.Text = "";
+            lb_para_seasons_exp_lvl_val.Text = "";
+            para_cdr = "max"; para_as = "max"; para_cc = "max"; para_cd = "max";
+            p_lvl = "";
+            acincr_i = 0; cc_i = 0; cd_i = 0;
             result_old = 0;
             nud_as_dps.Value = 1; //lb_ac.Visible = false;
             nud_stat_dps.Value = 100; //lb_main.Visible = false;
@@ -2459,12 +2605,13 @@ namespace DPS_Diablo3
             nud_elem_dps.Value = 1; //lb_elem.Visible = false;
             nud_dmg_dps.Value = 10; //lb_dmg.Visible = false;
             nud_elite_dps.Value = 1; //lb_elite.Visible = false; 
+            nud_skill_dps.Value = 1; //lb_elite.Visible = false; 
 
             foreach (Label lb in gb_increase.Controls.OfType<Label>())
             {
                 //int amount = new Regex("_").Matches(lb.Name).Count;
                 //if (amount < 2) lb.Visible = false; 
-                if ((lb.Name.Length - lb.Name.Replace("_", "").Length) / "_".Length < 2) lb.Visible = false; 
+                if ((lb.Name.Length - lb.Name.Replace("_", "").Length) / "_".Length < 2) lb.Visible = false;
             }
 
             lb_changed.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -2557,7 +2704,8 @@ namespace DPS_Diablo3
             Lang();
 
             foreach (NumericUpDown numud in frm_para.Controls.OfType<NumericUpDown>()) numud.Value = 0;
-            para_lvl = ""; lb_para_lvl.Text = ""; lb_curr_lvl.Text = "";
+            //para_lvl = ""; //10.09.2014//
+            lb_para_lvl.Text = ""; lb_curr_lvl.Text = "";
         }
 
         private void tsmi_adv_Click(object sender, EventArgs e)
@@ -2621,7 +2769,8 @@ namespace DPS_Diablo3
                 {
                     string vers = pars_ver[i].Substring(pars_ver[i].IndexOf("title=\"Version") + 15, 3).Trim();
                     double new_ver = 0;
-                    try { new_ver = Convert.ToDouble(vers.Replace(".", sep)); } catch { }
+                    try { new_ver = Convert.ToDouble(vers.Replace(".", sep)); }
+                    catch { }
                     if (vers != string.Format("{0:F1}", ver).ToString().Trim().Replace(sep, ".") && new_ver > ver)
                     {
                         if (MessageBox.Show(
@@ -2630,8 +2779,8 @@ namespace DPS_Diablo3
                         {
                             //System.Diagnostics.Process.Start("https://dl.dropboxusercontent.com/u/14539335/DPS_Diablo3.zip");
                             System.Diagnostics.Process.Start("http://bit.ly/d3calc");
-                        }                        
-                        
+                        }
+
                         //pan_ver.Visible = true;
                         //b_ver.Visible = false;
                         //lb_version_check.Visible = false;
@@ -2657,7 +2806,7 @@ namespace DPS_Diablo3
             Lang();
         }
 
-        public void action_choice ()
+        public void action_choice()
         {
             int i = cb_choice.SelectedIndex;
             cb_choice.Items.Clear();
@@ -2762,9 +2911,9 @@ namespace DPS_Diablo3
             frm_para.ShowInTaskbar = false;
             frm_para.Visible = false;
             frm_para.KeyPreview = true;
-            frm_para.KeyDown +=new KeyEventHandler(frm_para_KeyDown);
+            frm_para.KeyDown += new KeyEventHandler(frm_para_KeyDown);
 
-            frm_para.Deactivate +=new EventHandler(frm_para_Deactivate);
+            frm_para.Deactivate += new EventHandler(frm_para_Deactivate);
             //frm_para.Activated += new EventHandler(frm_para_Activated);
             frm_para.FormBorderStyle = FormBorderStyle.SizableToolWindow;
         }
@@ -2791,31 +2940,35 @@ namespace DPS_Diablo3
         public void paragon()
         {
 
-            if (!frm_para.Controls.Contains(lb_para_main))
+            if (!frm_para.Controls.Contains(lb_para_as))
             {
                 int ypos = 1;
 
-                lb_para_main.Location = new Point(1, ypos + 2);
-                lb_para_main.AutoSize = true;
-                lb_para_main.Text = lng.lb_imaint + ":";
-                frm_para.Controls.Add(lb_para_main);
+                //29.08.2014//
+                //lb_para_main.Location = new Point(1, ypos + 2);
+                //lb_para_main.AutoSize = true;
+                //lb_para_main.Text = lng.lb_imaint + ":";
+                //frm_para.Controls.Add(lb_para_main);
 
-                nud_para_main.Location = new Point(113, ypos);
-                nud_para_main.Size = new Size(50, 20);
-                //nud_para_main.Value = 0;
-                nud_para_main.Maximum = 10000;
-                nud_para_main.Increment = 5;
-                nud_para_main.Name = "para_main";
-                //ValueChanged += nud_para_ValueChanged
-                frm_para.Controls.Add(nud_para_main);
+                //nud_para_main.Location = new Point(113, ypos);
+                //nud_para_main.Size = new Size(50, 20);
+                ////nud_para_main.Value = 0;
+                //nud_para_main.Maximum = 10000;
+                //nud_para_main.Increment = 5;
+                //nud_para_main.Name = "para_main";
+                ////ValueChanged += nud_para_ValueChanged
+                //frm_para.Controls.Add(nud_para_main);
 
-                b_para_main.Location = new Point(166, ypos-1);
-                b_para_main.Size = new Size(31, 21);
-                b_para_main.Name = nud_para_main.Name;
-                b_para_main.Click += new EventHandler(maxvalue);
-                frm_para.Controls.Add(b_para_main);
+                //b_para_main.Location = new Point(166, ypos - 1);
+                //b_para_main.Size = new Size(31, 21);
+                //b_para_main.Name = nud_para_main.Name;
+                //b_para_main.Click += new EventHandler(maxvalue);
+                //frm_para.Controls.Add(b_para_main);
 
-                ypos += 25;
+                //ypos += 25;
+                ypos += 15;
+                //29.08.2014//
+
                 lb_para_as.Location = new Point(1, ypos + 2);
                 lb_para_as.AutoSize = true;
                 lb_para_as.Text = lng.lb_as + ":";
@@ -2944,8 +3097,19 @@ namespace DPS_Diablo3
                 {
                     foreach (NumericUpDown nud in frm_para.Controls.OfType<NumericUpDown>())
                         if (nud.Name == btn.Name)
-                            if ((int)nud.Value == nud.Maximum) btn.Image = Resources.min_hor;//strelka_left;
+                        //{
+                            if ((int)nud.Value == nud.Maximum || nud.Value > 0)
+                            {
+                                btn.Image = Resources.min_hor;//strelka_left;
+                                if (btn.Name == "para_cd") para_cd = "min";
+                                if (btn.Name == "para_cc") para_cc = "min";
+                                if (btn.Name == "para_cdr") para_cdr = "min";
+                                if (btn.Name == "para_as") para_as = "min";
+                            }
                             else btn.Image = Resources.max_hor;//strelka_right;
+                            //if (nud.Value > 0) btn.Image = Resources.min_hor;
+                            //b_para_save.Text = lb_curr_lvl.Text;
+                        //}
                 }
 
             //b_para_main.Image = Resources.min_hor;
@@ -2964,64 +3128,74 @@ namespace DPS_Diablo3
             var b_sender = (Button)sender;
             int flag = 0;
 
-            if (b_sender.Name == "para_main")
-                if ((int)nud_para_main.Value == nud_para_main.Maximum)
-                {
-                    nud_para_main.Value = 0;
-                    flag = 1;
-                }
-                else 
-                {
-                    nud_para_main.Value = nud_para_main.Maximum;
-                    if (nud_para_main.Value < nud_para_main.Maximum) flag = 2;
-                }
+            //29.08.2014//
+            //if (b_sender.Name == "para_main")
+            //    if ((int)nud_para_main.Value == nud_para_main.Maximum)
+            //    {
+            //        nud_para_main.Value = 0;
+            //        flag = 1;
+            //    }
+            //    else
+            //    {
+            //        nud_para_main.Value = nud_para_main.Maximum;
+            //        if (nud_para_main.Value < nud_para_main.Maximum) flag = 2;
+            //    }
+            //29.08.2014//
 
             if (b_sender.Name == "para_as")
-                if ((int)nud_para_as.Value == nud_para_as.Maximum) 
+                if ((int)nud_para_as.Value == nud_para_as.Maximum || (para_as == "min" && nud_para_as.Value > 0))
                 {
                     nud_para_as.Value = 0;
                     flag = 1;
+                    para_as = "max";
                 }
-                else 
+                else
                 {
                     nud_para_as.Value = nud_para_as.Maximum;
-                    if (nud_para_as.Value < nud_para_as.Maximum) flag = 2;
+                    if (nud_para_as.Value == 0) flag = 2;
+                    else para_as = "min";
                 }
 
             if (b_sender.Name == "para_cdr")
-                if ((int)nud_para_cdr.Value == nud_para_cdr.Maximum) 
+                if ((int)nud_para_cdr.Value == nud_para_cdr.Maximum || (para_cdr == "min" && nud_para_cdr.Value > 0))
                 {
                     nud_para_cdr.Value = 0;
                     flag = 1;
+                    para_cdr = "max";
                 }
-                else 
+                else
                 {
                     nud_para_cdr.Value = nud_para_cdr.Maximum;
-                    if (nud_para_cdr.Value < nud_para_cdr.Maximum) flag = 2;
+                    if (nud_para_cdr.Value == 0) flag = 2;
+                    else para_cdr = "min";
                 }
 
             if (b_sender.Name == "para_cc")
-                if ((int)nud_para_cc.Value == nud_para_cc.Maximum) 
+                if ((int)nud_para_cc.Value == nud_para_cc.Maximum || (para_cc == "min" && nud_para_cc.Value > 0))
                 {
                     nud_para_cc.Value = 0;
                     flag = 1;
+                    para_cc = "max";
                 }
-                else 
+                else
                 {
                     nud_para_cc.Value = nud_para_cc.Maximum;
-                    if (nud_para_cc.Value < nud_para_cc.Maximum) flag = 2;
+                    if (nud_para_cc.Value == 0) flag = 2;
+                    else para_cc = "min";
                 }
 
             if (b_sender.Name == "para_cd")
-                if ((int)nud_para_cd.Value == nud_para_cd.Maximum)
+                if ((int)nud_para_cd.Value == nud_para_cd.Maximum || (para_cd == "min" && nud_para_cd.Value > 0))
                 {
                     nud_para_cd.Value = 0;
                     flag = 1;
+                    para_cd = "max";
                 }
-                else 
+                else
                 {
                     nud_para_cd.Value = nud_para_cd.Maximum;
-                    if (nud_para_cd.Value < nud_para_cd.Maximum) flag = 2;
+                    if (nud_para_cd.Value == 0) flag = 2;
+                    else para_cd = "min";
                 }
 
             //MessageBox.Show("Значение: " + ((int)nud_para_cc.Value).ToString() + ", Максимум: " + nud_para_cc.Maximum.ToString());            
@@ -3036,7 +3210,7 @@ namespace DPS_Diablo3
             lb_para_as.Focus();
         }
 
-        public void para_prep ()
+        public void para_prep()
         {
             para_level = 0; level1 = 0; level2 = 0;
 
@@ -3046,7 +3220,8 @@ namespace DPS_Diablo3
             foreach (NumericUpDown nud in frm_para.Controls.OfType<NumericUpDown>())
                 if (nud.Name == "para_as" || nud.Name == "para_cdr" || nud.Name == "para_cc" || nud.Name == "para_cd") nud.ValueChanged += nud_para_ValueChanged;
 
-            try { para_level = Convert.ToInt16(p_lvl); } catch { }
+            try { para_level = Convert.ToInt16(p_lvl); }
+            catch { }
             //if (p_lvl.Length>0) para_level = Convert.ToInt16(p_lvl);
             if (para_level > 0)
             {
@@ -3056,7 +3231,7 @@ namespace DPS_Diablo3
                 if (para_level - (para_level / 4 * 4) > 1) level2 += 1;
                 //MessageBox.Show("Парагон1: " + level1.ToString() + " Парагон2: " + level2.ToString());
 
-                nud_para_main.Maximum = level1 * 5;
+                //29.08.2014// nud_para_main.Maximum = level1 * 5;
 
                 //MessageBox.Show(nud_para_main.Maximum.ToString());
 
@@ -3072,7 +3247,7 @@ namespace DPS_Diablo3
 
         private void b_para_save_Click(object sender, EventArgs e)
         {
-            Paragon.Default.nud_para_main = nud_para_main.Value;
+            //29.08.2014// Paragon.Default.nud_para_main = nud_para_main.Value;
             Paragon.Default.nud_para_as = nud_para_as.Value;
             Paragon.Default.nud_para_cdr = nud_para_cdr.Value;
             Paragon.Default.nud_para_cc = nud_para_cc.Value;
@@ -3105,9 +3280,9 @@ namespace DPS_Diablo3
             //MessageBox.Show(Paragon.Default.lb_para_lvl);
 
             para_prep();
-            
-            List<NumericUpDown> para_nud = new List<NumericUpDown> { nud_para_main, nud_para_as, nud_para_cdr, nud_para_cc, nud_para_cd };
-            List<decimal> set_para_nud = new List<decimal> { Paragon.Default.nud_para_main, Paragon.Default.nud_para_as, Paragon.Default.nud_para_cdr, Paragon.Default.nud_para_cc, Paragon.Default.nud_para_cd };
+
+            List<NumericUpDown> para_nud = new List<NumericUpDown> { nud_para_as, nud_para_cdr, nud_para_cc, nud_para_cd }; //29.08.2014// nud_para_main, 
+            List<decimal> set_para_nud = new List<decimal> { Paragon.Default.nud_para_as, Paragon.Default.nud_para_cdr, Paragon.Default.nud_para_cc, Paragon.Default.nud_para_cd }; //29.08.2014// Paragon.Default.nud_para_main, 
 
             for (int i = 0; i < para_nud.Count; i++)
             {
@@ -3125,6 +3300,7 @@ namespace DPS_Diablo3
 
         private void nud_para_ValueChanged(object sender, EventArgs e)
         {
+            //para_prep();
             var nud_sender = (NumericUpDown)sender;
             decimal val = nud_sender.Value;
 
@@ -3139,7 +3315,7 @@ namespace DPS_Diablo3
                     }
 
                 foreach (NumericUpDown nud in frm_para.Controls.OfType<NumericUpDown>())
-                    if (nud.Name != nud_sender.Name && nud.Name != "para_main") prev_para -= nud.Value / nud.Increment;
+                    if (nud.Name != nud_sender.Name) prev_para -= nud.Value / nud.Increment;//29.08.2014//  && nud.Name != "para_main"
 
 
                 if (curr_para < 0)
@@ -3148,22 +3324,88 @@ namespace DPS_Diablo3
                     curr_para = 0;
                 }
 
-                lb_para_lvl.Text = p_lvl.Trim();// +" (" + curr_para.ToString() + ")";
+                //lb_para_lvl.Text = p_lvl.Trim();// +" (" + curr_para.ToString() + ")";
                 lb_curr_lvl.Text = curr_para.ToString();
 
                 //MessageBox.Show(nud_sender.Name);
-                if (nud_sender.Name == "para_cdr") this.nud_cdr11.Value = nud_sender.Value;
+                if (nud_sender.Name == "para_cdr")
+                {
+                    this.nud_cdr11.Value = nud_sender.Value;
+                    if (nud_sender.Value == nud_sender.Maximum || curr_para == 0)
+                    {
+                        b_para_cdr.Image = Resources.min_hor;
+                        para_cdr = "min";
+                    }
+                    if (nud_sender.Value == 0)
+                    {
+                        b_para_cdr.Image = Resources.max_hor;
+                        para_cdr = "max";
+                    }
+                }
+
+                //29.08.2014//
+                if (nud_sender.Name == "para_as") // && tb_acincr.Text !="") 
+                {
+                    acincr_i += 1;
+                    if (acincr_i == 1) acincr_s = acincr;
+                    this.tb_acincr.Text = (acincr_s + Math.Round(Convert.ToSingle(nud_sender.Value),2)).ToString();
+                    if (nud_sender.Value == nud_sender.Maximum || curr_para == 0)
+                    {
+                        b_para_as.Image = Resources.min_hor;
+                        para_as = "min";
+                    }
+                    if (nud_sender.Value == 0)
+                    {
+                        b_para_as.Image = Resources.max_hor;
+                        para_as = "max";
+                    }
+                }
+
+                if (nud_sender.Name == "para_cc") // && tb_cc.Text != "")
+                {
+                    cc_i += 1;
+                    if (cc_i == 1) cc_s = cc;
+                    this.tb_cc.Text = (cc_s + Math.Round(Convert.ToSingle(nud_sender.Value),2)).ToString();
+                    if (nud_sender.Value == nud_sender.Maximum || curr_para == 0)
+                    {
+                        b_para_cc.Image = Resources.min_hor;
+                        para_cc = "min";
+                    }
+                    if (nud_sender.Value == 0)
+                    {
+                        b_para_cc.Image = Resources.max_hor;
+                        para_cc = "max";
+                    }
+                }
+
+                if (nud_sender.Name == "para_cd") // && tb_cd.Text != "")
+                {
+                    cd_i += 1;
+                    if (cd_i == 1) cd_s = cd;
+                    this.tb_cd.Text = (cd_s + Math.Round(Convert.ToSingle(nud_sender.Value), 2)).ToString();
+                    if (nud_sender.Value == nud_sender.Maximum || curr_para == 0)
+                    {
+                        b_para_cd.Image = Resources.min_hor;
+                        para_cd = "min";
+                    }
+                    if (nud_sender.Value == 0)
+                    {
+                        b_para_cd.Image = Resources.max_hor;
+                        para_cd = "max";
+                    }
+                }
+                //29.08.2014//
             }
         }
-        
+
         private void Form_Move(object sender, EventArgs e)
         {
             //if (Environment.OSVersion.Version.Major >= 6 && DwmIsCompositionEnabled()) 
             //    frm_para.DesktopLocation = new Point(this.Location.X + this.Size.Width + 5, this.Location.Y - 5);
             //else frm_para.DesktopLocation = new Point(this.Location.X + this.Size.Width + 0, this.Location.Y - 0);
-            
+
             //frm_para.DesktopLocation = new Point(this.Location.X + 18, this.Location.Y + 230);
-            
+
             //Закрываем центр
             frm_para.DesktopLocation = new Point(this.Location.X + 228, this.Location.Y + 238);
 
@@ -3176,9 +3418,9 @@ namespace DPS_Diablo3
         private void cb_paragon_CheckedChanged(object sender, EventArgs e)
         {
 
-            if (cb_paragon.Checked) cb_paragon.Image = Resources.strelka_close; 
+            if (cb_paragon.Checked) cb_paragon.Image = Resources.strelka_close;
             else cb_paragon.Image = Resources.strelka_open;
-            
+
             cb_paragon.Refresh();
 
             //label1.Text = cb_paragon.CheckState.ToString();
@@ -3279,7 +3521,7 @@ namespace DPS_Diablo3
                 {
                     //MessageBox.Show("Курсор по X: " + Cursor.Position.X + "Окно по иксу: " + this.Location.X + " Окно длиной: " + this.Width);
                     last = new Point(this.Location.X + 2, this.Location.Y + 2);
-                    if (Cursor.Position.X < this.Location.X && Cursor.Position.Y < this.Location.Y) 
+                    if (Cursor.Position.X < this.Location.X && Cursor.Position.Y < this.Location.Y)
                         last = new Point(this.Location.X + this.Width - 8, this.Location.Y + 22);
                 }
 
@@ -3309,9 +3551,8 @@ namespace DPS_Diablo3
             if (cb_web.SelectedIndex == -1 || tb_pers.Text == lng.tb_pers_choice) tb_pers.Text = lng.tb_pers;
         }
 
-       }
-
 
     }
-    
 
+
+}

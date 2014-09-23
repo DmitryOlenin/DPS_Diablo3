@@ -8,24 +8,31 @@ namespace DPS_Diablo3
     public class Class_lang
     {
         public string lb_dmg_at, lb_perc_at, lb_speed_at, tb_dmg1_pt, tb_ac1_pt, tb_dmg2_pt, tb_ac2_pt, lb_toskill_at, lb_elem_at, lb_skill_at, lb_skill_usage_at,
-        lb_wept, lb_dam_wt, lb_main_wt, lb_damp_wt, lb_acp_wt, lb_cd_wt, lb_elem_wt, lb_wdt, lb_gargt, lb_dogst, lb_fett, lb_fizpt, lb_dampt, lb_sppt,
+        lb_wept, lb_dam_wt, lb_main_wt, lb_damp_wt, lb_acp_wt, lb_cd_wt, lb_elem_wt, lb_elite_wt, lb_wdt, lb_gargt, lb_dogst, lb_fett, lb_fizpt, lb_dampt, lb_sppt,
         lb_statct, lb_acct, lb_mainct, lb_damct, lb_ccct, lb_cdct, lb_elemct, lb_help1t, lb_help2t, lb_help3t, lb_help4t, lb_help5t, lb_help6t, lb_help7t,
         lb_help8t, lb_idmg1t, lb_iac1t, tb_damage2t, lb_icct, lb_icdt, lb_imaint, lb_iasit, lb_iofft, lb_iamut, lb_ir1t, lb_ir2t, lb_ifromskillst, lb_ielitet,
-        lb_itoskillt, lb_ielemt, lb_iskillt, lb_dpspt, lb_dpst, lb_dpsrt, lb_dpspetst, lb_result_profilet, lb_resultt, lb_changedt, lb_eliteс,
+        lb_itoskillt, lb_ielemt, lb_iskillt, lb_dpspt, lb_dpst, lb_dpsrt, lb_dpspetst, lb_result_profilet, lb_resultt, lb_changedt, lb_elitec, lb_skillc,
         lb_result_wdt, b_advt, b_statt, b_wept, cb_wdt, b_startt, b_savet, b_loadt, b_cleart, lb_autht, Save_dialog1t, Save_dialog2t, Save_dialog3t,
         tt1t, tt2t, tt3t, tt4t, tt5t, tt6t, tt7t, tt8t, tt9t, tt10t, tt11t, tt12t, tt13t, tt14t, tt15t, tt16t, tt17t, tt7_1t, tt18t, tt19t,
         tt20t, tt21t, tt22t, tt23t, tt24t, tt25t, tt26t, tt27t, tt28t, tt29t, tt30t, tt31t, tt32t, tt33t, tt34t, tt35t, tt36t, tt37t, tt38t, tt39t, tt40t, tt41t
         ,lb_resultt_none, lb_resultt_dots, b_advt_def, b_statt_cdr, b_statt_dps, b_wept_wd, b_wept_skill
-        , lb_as_dpst, lb_stat_dpst, lb_cc_dpst, lb_cd_dpst, lb_elem_dpst, lb_dmg_dpst, lb_elite_dpst, tb_pers, tb_pers_choice, lb_changes, lb_import, gb_result, gb_increase
+        , lb_as_dpst, lb_stat_dpst, lb_cc_dpst, lb_cd_dpst, lb_elem_dpst, lb_dmg_dpst, lb_elite_dpst, lb_skill_dpst, tb_pers, tb_pers_choice, lb_changes, lb_import, gb_result, gb_increase
         , warn, mess_imp, mess_nopers, mess_noint
         , qu, an, q1, a1_1, a1_2, q2, a2_1, q3, a3_1, a3_2, q4, a4_1, q5, a5_1, q6, a6_1, q7, a7_1, a7_2, q8, a8_1, a8_2, q9, a9_1, q10, a10_1, q11, a11_1, a11_2, q12, a12_1
         , lb_as, lb_cdr, lb_paragon, cb_paragon, cb_paragon_off, lb_curr
-        , lb_cooldown, lb_cdr12, lb_cdr34, lb_cdr56, lb_cdr78, lb_cdr910, lb_cdr1112
+        , lb_cooldown, lb_cdr12, lb_cdr34, lb_cdr56, lb_cdr78, lb_cdr910, lb_cdr1112, lb_cdr13
         , lb_dpst_inc
+        , lb_para_seasons_prev, lb_para_seasons_next, lb_para_seasons_exp_prev, lb_para_seasons_exp_next, lb_para_seasons_exp_sum, lb_para_seasons_exp_lvl
         ;
 
         public void Lang_rus()
         {
+            lb_para_seasons_prev = "Парагон сезон:";
+            lb_para_seasons_next = "Парагон не сезон:";
+            lb_para_seasons_exp_prev = "Опыт сезон:";
+            lb_para_seasons_exp_next = "Опыт не сезон:";
+            lb_para_seasons_exp_sum = "Сумма опыта:";
+            lb_para_seasons_exp_lvl = "Общий уровень:";
             lb_curr = "Оставшиеся очки: ";
             lb_cooldown = "Время отката скилла";
             lb_cdr12 = "CDR Шляпа/Наплечники";
@@ -34,6 +41,7 @@ namespace DPS_Diablo3
             lb_cdr78 = "CDR Л.рука/П.рука";
             lb_cdr910 = "CDR Борн/Кримсон";
             lb_cdr1112 = "CDR Парагон/Пассивка";
+            lb_cdr13 = "CDR Пояс";
             cb_paragon = "Paragon";
             cb_paragon_off = "Paragon OFF";
             lb_paragon = "Уровень парагона: ";
@@ -64,6 +72,7 @@ namespace DPS_Diablo3
             lb_acp_wt = "+-% скорости оружия";
             lb_cd_wt = "+- Критурон";
             lb_elem_wt = "+- Элементальный урон";
+            lb_elite_wt = "+-% Урона по элите";
             lb_wdt = "Расчёт урона от питомцев (WD):";
             lb_gargt = "% урона Громадня";
             lb_dogst = "Кол-во собак (если есть)";
@@ -136,7 +145,9 @@ namespace DPS_Diablo3
             lb_elem_dpst = "Elem";
             lb_dmg_dpst = "Dmg";
             lb_elite_dpst = "Elite";
-            lb_eliteс = "+-% Урона по элите";
+            lb_skill_dpst = "Skill";
+            lb_elitec = "+-% Урона по элите";
+            lb_skillc = "+-% Урона от скиллов";
 
             tt1t = "Сохраняет данные, прошлые будут перезаписаны.";
             tt2t = "Загружает сохранённые данные.";
@@ -216,6 +227,12 @@ namespace DPS_Diablo3
 
         public void Lang_eng()
         {
+            lb_para_seasons_prev = "Para lvl season:";
+            lb_para_seasons_next = "Para lvl non season:";
+            lb_para_seasons_exp_prev = "Exp season:";
+            lb_para_seasons_exp_next = "Exp no season:";
+            lb_para_seasons_exp_sum = "Sum exp:";
+            lb_para_seasons_exp_lvl = "Sum lvl:";
             lb_curr = "Remaining points: ";
             lb_cooldown = "Skill cooldown";
             lb_cdr12 = "CDR Diamond/Shoulders";
@@ -224,6 +241,7 @@ namespace DPS_Diablo3
             lb_cdr78 = "CDR Main Hand/Offhand";
             lb_cdr910 = "CDR Born/Crimson";
             lb_cdr1112 = "CDR Paragon/Passive";
+            lb_cdr13 = "CDR Belt";
             cb_paragon = "Paragon";
             cb_paragon_off = "Paragon OFF";
             lb_paragon = "Paragon level: ";
@@ -258,6 +276,7 @@ namespace DPS_Diablo3
             lb_acp_wt = "+-% Weapon Attack Speed";
             lb_cd_wt = "+- Critical Hit Damage";
             lb_elem_wt = "+- Elemental Damage";
+            lb_elite_wt = "+-% Elite damage";
             lb_wdt = "Pets Damage (WD):";
             lb_gargt = "% Gargantuan Damage";
             lb_dogst = "Zombie dogs number";
@@ -331,7 +350,9 @@ namespace DPS_Diablo3
             lb_elem_dpst = "Elem";
             lb_dmg_dpst = "Dmg";
             lb_elite_dpst = "Elite";
-            lb_eliteс = "+-% Elite damage";
+            lb_skill_dpst = "Skill";
+            lb_elitec = "+-% Elite damage";
+            lb_skillc = "+-% Skill damage";
 
             tt1t = "Save data. Previous data will be overwritten!";
             tt2t = "Load data.";

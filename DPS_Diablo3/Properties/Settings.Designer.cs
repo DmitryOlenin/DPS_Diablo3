@@ -1042,5 +1042,29 @@ namespace DPS_Diablo3.Properties {
                 this["pers_name"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal nud_cdr13 {
+            get {
+                return ((decimal)(this["nud_cdr13"]));
+            }
+            set {
+                this["nud_cdr13"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal nud_elite_w {
+            get {
+                return ((decimal)(this["nud_elite_w"]));
+            }
+            set {
+                this["nud_elite_w"] = value;
+            }
+        }
     }
 }

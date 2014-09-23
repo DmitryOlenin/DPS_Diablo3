@@ -27,6 +27,7 @@ namespace DPS_Diablo3
         List<string> main500 = new List<string> { "Jade Harvester", "Vyr", "Marauder", "Inna", "of Akkhan", "Firebird", "Helltooth" };
         List<string> main250 = new List<string> { "Chantodo", "Manajuma", "Sage", "Shenlong", "Zunimassa", "Natalya" };
         List<string> storms_set = new List<string> { "Eight-Demon Boots", "Fists of Thunder", "Heart of the Crashing Wave", "Mantle of the Upside-Down Sinners", "Mask of the Searing Sky", "Scales of the Dancing Serpent" };
+        public bool sunwuko = false;
 
         public void set_parse()
         {
@@ -38,29 +39,33 @@ namespace DPS_Diablo3
             foreach (string m500 in main500)
             {
                 for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains(m500)) set += 1;
-                if (set > 1) mainstat = mainstat + 500;
+                // 17.09.2014 // if (set > 1) mainstat = mainstat + 500;
                 set = 0;
             }
 
             foreach (string m250 in main250)
             {
                 for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains(m250)) set += 1;
-                if (set > 1) mainstat = mainstat + 250;
+                // 17.09.2014 // if (set > 1) mainstat = mainstat + 250;
                 set = 0;
             }
 
             foreach (string ss in storms_set)
                 for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains(ss)) set += 1;
-            if (set > 1) mainstat = mainstat + 500;
+            // 17.09.2014 // if (set > 1) mainstat = mainstat + 500;
             if ((set > 3) || (set > 2 && rorg != 0)) elem_all = elem_all + 15;
             set = 0;
 
+            for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains("Sunwuko's")) set += 1;
+            if (set > 1) sunwuko = true;
+            set = 0;
+            
             for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains("Born's")) set += 1;
-            if ((set > 2) || (set > 1 && rorg != 0)) cdr[8] = 10;
+            if ((set > 2) || (set > 1 && rorg != 0)) cdr[9] = 10;
             set = 0;
 
             for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains("Captain Crimson's")) set += 1;
-            if (set > 1) cdr[9] = 10;
+            if (set > 1) cdr[10] = 10;
             set = 0;
 
             for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains("Tal Rasha")) set += 1;
@@ -84,7 +89,7 @@ namespace DPS_Diablo3
             set = 0;
 
             for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains("Raekor")) set += 1;
-            if ((set > 3) || (set > 2 && rorg != 0)) mainstat = mainstat + 500;
+            // 17.09.2014 // if ((set > 3) || (set > 2 && rorg != 0)) mainstat = mainstat + 500;
             set = 0;
             
             for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains("Natalya")) set += 1;
@@ -92,7 +97,7 @@ namespace DPS_Diablo3
             set = 0;
             
             for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains("Bul-Kathos's Solemn Vow") || pars_hero[i].Contains("Bul-Kathos's Warrior Blood")) set += 1;
-            if (set > 1) mainstat = mainstat + 250;
+            // 17.09.2014 // if (set > 1) mainstat = mainstat + 250;
             set = 0;
 
             for (int i = 0; i < pars_hero.Length; i++) if (pars_hero[i].Contains("of Akkhan")) set += 1;
