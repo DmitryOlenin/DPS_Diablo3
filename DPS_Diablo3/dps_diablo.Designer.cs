@@ -268,8 +268,8 @@
             this.tsmi_lang_eng = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_lang_rus = new System.Windows.Forms.ToolStripMenuItem();
             this.справкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.paragonSeasonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsm_faq = new System.Windows.Forms.ToolStripMenuItem();
+            this.paragonSeasonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmi_ver = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -393,7 +393,7 @@
             // lb_iac1
             // 
             this.lb_iac1.AutoSize = true;
-            this.lb_iac1.Location = new System.Drawing.Point(8, 59);
+            this.lb_iac1.Location = new System.Drawing.Point(6, 59);
             this.lb_iac1.Name = "lb_iac1";
             this.lb_iac1.Size = new System.Drawing.Size(95, 13);
             this.lb_iac1.TabIndex = 2;
@@ -502,7 +502,7 @@
             // lb_icc
             // 
             this.lb_icc.AutoSize = true;
-            this.lb_icc.Location = new System.Drawing.Point(8, 140);
+            this.lb_icc.Location = new System.Drawing.Point(6, 140);
             this.lb_icc.Name = "lb_icc";
             this.lb_icc.Size = new System.Drawing.Size(57, 13);
             this.lb_icc.TabIndex = 16;
@@ -511,7 +511,7 @@
             // lb_icd
             // 
             this.lb_icd.AutoSize = true;
-            this.lb_icd.Location = new System.Drawing.Point(8, 166);
+            this.lb_icd.Location = new System.Drawing.Point(6, 166);
             this.lb_icd.Name = "lb_icd";
             this.lb_icd.Size = new System.Drawing.Size(54, 13);
             this.lb_icd.TabIndex = 17;
@@ -527,7 +527,7 @@
             // 
             // tb_damage2
             // 
-            this.tb_damage2.Location = new System.Drawing.Point(182, 32);
+            this.tb_damage2.Location = new System.Drawing.Point(174, 32);
             this.tb_damage2.MaxLength = 7;
             this.tb_damage2.Name = "tb_damage2";
             this.tb_damage2.ReadOnly = true;
@@ -693,9 +693,9 @@
             // 
             // b_start
             // 
-            this.b_start.Location = new System.Drawing.Point(226, 275);
+            this.b_start.Location = new System.Drawing.Point(225, 275);
             this.b_start.Name = "b_start";
-            this.b_start.Size = new System.Drawing.Size(214, 55);
+            this.b_start.Size = new System.Drawing.Size(216, 55);
             this.b_start.TabIndex = 22;
             this.b_start.Text = "Расчёт DPS";
             this.b_start.UseVisualStyleBackColor = true;
@@ -919,7 +919,7 @@
             // lb_ac
             // 
             this.lb_ac.AutoSize = true;
-            this.lb_ac.Location = new System.Drawing.Point(153, 25);
+            this.lb_ac.Location = new System.Drawing.Point(154, 25);
             this.lb_ac.Name = "lb_ac";
             this.lb_ac.Size = new System.Drawing.Size(33, 13);
             this.lb_ac.TabIndex = 64;
@@ -929,7 +929,7 @@
             // lb_main
             // 
             this.lb_main.AutoSize = true;
-            this.lb_main.Location = new System.Drawing.Point(153, 51);
+            this.lb_main.Location = new System.Drawing.Point(154, 51);
             this.lb_main.Name = "lb_main";
             this.lb_main.Size = new System.Drawing.Size(43, 13);
             this.lb_main.TabIndex = 65;
@@ -939,7 +939,7 @@
             // lb_cc
             // 
             this.lb_cc.AutoSize = true;
-            this.lb_cc.Location = new System.Drawing.Point(153, 77);
+            this.lb_cc.Location = new System.Drawing.Point(154, 77);
             this.lb_cc.Margin = new System.Windows.Forms.Padding(0);
             this.lb_cc.Name = "lb_cc";
             this.lb_cc.Size = new System.Drawing.Size(33, 13);
@@ -950,7 +950,7 @@
             // lb_cd
             // 
             this.lb_cd.AutoSize = true;
-            this.lb_cd.Location = new System.Drawing.Point(153, 103);
+            this.lb_cd.Location = new System.Drawing.Point(154, 103);
             this.lb_cd.Name = "lb_cd";
             this.lb_cd.Size = new System.Drawing.Size(33, 13);
             this.lb_cd.TabIndex = 67;
@@ -960,7 +960,7 @@
             // lb_elem
             // 
             this.lb_elem.AutoSize = true;
-            this.lb_elem.Location = new System.Drawing.Point(153, 129);
+            this.lb_elem.Location = new System.Drawing.Point(154, 129);
             this.lb_elem.Name = "lb_elem";
             this.lb_elem.Size = new System.Drawing.Size(43, 13);
             this.lb_elem.TabIndex = 68;
@@ -970,7 +970,7 @@
             // lb_dmg
             // 
             this.lb_dmg.AutoSize = true;
-            this.lb_dmg.Location = new System.Drawing.Point(153, 155);
+            this.lb_dmg.Location = new System.Drawing.Point(154, 155);
             this.lb_dmg.Name = "lb_dmg";
             this.lb_dmg.Size = new System.Drawing.Size(41, 13);
             this.lb_dmg.TabIndex = 70;
@@ -1240,7 +1240,7 @@
             this.pan_wa.Controls.Add(this.lb_dmg_a);
             this.pan_wa.Controls.Add(this.tb_dmg1_1_a);
             this.pan_wa.Controls.Add(this.tb_dmg1_2_a);
-            this.pan_wa.Location = new System.Drawing.Point(9, 32);
+            this.pan_wa.Location = new System.Drawing.Point(7, 32);
             this.pan_wa.Name = "pan_wa";
             this.pan_wa.Size = new System.Drawing.Size(229, 22);
             this.pan_wa.TabIndex = 0;
@@ -1356,7 +1356,7 @@
             this.pan_da.Controls.Add(this.tb_ac1_p);
             this.pan_da.Controls.Add(this.tb_dmg2_p);
             this.pan_da.Controls.Add(this.tb_dmg1_p);
-            this.pan_da.Location = new System.Drawing.Point(10, 85);
+            this.pan_da.Location = new System.Drawing.Point(8, 85);
             this.pan_da.Name = "pan_da";
             this.pan_da.Size = new System.Drawing.Size(235, 48);
             this.pan_da.TabIndex = 2;
@@ -2504,14 +2504,14 @@
             // tsmi_lang_eng
             // 
             this.tsmi_lang_eng.Name = "tsmi_lang_eng";
-            this.tsmi_lang_eng.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_lang_eng.Size = new System.Drawing.Size(114, 22);
             this.tsmi_lang_eng.Text = "&English";
             this.tsmi_lang_eng.Click += new System.EventHandler(this.tsmi_lang_eng_Click);
             // 
             // tsmi_lang_rus
             // 
             this.tsmi_lang_rus.Name = "tsmi_lang_rus";
-            this.tsmi_lang_rus.Size = new System.Drawing.Size(152, 22);
+            this.tsmi_lang_rus.Size = new System.Drawing.Size(114, 22);
             this.tsmi_lang_rus.Text = "&Russian";
             this.tsmi_lang_rus.Click += new System.EventHandler(this.tsmi_lang_rus_Click);
             // 
@@ -2528,14 +2528,6 @@
             this.справкаToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.справкаToolStripMenuItem.Text = "&Help";
             // 
-            // paragonSeasonToolStripMenuItem
-            // 
-            this.paragonSeasonToolStripMenuItem.Name = "paragonSeasonToolStripMenuItem";
-            this.paragonSeasonToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.paragonSeasonToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.paragonSeasonToolStripMenuItem.Text = "Paragon season";
-            this.paragonSeasonToolStripMenuItem.Click += new System.EventHandler(this.paragonSeasonToolStripMenuItem_Click);
-            // 
             // tsm_faq
             // 
             this.tsm_faq.Name = "tsm_faq";
@@ -2543,6 +2535,14 @@
             this.tsm_faq.Size = new System.Drawing.Size(176, 22);
             this.tsm_faq.Text = "&FAQ";
             this.tsm_faq.Click += new System.EventHandler(this.tsm_faq_Click);
+            // 
+            // paragonSeasonToolStripMenuItem
+            // 
+            this.paragonSeasonToolStripMenuItem.Name = "paragonSeasonToolStripMenuItem";
+            this.paragonSeasonToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.paragonSeasonToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.paragonSeasonToolStripMenuItem.Text = "Paragon season";
+            this.paragonSeasonToolStripMenuItem.Click += new System.EventHandler(this.paragonSeasonToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
@@ -2660,9 +2660,9 @@
             this.gb_result.Controls.Add(this.lb_dpsr);
             this.gb_result.Controls.Add(this.pan_wddam);
             this.gb_result.Controls.Add(this.lb_result_profile);
-            this.gb_result.Location = new System.Drawing.Point(227, 331);
+            this.gb_result.Location = new System.Drawing.Point(225, 331);
             this.gb_result.Name = "gb_result";
-            this.gb_result.Size = new System.Drawing.Size(213, 92);
+            this.gb_result.Size = new System.Drawing.Size(216, 92);
             this.gb_result.TabIndex = 144;
             this.gb_result.TabStop = false;
             this.gb_result.Text = "Результаты расчётов";
@@ -2682,9 +2682,9 @@
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.cb_web);
-            this.panel1.Location = new System.Drawing.Point(226, 216);
+            this.panel1.Location = new System.Drawing.Point(225, 216);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(214, 55);
+            this.panel1.Size = new System.Drawing.Size(216, 55);
             this.panel1.TabIndex = 146;
             // 
             // cb_web
@@ -2751,9 +2751,9 @@
             this.gb_increase.Controls.Add(this.lb_elem_dps);
             this.gb_increase.Controls.Add(this.lb_cd_dps);
             this.gb_increase.Controls.Add(this.lb_elem);
-            this.gb_increase.Location = new System.Drawing.Point(8, 216);
+            this.gb_increase.Location = new System.Drawing.Point(6, 216);
             this.gb_increase.Name = "gb_increase";
-            this.gb_increase.Size = new System.Drawing.Size(213, 227);
+            this.gb_increase.Size = new System.Drawing.Size(215, 227);
             this.gb_increase.TabIndex = 149;
             this.gb_increase.TabStop = false;
             this.gb_increase.Text = "Прирост DPS от характеристик:";
@@ -2761,7 +2761,7 @@
             // lb_skill
             // 
             this.lb_skill.AutoSize = true;
-            this.lb_skill.Location = new System.Drawing.Point(153, 207);
+            this.lb_skill.Location = new System.Drawing.Point(154, 207);
             this.lb_skill.Name = "lb_skill";
             this.lb_skill.Size = new System.Drawing.Size(38, 13);
             this.lb_skill.TabIndex = 82;
@@ -2771,7 +2771,7 @@
             // lb_skill_dpsi
             // 
             this.lb_skill_dpsi.AutoSize = true;
-            this.lb_skill_dpsi.Location = new System.Drawing.Point(73, 207);
+            this.lb_skill_dpsi.Location = new System.Drawing.Point(74, 207);
             this.lb_skill_dpsi.Name = "lb_skill_dpsi";
             this.lb_skill_dpsi.Size = new System.Drawing.Size(83, 13);
             this.lb_skill_dpsi.TabIndex = 81;
@@ -2934,7 +2934,7 @@
             // lb_elite_dpsi
             // 
             this.lb_elite_dpsi.AutoSize = true;
-            this.lb_elite_dpsi.Location = new System.Drawing.Point(73, 181);
+            this.lb_elite_dpsi.Location = new System.Drawing.Point(74, 181);
             this.lb_elite_dpsi.Name = "lb_elite_dpsi";
             this.lb_elite_dpsi.Size = new System.Drawing.Size(83, 13);
             this.lb_elite_dpsi.TabIndex = 79;
@@ -2943,7 +2943,7 @@
             // lb_dmg_dpsi
             // 
             this.lb_dmg_dpsi.AutoSize = true;
-            this.lb_dmg_dpsi.Location = new System.Drawing.Point(73, 155);
+            this.lb_dmg_dpsi.Location = new System.Drawing.Point(74, 155);
             this.lb_dmg_dpsi.Name = "lb_dmg_dpsi";
             this.lb_dmg_dpsi.Size = new System.Drawing.Size(83, 13);
             this.lb_dmg_dpsi.TabIndex = 78;
@@ -2952,7 +2952,7 @@
             // lb_elem_dpsi
             // 
             this.lb_elem_dpsi.AutoSize = true;
-            this.lb_elem_dpsi.Location = new System.Drawing.Point(73, 129);
+            this.lb_elem_dpsi.Location = new System.Drawing.Point(74, 129);
             this.lb_elem_dpsi.Name = "lb_elem_dpsi";
             this.lb_elem_dpsi.Size = new System.Drawing.Size(83, 13);
             this.lb_elem_dpsi.TabIndex = 77;
@@ -2961,7 +2961,7 @@
             // lb_cd_dpsi
             // 
             this.lb_cd_dpsi.AutoSize = true;
-            this.lb_cd_dpsi.Location = new System.Drawing.Point(73, 103);
+            this.lb_cd_dpsi.Location = new System.Drawing.Point(74, 103);
             this.lb_cd_dpsi.Name = "lb_cd_dpsi";
             this.lb_cd_dpsi.Size = new System.Drawing.Size(83, 13);
             this.lb_cd_dpsi.TabIndex = 76;
@@ -2970,7 +2970,7 @@
             // lb_cc_dpsi
             // 
             this.lb_cc_dpsi.AutoSize = true;
-            this.lb_cc_dpsi.Location = new System.Drawing.Point(73, 77);
+            this.lb_cc_dpsi.Location = new System.Drawing.Point(74, 77);
             this.lb_cc_dpsi.Name = "lb_cc_dpsi";
             this.lb_cc_dpsi.Size = new System.Drawing.Size(83, 13);
             this.lb_cc_dpsi.TabIndex = 75;
@@ -2979,7 +2979,7 @@
             // lb_stat_dpsi
             // 
             this.lb_stat_dpsi.AutoSize = true;
-            this.lb_stat_dpsi.Location = new System.Drawing.Point(73, 51);
+            this.lb_stat_dpsi.Location = new System.Drawing.Point(74, 51);
             this.lb_stat_dpsi.Name = "lb_stat_dpsi";
             this.lb_stat_dpsi.Size = new System.Drawing.Size(83, 13);
             this.lb_stat_dpsi.TabIndex = 74;
@@ -2988,7 +2988,7 @@
             // lb_as_dpsi
             // 
             this.lb_as_dpsi.AutoSize = true;
-            this.lb_as_dpsi.Location = new System.Drawing.Point(73, 25);
+            this.lb_as_dpsi.Location = new System.Drawing.Point(74, 25);
             this.lb_as_dpsi.Name = "lb_as_dpsi";
             this.lb_as_dpsi.Size = new System.Drawing.Size(83, 13);
             this.lb_as_dpsi.TabIndex = 73;
@@ -2997,7 +2997,7 @@
             // lb_elite
             // 
             this.lb_elite.AutoSize = true;
-            this.lb_elite.Location = new System.Drawing.Point(153, 181);
+            this.lb_elite.Location = new System.Drawing.Point(154, 181);
             this.lb_elite.Name = "lb_elite";
             this.lb_elite.Size = new System.Drawing.Size(40, 13);
             this.lb_elite.TabIndex = 72;
@@ -3027,9 +3027,9 @@
             this.cb_paragon.Appearance = System.Windows.Forms.Appearance.Button;
             this.cb_paragon.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cb_paragon.Image = ((System.Drawing.Image)(resources.GetObject("cb_paragon.Image")));
-            this.cb_paragon.Location = new System.Drawing.Point(226, 190);
+            this.cb_paragon.Location = new System.Drawing.Point(225, 190);
             this.cb_paragon.Name = "cb_paragon";
-            this.cb_paragon.Size = new System.Drawing.Size(214, 22);
+            this.cb_paragon.Size = new System.Drawing.Size(216, 22);
             this.cb_paragon.TabIndex = 20;
             this.cb_paragon.Text = "Paragon";
             this.cb_paragon.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

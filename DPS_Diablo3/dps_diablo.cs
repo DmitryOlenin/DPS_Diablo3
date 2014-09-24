@@ -64,7 +64,7 @@ namespace DPS_Diablo3
         public List<string> id;
         public List<int> updated;
 
-        public System.IO.StreamReader sr;
+        public System.IO.StreamReader sr;        
 
         public string
              hero_parse, profile_parse, head, torso, feet, hands, shoulders, legs, bracers, mainHand, offHand, waist, rightFinger, leftFinger, neck
@@ -89,6 +89,7 @@ namespace DPS_Diablo3
               , del_Physical = 0, del_X1_Physical = 0, del_Fire = 0, del_Cold = 0, del_Lightning = 0, del_Poison = 0, del_Arcane = 0, del_Holy = 0
               , min_Physical = 0, min_X1_Physical = 0, min_Fire = 0, min_Cold = 0, min_Lightning = 0, min_Poison = 0, min_Arcane = 0, min_Holy = 0
               , elem_Physical = 0, elem_Fire = 0, elem_Cold = 0, elem_Lightning = 0, elem_Poison = 0, elem_Arcane = 0, elem_Holy = 0
+              , damage_Weapon_Percent_All = 1, damage_Weapon_off_Percent_All = 1
               , damage_min = 0, damage_max = 0, elem_all = 0, aps = 0, aps_up = 0, aps_up_off = 0, aps_off = 0, damage_min_off = 0, damage_max_off = 0
               , crit_damage = 0, crit_chance = 0, elite_damage = 0, off_crit_chance = 0, off_del_Physical = 0, off_min_Physical = 0
               , rings_count = 0, r1_del_Physical = 0, r1_min_Physical = 0, r2_del_Physical = 0, r2_min_Physical = 0, am_del_Physical = 0, am_min_Physical = 0
@@ -105,7 +106,7 @@ namespace DPS_Diablo3
         public Class_lang lng = new Class_lang();
 
         public int mainstat = 0, to_skl = 0, cnt = 0, from_skl_prof = 0, cdr_n = 0, para_level = 0, level1 = 0, level2 = 0, noprof_cc = 0, noprof_as = 0,
-            sockets, acincr_i=0, cc_i=0, cd_i=0, nud_ps_prev_val = 0, nud_ps_next_val = 0;
+            sockets, acincr_i = 0, cc_i = 0, cd_i = 0, nud_ps_prev_val = 0, nud_ps_next_val = 0, damage_ruby = 0, damage_ruby_off = 0;
 
         decimal lev2 = 0, curr_para = 0, prev_para = 0, coold_pass = 0;
 
@@ -138,6 +139,10 @@ namespace DPS_Diablo3
         {
 
             InitializeComponent();
+
+            //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            //this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            //this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 
             //Settings.Default.web1_name = ""; Settings.Default.web2_name = ""; Settings.Default.web3_name = ""; Settings.Default.web4_name = ""; Settings.Default.web5_name = "";
             //Settings.Default.web1_www = ""; Settings.Default.web2_www = ""; Settings.Default.web3_www = ""; Settings.Default.web4_www = ""; Settings.Default.web5_www = "";
@@ -1654,7 +1659,10 @@ namespace DPS_Diablo3
                     ; damage_min = 0; damage_max = 0; elem_all = 0; aps = 0; aps_up = 0; aps_up_off = 0; aps_off = 0; damage_min_off = 0; damage_max_off = 0
                     ; crit_damage = 0; crit_chance = 0; elite_damage = 0; off_crit_chance = 0; off_del_Physical = 0; off_min_Physical = 0
                     ; rings_count = 0; r1_del_Physical = 0; r1_min_Physical = 0; r2_del_Physical = 0; r2_min_Physical = 0; am_del_Physical = 0; am_min_Physical = 0
-                    ; from_skl = 0; from_skl_prof = 0; coold_pass = 0; sockets = 0; finery = 0; sunwuko = false;
+                    ; from_skl = 0; from_skl_prof = 0; coold_pass = 0; sockets = 0; finery = 0; sunwuko = false
+                    ; damage_Weapon_Percent_All = 1; damage_Weapon_off_Percent_All = 1
+                    ;
+                    damage_ruby = 0; damage_ruby_off = 0;
 
                     //head_parse = ""; torso_parse = ""; feet_parse = ""; hands_parse = ""; shoulders_parse = ""; legs_parse = ""; bracers_parse = ""; mainHand_parse = ""; offHand_parse = ""; waist_parse = ""; rightFinger_parse = ""; leftFinger_parse = ""; neck_parse = "";
 
@@ -1678,10 +1686,17 @@ namespace DPS_Diablo3
                         if (mainHand_parse.Contains("Critical Hit Damage Increased by 115")) crit_damage = crit_damage + 115;
                         if (mainHand_parse.Contains("Critical Hit Damage Increased by 110")) crit_damage = crit_damage + 110;
                         if (mainHand_parse.Contains("Flawless Royal Diamond")) elite_damage = elite_damage + 20;
-                        if (mainHand_parse.Contains("Royal Diamond")) elite_damage = elite_damage + 19;
+                        else if (mainHand_parse.Contains("Royal Diamond")) elite_damage = elite_damage + 19;
                         if (mainHand_parse.Contains("Flawless Imperial Diamond")) elite_damage = elite_damage + 18;
-                        if (mainHand_parse.Contains("Imperial Diamond")) elite_damage = elite_damage + 17;
+                        else if (mainHand_parse.Contains("Imperial Diamond")) elite_damage = elite_damage + 17;
                         if (mainHand_parse.Contains("Marquise Diamond")) elite_damage = elite_damage + 16;
+                        //24.09.2014
+                        if (mainHand_parse.Contains("Flawless Royal Ruby")) damage_ruby += 270;
+                        else if (mainHand_parse.Contains("Royal Ruby")) damage_ruby += 250;
+                        if (mainHand_parse.Contains("Flawless Imperial ")) damage_ruby += 220;
+                        else if (mainHand_parse.Contains("Imperial ")) damage_ruby += 190;
+                        if (mainHand_parse.Contains("Marquise Ruby")) damage_ruby += 160;
+                        //24.09.2014
                         if (mainHand_parse.Contains("\"twoHanded\" : true")) two_handed = true;
                         if (two_handed && sunwuko)
                         {
@@ -1796,7 +1811,13 @@ namespace DPS_Diablo3
                         if (offHand_parse.Contains("Flawless Imperial Diamond")) elite_damage = elite_damage + 18;
                         else if (offHand_parse.Contains("Imperial Diamond")) elite_damage = elite_damage + 17;
                         if (offHand_parse.Contains("Marquise Diamond")) elite_damage = elite_damage + 16;
-                        if (offHand_parse.Contains("Marquise Diamond")) elite_damage = elite_damage + 16;
+                        //24.09.2014
+                        if (offHand_parse.Contains("Flawless Royal Ruby")) damage_ruby_off += 270;
+                        else if (offHand_parse.Contains("Royal Ruby")) damage_ruby_off += 250;
+                        if (offHand_parse.Contains("Flawless Imperial Ruby")) damage_ruby_off += 220;
+                        else if (offHand_parse.Contains("Imperial Ruby")) damage_ruby_off += 190;
+                        if (offHand_parse.Contains("Marquise Ruby")) damage_ruby_off += 160;
+                        //24.09.2014
                         amount = new Regex(@"transmogItem[\s\S]*Shield_105").Matches(offHand_parse).Count;
                         //MessageBox.Show(amount.ToString());
                         //!offHand_parse.Contains("\"transmogItem\" : {\n\"id\" : \"Unique_Shield_105_x1\"")
@@ -1961,6 +1982,11 @@ namespace DPS_Diablo3
             weapon_id = mh.type.id;
             weapon_2h = mh.type.twoHanded;
 
+            //----------Attacks Per Second----------//
+
+            if (mh.attacksPerSecond != null) aps = Math.Round(Convert.ToDouble(mh.attacksPerSecond.min.Replace(".", sep)), 2);
+            if (mh.attributesRaw.Attacks_Per_Second_Item_Percent != null) aps_item = mh.attributesRaw.Attacks_Per_Second_Item_Percent.min;
+            
             //----------Weapon(min/max)----------//
 
             if (mh.attributesRaw.Damage_Weapon_Min_Physical != null) min_Physical = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Min_Physical.min.Replace(".", sep)), 2);
@@ -1981,8 +2007,12 @@ namespace DPS_Diablo3
             if (mh.attributesRaw.Damage_Weapon_Delta_Arcane != null) del_Arcane = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Delta_Arcane.min.Replace(".", sep)), 2);
             if (mh.attributesRaw.Damage_Weapon_Delta_Holy != null) del_Holy = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Delta_Holy.min.Replace(".", sep)), 2);
 
-            damage_min = Math.Round(min_Physical + min_X1_Physical + min_Fire + min_Cold + min_Lightning + min_Poison + min_Arcane + min_Holy);
-            damage_max = Math.Round(del_Physical + del_X1_Physical + del_Fire + del_Cold + del_Lightning + del_Poison + del_Arcane + del_Holy + min_Physical + min_X1_Physical + min_Fire + min_Cold + min_Lightning + min_Poison + min_Arcane + min_Holy);
+            //24.09.2014
+            if (mh.attributesRaw.Damage_Weapon_Percent_All != null) damage_Weapon_Percent_All = 1 + Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Percent_All.min.Replace(".", sep)), 2);
+
+            damage_min = Math.Round((damage_ruby + min_Physical + min_X1_Physical + min_Fire + min_Cold + min_Lightning + min_Poison + min_Arcane + min_Holy) * damage_Weapon_Percent_All);
+            damage_max = Math.Round((damage_ruby + del_Physical + del_X1_Physical + del_Fire + del_Cold + del_Lightning + del_Poison + del_Arcane + del_Holy + min_Physical + min_X1_Physical + min_Fire + min_Cold + min_Lightning + min_Poison + min_Arcane + min_Holy) * damage_Weapon_Percent_All);
+            //24.09.2014
 
             if (mh.dps != null) dps_min = mh.dps.min;
             if (mh.attributesRaw.Damage_Weapon_Percent_Bonus_Physical != null)
@@ -2003,11 +2033,6 @@ namespace DPS_Diablo3
             if (mh.attributesRaw.Damage_Dealt_Percent_Bonus_Holy != null) elem_Holy = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Dealt_Percent_Bonus_Holy.min.Replace(".", sep)), 2);
 
             elem_all = elem_all + Math.Round((elem_Physical + elem_Fire + elem_Cold + elem_Lightning + elem_Poison + elem_Arcane + elem_Holy) * 100);
-
-            //----------Attacks Per Second----------//
-
-            if (mh.attacksPerSecond != null) aps = Math.Round(Convert.ToDouble(mh.attacksPerSecond.min.Replace(".", sep)), 2);
-            if (mh.attributesRaw.Attacks_Per_Second_Item_Percent != null) aps_item = mh.attributesRaw.Attacks_Per_Second_Item_Percent.min;
 
             //----------Critical damage----------//
 
@@ -2117,6 +2142,12 @@ namespace DPS_Diablo3
             DataContractJsonSerializer json = new DataContractJsonSerializer(typeof(MainHand));
             MainHand mh = (MainHand)json.ReadObject(TheStream);
 
+            //----------Attacks Per Second----------//
+
+            if (mh.attacksPerSecond != null) aps_off = Math.Round(Convert.ToDouble(mh.attacksPerSecond.min.Replace(".", sep)), 2);
+            if (mh.attributesRaw.Attacks_Per_Second_Item_Percent != null) aps_item_off = mh.attributesRaw.Attacks_Per_Second_Item_Percent.min;
+            if (mh.attributesRaw.Attacks_Per_Second_Percent != null) aps_up = aps_up + Math.Round(Convert.ToDouble(mh.attributesRaw.Attacks_Per_Second_Percent.min.Replace(".", sep)), 2) * 100;
+
             //----------Weapon(min/max)----------//
 
             if (mh.attributesRaw.Damage_Weapon_Min_Physical != null) min_Physical = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Min_Physical.min.Replace(".", sep)), 2);
@@ -2137,8 +2168,10 @@ namespace DPS_Diablo3
             if (mh.attributesRaw.Damage_Weapon_Delta_Arcane != null) del_Arcane = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Delta_Arcane.min.Replace(".", sep)), 2);
             if (mh.attributesRaw.Damage_Weapon_Delta_Holy != null) del_Holy = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Delta_Holy.min.Replace(".", sep)), 2);
 
-            damage_min_off = Math.Round(min_Physical + min_X1_Physical + min_Fire + min_Cold + min_Lightning + min_Poison + min_Arcane + min_Holy);
-            damage_max_off = Math.Round(del_Physical + del_X1_Physical + del_Fire + del_Cold + del_Lightning + del_Poison + del_Arcane + del_Holy + min_Physical + min_X1_Physical + min_Fire + min_Cold + min_Lightning + min_Poison + min_Arcane + min_Holy);
+            if (mh.attributesRaw.Damage_Weapon_Percent_All != null) damage_Weapon_off_Percent_All = 1 + Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Percent_All.min.Replace(".", sep)), 2);
+
+            damage_min_off = Math.Round((damage_ruby_off + min_Physical + min_X1_Physical + min_Fire + min_Cold + min_Lightning + min_Poison + min_Arcane + min_Holy) * damage_Weapon_off_Percent_All);
+            damage_max_off = Math.Round((damage_ruby_off + del_Physical + del_X1_Physical + del_Fire + del_Cold + del_Lightning + del_Poison + del_Arcane + del_Holy + min_Physical + min_X1_Physical + min_Fire + min_Cold + min_Lightning + min_Poison + min_Arcane + min_Holy) * damage_Weapon_off_Percent_All);
 
             if (mh.dps != null) dps_min_off = mh.dps.min;
             if (mh.attributesRaw.Damage_Weapon_Percent_Bonus_Physical != null)
@@ -2159,12 +2192,6 @@ namespace DPS_Diablo3
             if (mh.attributesRaw.Damage_Dealt_Percent_Bonus_Holy != null) elem_Holy = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Dealt_Percent_Bonus_Holy.min.Replace(".", sep)), 2);
 
             if (Math.Round((elem_Physical + elem_Fire + elem_Cold + elem_Lightning + elem_Poison + elem_Arcane + elem_Holy) * 100) > 0) elem_all = elem_all + Math.Round((elem_Physical + elem_Fire + elem_Cold + elem_Lightning + elem_Poison + elem_Arcane + elem_Holy) * 100);
-
-            //----------Attacks Per Second----------//
-
-            if (mh.attacksPerSecond != null) aps_off = Math.Round(Convert.ToDouble(mh.attacksPerSecond.min.Replace(".", sep)), 2);
-            if (mh.attributesRaw.Attacks_Per_Second_Item_Percent != null) aps_item_off = mh.attributesRaw.Attacks_Per_Second_Item_Percent.min;
-            if (mh.attributesRaw.Attacks_Per_Second_Percent != null) aps_up = aps_up + Math.Round(Convert.ToDouble(mh.attributesRaw.Attacks_Per_Second_Percent.min.Replace(".", sep)), 2) * 100;
 
             //----------Critical damage----------//
 
@@ -2240,6 +2267,10 @@ namespace DPS_Diablo3
 
             //if (lb_adv.Text == "def") b_adv.PerformClick();
 
+            if (damage_Weapon_Percent_All - 1 > 0) tb_dmg1_p.Text = Math.Round((damage_Weapon_Percent_All-1) * 100).ToString().Replace(sep, ".");
+            if (damage_Weapon_Percent_All - 1 > 0) Readonly_clear(tb_dmg1_p, null);
+            if (damage_Weapon_off_Percent_All - 1 > 0) tb_dmg2_p.Text = Math.Round((damage_Weapon_off_Percent_All - 1) * 100).ToString().Replace(sep, ".");
+            if (damage_Weapon_off_Percent_All - 1 > 0) Readonly_clear(tb_dmg2_p, null);
             if (skill_damage != "") tb_skill1.Text = skill_damage;
             if (skill_damage != "") tb_skill.Text = skill_damage;
             if (mainstat != 0) tb_main.Text = Math.Round(mainstat * finery).ToString();
@@ -2251,8 +2282,8 @@ namespace DPS_Diablo3
             if (elem_all != 0) tb_elem1.Text = elem_all.ToString().Replace(sep, ".");
             if (elem_all != 0) tb_elem.Text = elem_all.ToString().Replace(sep, ".");
             if (aps != 0) tb_ac1.Text = aps.ToString().Replace(sep, ".");
-            if (aps_off != 0) tb_ac2.Text = aps_off.ToString().Replace(sep, ".");
-            if (aps_off != 0) Readonly_clear(tb_ac2, null);//tb_ac2_MouseClick(null, null);
+            if (aps_off != 0 ) tb_ac2.Text = aps_off.ToString().Replace(sep, ".");
+            if (aps_off != 0 ) Readonly_clear(tb_ac2, null);//tb_ac2_MouseClick(null, null);
             if (aps_item != "") tb_ac1_p.Text = (Math.Round(Convert.ToDouble(aps_item.Replace(".", sep)), 2) * 100).ToString().Replace(sep, ".");
             if (aps_item != "") Readonly_clear(tb_ac1_p, null);//tb_ac1_p_MouseClick(null, null);
             if (elite_damage != 0) tb_elite.Text = elite_damage.ToString().Replace(sep, ".");
@@ -2891,6 +2922,7 @@ namespace DPS_Diablo3
 
         public void para_form_create()
         {
+            //frm_para.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             frm_para.StartPosition = FormStartPosition.Manual;
             //frm_para.Owner = this;
             this.Move += Form_Move;
@@ -2916,6 +2948,13 @@ namespace DPS_Diablo3
             frm_para.Deactivate += new EventHandler(frm_para_Deactivate);
             //frm_para.Activated += new EventHandler(frm_para_Activated);
             frm_para.FormBorderStyle = FormBorderStyle.SizableToolWindow;
+
+            //frm_para.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            //frm_para.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            //frm_para.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            //this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            //this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
         }
 
         //void frm_para_Activated(object sender, EventArgs e)
@@ -3408,6 +3447,13 @@ namespace DPS_Diablo3
 
             //Закрываем центр
             frm_para.DesktopLocation = new Point(this.Location.X + 228, this.Location.Y + 238);
+
+            Graphics g = this.CreateGraphics();
+            if (g.DpiX >= 120)
+            {
+                frm_para.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+                frm_para.DesktopLocation = new Point(this.Location.X + 315, this.Location.Y + 295);
+            }
 
             //По центру пункта
             //if (Environment.OSVersion.Version.Major >= 6 && DwmIsCompositionEnabled())

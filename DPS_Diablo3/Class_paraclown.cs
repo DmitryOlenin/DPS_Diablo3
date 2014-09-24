@@ -53,6 +53,13 @@ namespace DPS_Diablo3
         {
 
             frm_para_seasons.DesktopLocation = new Point(this.Location.X + 5, this.Location.Y + 50);
+
+            Graphics g = this.CreateGraphics();
+            if (g.DpiX >= 120)
+            {
+                frm_para_seasons.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+                frm_para_seasons.DesktopLocation = new Point(this.Location.X + 5, this.Location.Y + 60);
+            }
             //frm_para_seasons.DesktopLocation = new Point(this.Location.X + 228, this.Location.Y + 238);
             //По центру пункта
             //if (Environment.OSVersion.Version.Major >= 6 && DwmIsCompositionEnabled())

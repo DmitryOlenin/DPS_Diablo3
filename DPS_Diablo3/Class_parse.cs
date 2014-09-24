@@ -186,7 +186,13 @@ namespace DPS_Diablo3.parse
             {
                 public string min { get; set; }
             }
-            
+
+            //----------+DPS %----------//
+            public damage_Weapon_Percent_All Damage_Weapon_Percent_All { get; set; }
+            public class damage_Weapon_Percent_All
+            {
+                public string min { get; set; }
+            }
 
             //----------Physical----------//
             public damage_Delta_Physical Damage_Delta_Physical { get; set; }
