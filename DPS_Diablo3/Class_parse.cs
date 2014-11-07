@@ -338,6 +338,14 @@ namespace DPS_Diablo3.parse
             {
                 public string min { get; set; }
             }
+
+            //----------The Furnace----------//
+ 
+            public item_Power_Passive_ItemPassive_Unique_Ring_571_x1 Item_Power_Passive_ItemPassive_Unique_Ring_571_x1 { get; set; }
+            public class item_Power_Passive_ItemPassive_Unique_Ring_571_x1
+            {
+                public string min { get; set; }
+            }
         }
 
 

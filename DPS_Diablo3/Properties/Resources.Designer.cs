@@ -139,5 +139,45 @@ namespace DPS_Diablo3.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap unique_gem_001_x1_demonhunter_male {
+            get {
+                object obj = ResourceManager.GetObject("unique_gem_001_x1_demonhunter_male", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap unique_gem_002_x1_demonhunter_male {
+            get {
+                object obj = ResourceManager.GetObject("unique_gem_002_x1_demonhunter_male", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap unique_gem_010_x1_demonhunter_male {
+            get {
+                object obj = ResourceManager.GetObject("unique_gem_010_x1_demonhunter_male", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap unique_gem_012_x1_demonhunter_male {
+            get {
+                object obj = ResourceManager.GetObject("unique_gem_012_x1_demonhunter_male", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

@@ -14,19 +14,31 @@ namespace DPS_Diablo3
         lb_itoskillt, lb_ielemt, lb_iskillt, lb_dpspt, lb_dpst, lb_dpsrt, lb_dpspetst, lb_result_profilet, lb_resultt, lb_changedt, lb_elitec, lb_skillc,
         lb_result_wdt, b_advt, b_statt, b_wept, cb_wdt, b_startt, b_savet, b_loadt, b_cleart, lb_autht, Save_dialog1t, Save_dialog2t, Save_dialog3t,
         tt1t, tt2t, tt3t, tt4t, tt5t, tt6t, tt7t, tt8t, tt9t, tt10t, tt11t, tt12t, tt13t, tt14t, tt15t, tt16t, tt17t, tt7_1t, tt18t, tt19t,
-        tt20t, tt21t, tt22t, tt23t, tt24t, tt25t, tt26t, tt27t, tt28t, tt29t, tt30t, tt31t, tt32t, tt33t, tt34t, tt35t, tt36t, tt37t, tt38t, tt39t, tt40t, tt41t
-        ,lb_resultt_none, lb_resultt_dots, b_advt_def, b_statt_cdr, b_statt_dps, b_wept_wd, b_wept_skill
+        tt20t, tt21t, tt22t, tt23t, tt24t, tt25t, tt26t, tt27t, tt28t, tt29t, tt30t, tt31t, tt32t, tt33t, tt34t, tt35t, tt36t, tt37t, tt38t, tt39t, tt40t, tt41t, tt42t, ttas
+        , lb_resultt_none, lb_resultt_dots, b_advt_def, b_statt_cdr, b_statt_dps, b_wept_wd, b_wept_skill, b_wept_gems
         , lb_as_dpst, lb_stat_dpst, lb_cc_dpst, lb_cd_dpst, lb_elem_dpst, lb_dmg_dpst, lb_elite_dpst, lb_skill_dpst, tb_pers, tb_pers_choice, lb_changes, lb_import, gb_result, gb_increase
         , warn, mess_imp, mess_nopers, mess_noint
         , qu, an, q1, a1_1, a1_2, q2, a2_1, q3, a3_1, a3_2, q4, a4_1, q5, a5_1, q6, a6_1, q7, a7_1, a7_2, q8, a8_1, a8_2, q9, a9_1, q10, a10_1, q11, a11_1, a11_2, q12, a12_1
         , lb_as, lb_cdr, lb_paragon, cb_paragon, cb_paragon_off, lb_curr
-        , lb_cooldown, lb_cdr12, lb_cdr34, lb_cdr56, lb_cdr78, lb_cdr910, lb_cdr1112, lb_cdr13
+        , lb_cooldown, lb_cdr12, lb_cdr34, lb_cdr56, lb_cdr78, lb_cdr910, lb_cdr1112, lb_cdr1314
         , lb_dpst_inc
         , lb_para_seasons_prev, lb_para_seasons_next, lb_para_seasons_exp_prev, lb_para_seasons_exp_next, lb_para_seasons_exp_sum, lb_para_seasons_exp_lvl
+        , lb_gem_lvl, lb_rift_lvl, lb_desc, lb_up1_desc, lb_up2_desc, lb_up3_desc
+        , lb_gem_bop, lb_gem_bot, lb_gem_enf, lb_gem_zei
         ;
 
         public void Lang_rus()
         {
+            lb_gem_bop = "Проклятие сильных";
+            lb_gem_bot = "Проклятие пленных";
+            lb_gem_enf = "Головорез";
+            lb_gem_zei = "Зеев камень";
+            lb_gem_lvl = "Уровень самоцвета: ";
+            lb_rift_lvl = "Уровень рифта: ";
+            lb_desc = "Вероятность улучшения камня";
+            lb_up1_desc = "Попытка 1: ";
+            lb_up2_desc = "Попытка 2: ";
+            lb_up3_desc = "Попытка 3: ";
             lb_para_seasons_prev = "Парагон сезон:";
             lb_para_seasons_next = "Парагон не сезон:";
             lb_para_seasons_exp_prev = "Опыт сезон:";
@@ -41,7 +53,7 @@ namespace DPS_Diablo3
             lb_cdr78 = "CDR Л.рука/П.рука";
             lb_cdr910 = "CDR Борн/Кримсон";
             lb_cdr1112 = "CDR Парагон/Пассивка";
-            lb_cdr13 = "CDR Пояс";
+            lb_cdr1314 = "CDR Пояс/Гогок";
             cb_paragon = "Paragon";
             cb_paragon_off = "Paragon OFF";
             lb_paragon = "Уровень парагона: ";
@@ -128,6 +140,7 @@ namespace DPS_Diablo3
             b_wept = "Расчёт изменения оружия";
             b_wept_wd = "Расчёт урона питомцев WD";
             b_wept_skill = "Расчёт изменения параметров";
+            b_wept_gems = "Учёт легендарных самоцветов";
             cb_wdt = "WD";
             b_startt = "Расчёт DPS";
             b_savet = "Q.Save";
@@ -191,6 +204,8 @@ namespace DPS_Diablo3
             tt39t = "Быстрое сохранение данных. ---F5---";
             tt40t = "Быстрая загрузка данных. ---F6---";
             tt41t = "Импорт данных из профиля Battle.Net";
+            tt42t = "ЛКМ: История\nПКМ: Очистка истории";
+            ttas = "Брекпоинты: " + "\n1.10205\n1.25582\n1.45946\n1.74194\n2.16001\n2.84211\n4.15386";
 
             qu = "Вопрос: ";
             an = "Ответ: ";
@@ -227,6 +242,16 @@ namespace DPS_Diablo3
 
         public void Lang_eng()
         {
+            lb_gem_bop = "Bane of the powerful";
+            lb_gem_bot = "Bane of the trapped";
+            lb_gem_enf = "Enforcer";
+            lb_gem_zei = "Zei's stone";
+            lb_gem_lvl = "Gem level: ";
+            lb_rift_lvl = "Rift level: ";
+            lb_desc = "Chance to upgrade the gem";
+            lb_up1_desc = "Attempt 1: ";
+            lb_up2_desc = "Attempt 2: ";
+            lb_up3_desc = "Attempt 3: ";
             lb_para_seasons_prev = "Para lvl season:";
             lb_para_seasons_next = "Para lvl non season:";
             lb_para_seasons_exp_prev = "Exp season:";
@@ -241,7 +266,7 @@ namespace DPS_Diablo3
             lb_cdr78 = "CDR Main Hand/Offhand";
             lb_cdr910 = "CDR Born/Crimson";
             lb_cdr1112 = "CDR Paragon/Passive";
-            lb_cdr13 = "CDR Belt";
+            lb_cdr1314 = "CDR Belt/Gogok";
             cb_paragon = "Paragon";
             cb_paragon_off = "Paragon OFF";
             lb_paragon = "Paragon level: ";
@@ -333,6 +358,7 @@ namespace DPS_Diablo3
             b_wept = "Weapon changes calculator";
             b_wept_wd = "Pets damage calculator (WD)";
             b_wept_skill = "Items/stats calculator";
+            b_wept_gems = "Gems calculator";
             cb_wdt = "WD";
             b_startt = "Calculate DPS";
             b_savet = "Q.Save";
@@ -396,6 +422,8 @@ namespace DPS_Diablo3
             tt39t = "Quick Save Data. ---F5---";
             tt40t = "Quick Load Data. ---F6---";
             tt41t = "Battle.Net profile import.";
+            tt42t = "Left: The history\nRight: Clear the history";
+            ttas = "Breakpoints: " + "\n1.10205\n1.25582\n1.45946\n1.74194\n2.16001\n2.84211\n4.15386";
 
             qu = "Question: ";
             an = "Answer: ";

@@ -94,9 +94,10 @@ namespace DPS_Diablo3
               , crit_damage = 0, crit_chance = 0, elite_damage = 0, off_crit_chance = 0, off_del_Physical = 0, off_min_Physical = 0
               , rings_count = 0, r1_del_Physical = 0, r1_min_Physical = 0, r2_del_Physical = 0, r2_min_Physical = 0, am_del_Physical = 0, am_min_Physical = 0
               , cooldown, finery
-              , ver = 2.4
+              , ver = 2.5
               , acincr_s, cc_s, cd_s
-              , from_skl
+              , from_skl, taskers = 1
+              , elite_damage_nogems, from_skl_nogems
               ;
 
         public bool para_check = false, right_hold = false, left_cdr = false, two_handed = false, akkhan = false;
@@ -106,9 +107,9 @@ namespace DPS_Diablo3
         public Class_lang lng = new Class_lang();
 
         public int mainstat = 0, to_skl = 0, cnt = 0, from_skl_prof = 0, cdr_n = 0, para_level = 0, level1 = 0, level2 = 0, noprof_cc = 0, noprof_as = 0,
-            sockets, acincr_i = 0, cc_i = 0, cd_i = 0, nud_ps_prev_val = 0, nud_ps_next_val = 0, damage_ruby = 0, damage_ruby_off = 0;
+            sockets, acincr_i = 0, cc_i = 0, cd_i = 0, nud_ps_prev_val = 0, nud_ps_next_val = 0, damage_ruby = 0, damage_ruby_off = 0, dh=0;
 
-        decimal lev2 = 0, curr_para = 0, prev_para = 0, coold_pass = 0;
+        decimal lev2 = 0, curr_para = 0, prev_para = 0, coold_pass = 0, gem_enf = 0, gem_bot = 0, gem_bop = 0, gem_zei=0;
 
         public static SettingsTable overview;
 
@@ -161,6 +162,7 @@ namespace DPS_Diablo3
             //faq();
             para_form_create();
             para_seasons_create();//22.09.2014// 
+            gems_up_create();//14.10.2014// 
 
             //MessageBox.Show(CultureInfo.CurrentCulture.EnglishName);
             if (lb_adv.Text == "def") tsmi_adv_Click(null, null);
@@ -248,6 +250,12 @@ namespace DPS_Diablo3
                 nud.TextChanged += new EventHandler(nud_inc_ValueChanged);
             }
 
+            foreach (NumericUpDown nud in pan_gems.Controls.OfType<NumericUpDown>())
+            {
+                //nud.ValueChanged += new EventHandler(nud_gems_ValueChanged);
+                nud.TextChanged += new EventHandler(nud_gems_ValueChanged);
+            }
+
         }
 
         void dps_diablo_MouseClick(object sender, MouseEventArgs e)
@@ -274,6 +282,73 @@ namespace DPS_Diablo3
                 b_start_Click(null, null);//incr_stats(((NumericUpDown)sender).Name);
                 nud.Focus();
             }
+        }
+
+        void nud_gems_ValueChanged(object sender, EventArgs e)
+        {
+            var nud = (NumericUpDown)sender;
+
+            if (!nud.Focused) return;
+
+            if (result > 0)
+            {
+
+                //MessageBox.Show(elite_damage_nogems.ToString());
+                elite_damage -= elite_damage_nogems;
+                from_skl -= from_skl_nogems;
+                double from_gems = 0, elite_from_gems = 0;
+
+                if (nud == nud_gem_bop)
+                    if (nud.Value > 24)
+                    {
+                        elite_from_gems = 15;
+                        tb_elite.Text = (elite_damage + elite_from_gems).ToString().Replace(sep, ".");
+                    }
+                    else
+                    {
+                        tb_elite.Text = elite_damage.ToString().Replace(sep, ".");
+                    }
+
+                if (nud_gem_bop.Value > 0) from_gems += 20;
+                if (nud_gem_bot.Value > 0) from_gems += (Convert.ToDouble(nud_gem_bot.Value) * 0.3) + 15;
+                if (nud_gem_enf.Value > 0) from_gems += (Convert.ToDouble(nud_gem_enf.Value) * 0.3) + 15;
+                if (nud_gem_zei.Value > 0) from_gems += (Convert.ToDouble(nud_gem_zei.Value) * 0.25) + 20;
+
+
+                tb_fromskills.Text = (from_skl + from_gems).ToString().Replace(sep, ".");
+
+                //MessageBox.Show(from_skl.ToString() + " - Скилл, " + from_gems.ToString() + " - От гемов, ");
+
+                from_skl += from_skl_nogems;
+                elite_damage += elite_damage_nogems;
+                //
+
+                //if (nud == nud_gem_bop && nud.Value != 0)
+                //    if (result > 0 && gem_bop != nud.Value && nud.Value < 25)
+                //    {
+                //        elite_damage -= 15;
+                //        gem_bop = nud.Value;
+                //        //tb_elite.Text = (elite-15).ToString().Replace(sep, ".");
+                //    }
+
+                //if (nud == nud_gem_bot)
+                //    if (nud.Value != gem_bot) tb_fromskills.Text = (from_skl - ((Convert.ToDouble(gem_bot) * 0.3) + 15) + (((Convert.ToDouble(nud.Value) * 0.3) + 15))).ToString().Replace(sep, ".");
+                //    else tb_fromskills.Text = from_skl.ToString().Replace(sep, ".");
+
+                //if (nud == nud_gem_enf)
+                //    if (nud.Value != gem_enf) tb_fromskills.Text = (from_skl - ((Convert.ToDouble(gem_enf) * 0.3) + 15) + (((Convert.ToDouble(nud.Value) * 0.3) + 15))).ToString().Replace(sep, ".");
+                //    else tb_fromskills.Text = from_skl.ToString().Replace(sep, ".");
+
+                //if (nud == nud_gem_zei)
+                //    if (nud.Value != gem_zei) tb_fromskills.Text = (from_skl - ((Convert.ToDouble(gem_zei) * 0.25) + 20) + (((Convert.ToDouble(nud.Value) * 0.25) + 20))).ToString().Replace(sep, ".");
+                //    else tb_fromskills.Text = from_skl.ToString().Replace(sep, ".");
+
+                b_start_Click(null, null);//incr_stats(((NumericUpDown)sender).Name);
+                nud.Focus();
+
+                //MessageBox.Show(from_skl.ToString() + " - Скилл, " + from_gems.ToString() + " - От гемов, ");
+            }
+
         }
 
         public void White()
@@ -355,6 +430,7 @@ namespace DPS_Diablo3
             Settings.Default.nud_cdr11 = nud_cdr11.Value;
             Settings.Default.nud_cdr12 = nud_cdr12.Value;
             Settings.Default.nud_cdr13 = nud_cdr13.Value;
+            Settings.Default.nud_cdr14 = nud_cdr14.Value;
             Settings.Default.bt_lang = bt_lang.Text;
 
             overview = new SettingsTable();
@@ -497,6 +573,7 @@ namespace DPS_Diablo3
                 if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_cdr11") Settings.Default.nud_cdr11 = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
                 if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_cdr12") Settings.Default.nud_cdr12 = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
                 if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_cdr13") Settings.Default.nud_cdr13 = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
+                if (overview.dataset.Tables[1].Rows[j][0].ToString() == "nud_cdr14") Settings.Default.nud_cdr14 = Convert.ToDecimal(overview.dataset.Tables[1].Rows[j][1]);
             }
 
             Settings.Default.Save();
@@ -900,8 +977,9 @@ namespace DPS_Diablo3
             para_check = false;
             foreach (NumericUpDown nud in frm_para.Controls.OfType<NumericUpDown>())
                 if (nud.Value > 0) para_check = true;
-            if (para_check == false && nud_cdr12.Value <= 0) cb_paragon.Text = lng.cb_paragon_off;
+            if (para_check == false && nud_cdr11.Value <= 0) cb_paragon.Text = lng.cb_paragon_off;
             else cb_paragon.Text = lng.cb_paragon;
+            //MessageBox.Show("cdr12: " + nud_cdr12.Value.ToString() + " para_check: " + para_check.ToString());
         }
 
         public void Calculate()
@@ -1036,6 +1114,16 @@ namespace DPS_Diablo3
 
         public void Lang()
         {
+            lb_gem_bop.Text = lng.lb_gem_bop;
+            lb_gem_bot.Text = lng.lb_gem_bot;
+            lb_gem_enf.Text = lng.lb_gem_enf;
+            lb_gem_zei.Text = lng.lb_gem_zei;
+            lb_gem_lvl.Text = lng.lb_gem_lvl;
+            lb_rift_lvl.Text = lng.lb_rift_lvl;
+            lb_desc.Text = lng.lb_desc;
+            lb_up1_desc.Text = lng.lb_up1_desc;
+            lb_up2_desc.Text = lng.lb_up2_desc;
+            lb_up3_desc.Text = lng.lb_up3_desc;
             lb_para_seasons_prev.Text = lng.lb_para_seasons_prev;
             lb_para_seasons_next.Text = lng.lb_para_seasons_next;
             lb_para_seasons_exp_prev.Text = lng.lb_para_seasons_exp_prev;
@@ -1050,7 +1138,7 @@ namespace DPS_Diablo3
             lb_cdr78.Text = lng.lb_cdr78;
             lb_cdr910.Text = lng.lb_cdr910;
             lb_cdr1112.Text = lng.lb_cdr1112;
-            lb_cdr13.Text = lng.lb_cdr13;
+            lb_cdr1314.Text = lng.lb_cdr1314;
             //cb_paragon.Text = lng.cb_paragon;
             gb_result.Text = lng.gb_result;
             gb_increase.Text = lng.gb_increase;
@@ -1226,6 +1314,7 @@ namespace DPS_Diablo3
             toolTip33.SetToolTip(lb_cdr78, lng.tt37t);
             toolTip34.SetToolTip(lb_cdr910, lng.tt38t);
             toolTip35.SetToolTip(b_web, lng.tt41t);
+            tt_cbweb.SetToolTip(cb_web, lng.tt42t);
         }
 
         private void nud_cdr_ValueChanged(object sender, EventArgs e)
@@ -1235,7 +1324,7 @@ namespace DPS_Diablo3
             foreach (NumericUpDown numud in pan_cdr.Controls.OfType<NumericUpDown>())
                 if (numud.Value != 0 && numud.Name != "nud_cooldown") cdr_all = cdr_all * (100 - Convert.ToSingle(numud.Value)) / 100;
             coold = Convert.ToSingle(nud_cooldown.Value) * cdr_all / 100;
-            lb_cdr.Text = (cdr_all).ToString("N2") + "%";
+            lb_cdr.Text = (100-cdr_all).ToString("N2") + "%"; //14.10.2014
             lb_cdt.Text = coold.ToString("N2").Replace(sep, ".") + "s";
             if (cdr_all != 100) lb_cdr.Visible = true;
             if (nud_cooldown.Value != 0) lb_cdt.Visible = true;
@@ -1427,19 +1516,18 @@ namespace DPS_Diablo3
                     updated = new List<int>() { };
 
                     SortedList<string, string> id_upd = new SortedList<string, string>();
-                    string id_s = "", name = "";
+                    string id_s = "", name = "", level = "";
                     //int upd_s = 0;
 
                     for (int i = 0; i < pars_profile.Length; i++)
                     {
                         if (pars_profile[i].Contains(@"""name"" :")) name = pars_profile[i].Replace(@"""name"" :", "").Replace(",", "").Replace("\"", "").Trim();
                         if (pars_profile[i].Contains(@"""id"" :")) id_s = pars_profile[i].Replace(@"""id"" :", "").Replace(",", "").Trim() + "#" + name;
-                        if (pars_profile[i].Contains("last-updated") && id_s != "")
+                        if (pars_profile[i].Contains(@"""level"" :")) level = pars_profile[i].Replace(@"""level"" :", "").Replace(",", "").Trim();
+                        if (pars_profile[i].Contains("last-updated") && id_s != "" && Regex.IsMatch(level, @"^\d+$") && Convert.ToInt32(level) > 69)
                         {
-                            //try { upd_s = Convert.ToInt32(pars_profile[i].Replace("\"last-updated\" :", "").Trim()); }
-                            //catch { upd_s = 0; }
-                            //id_upd.Add(Convert.ToInt32(pars_profile[i].Replace("\"last-updated\" :", "").Trim()), id_s);
-                            id_upd.Add(pars_profile[i].Replace("\"last-updated\" :", "").Trim(), id_s);
+                                try { id_upd.Add(pars_profile[i].Replace("\"last-updated\" :", "").Trim(), id_s); }
+                                catch { }
                         }
                         if (pars_profile[i].Contains("lastHeroPlayed")) break;
                     }
@@ -1480,11 +1568,13 @@ namespace DPS_Diablo3
                     cnt = 1;
 
                     string hero_other, battletag_other;
+                    string[] web_before = { Settings.Default.web5_name, Settings.Default.web4_name, Settings.Default.web3_name, Settings.Default.web2_name, Settings.Default.web1_name };
 
                     foreach (KeyValuePair<string, string> kvp in id_upd_r)
                     {
                         //MessageBox.Show("ID: " + kvp.Value + " last time: " + kvp.Key.ToString());
-                        if (Settings.Default.web1_name == "") //&& kvp.Value.Substring(0, kvp.Value.IndexOf("#")) != hero_id)
+                        //if (Settings.Default.web1_name == "") //&& kvp.Value.Substring(0, kvp.Value.IndexOf("#")) != hero_id)
+                        if ((web_before[0] + web_before[1] + web_before[2] + web_before[3] + web_before[4]).Length == 0)
                         {
                             battletag_other = "http://" + host + "/api/d3/profile/" + battletag_name + "-" + battletag_code + "/hero/" + kvp.Value.Substring(0, kvp.Value.IndexOf("#"));
                             //MessageBox.Show("Положение # " + kvp.Value.IndexOf("#").ToString() + " Длина строки: " + kvp.Value.Length.ToString());
@@ -1519,6 +1609,8 @@ namespace DPS_Diablo3
                         if (cnt > 4) break;
                         cnt += 1;
                     }
+
+                    string[] web_name = { Settings.Default.web5_name, Settings.Default.web4_name, Settings.Default.web3_name, Settings.Default.web2_name, Settings.Default.web1_name };
 
                     //foreach (int i in id_upd.Keys)
                     //{
@@ -1575,6 +1667,7 @@ namespace DPS_Diablo3
                     passive_skill = new List<string>() { };
                     active_skill = new List<string>() { };
                     active_skill_rune = new List<string>() { };
+                    dh = 0;
 
                     for (int i = 0; i < pars_hero.Length; i++)
                     {
@@ -1585,10 +1678,13 @@ namespace DPS_Diablo3
                             if (skillnum % 2 != 0 && skillnum > 1 && skillnum < 14) active_skill_rune.Add(pars_hero[i].Trim().Replace("\"name\" : \"", "").Replace("\",", ""));
                             if (skillnum > 13 && skillnum < 18) passive_skill.Add(pars_hero[i].Trim().Replace("\"name\" : \"", "").Replace("\",", ""));
                         }
+                        if (pars_hero[i].Contains("\"demon-hunter\"")) dh = 1;
+                        if (pars_hero[i].Contains("Marauder's") && dh == 1) dh = 2;
+                        //if (pars_hero[i].Contains("ClwIxpS69wsSBwgEFcArSiId08wHYx0gjTdUHTsnbyQdfnZVoR3J-rygMIsCOOICQABQElgEYOICgAFGjQGi0FwipQEgjTdUrQF-VrMutQHJW5KkuAH53MDzBMABGhiAr9GkBFAAWAI") && dh == 1) dh = 2;
+                        //MessageBox.Show(dh.ToString());
                     }
 
-
-                    //MessageBox.Show(active_skill[0].Trim().Replace(" ","-"));
+                    //MessageBox.Show(dh.ToString());
 
                     byte[] byteArray = Encoding.UTF8.GetBytes(hero_parse);
                     MemoryStream TheStream = new MemoryStream(byteArray);
@@ -1599,54 +1695,19 @@ namespace DPS_Diablo3
 
                     string hero_full = battletag_name + "#" + battletag_code + " - " + pers_n;
 
-                    if (Settings.Default.web1_name == "")
+                    if (!web_name.Contains(hero_full))
                     {
-                        Settings.Default.web1_name = hero_full;
-                        Settings.Default.web1_www = battletag_www;
+                        Settings.Default.web1_name = Settings.Default.web2_name;
+                        Settings.Default.web1_www = Settings.Default.web2_www;
+                        Settings.Default.web2_name = Settings.Default.web3_name;
+                        Settings.Default.web2_www = Settings.Default.web3_www;
+                        Settings.Default.web3_name = Settings.Default.web4_name;
+                        Settings.Default.web3_www = Settings.Default.web4_www;
+                        Settings.Default.web4_name = Settings.Default.web5_name;
+                        Settings.Default.web4_www = Settings.Default.web5_www;
+                        Settings.Default.web5_name = hero_full;
+                        Settings.Default.web5_www = battletag_www;
                     }
-                    else
-                    {
-                        if (Settings.Default.web2_name == "" && hero_full != Settings.Default.web1_name)
-                        {
-                            Settings.Default.web2_name = hero_full;
-                            Settings.Default.web2_www = battletag_www;
-                        }
-                        else
-                        {
-                            if (Settings.Default.web3_name == "" && hero_full != Settings.Default.web2_name && hero_full != Settings.Default.web1_name)
-                            {
-                                Settings.Default.web3_name = hero_full;
-                                Settings.Default.web3_www = battletag_www;
-                                //MessageBox.Show(hero_full);
-                            }
-                            else
-                            {
-                                if (Settings.Default.web4_name == "" && hero_full != Settings.Default.web3_name && hero_full != Settings.Default.web2_name && hero_full != Settings.Default.web1_name)
-                                {
-                                    Settings.Default.web4_name = hero_full;
-                                    Settings.Default.web4_www = battletag_www;
-                                }
-                                else
-                                {
-                                    if (Settings.Default.web5_name == "" && hero_full != Settings.Default.web4_name && hero_full != Settings.Default.web3_name && hero_full != Settings.Default.web2_name && hero_full != Settings.Default.web1_name)
-                                    {
-                                        Settings.Default.web5_name = hero_full;
-                                        Settings.Default.web5_www = battletag_www;
-                                    }
-                                    else if (hero_full != Settings.Default.web5_name && hero_full != Settings.Default.web4_name && hero_full != Settings.Default.web3_name && hero_full != Settings.Default.web2_name && hero_full != Settings.Default.web1_name)
-                                    {
-                                        Settings.Default.web1_name = Settings.Default.web2_name; Settings.Default.web1_www = Settings.Default.web2_www;
-                                        Settings.Default.web2_name = Settings.Default.web3_name; Settings.Default.web2_www = Settings.Default.web3_www;
-                                        Settings.Default.web3_name = Settings.Default.web4_name; Settings.Default.web3_www = Settings.Default.web4_www;
-                                        Settings.Default.web4_name = Settings.Default.web5_name; Settings.Default.web4_www = Settings.Default.web5_www;
-                                        Settings.Default.web5_name = hero_full; Settings.Default.web5_www = battletag_www;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    //MessageBox.Show(Settings.Default.web1_name);
-                    //MessageBox.Show(Settings.Default.web1_www);
 
                     mainstat = Convert.ToInt16(pers.stats.strength);
                     if (mainstat < Convert.ToInt16(pers.stats.intelligence)) mainstat = Convert.ToInt16(pers.stats.intelligence);
@@ -1661,7 +1722,9 @@ namespace DPS_Diablo3
                     ; rings_count = 0; r1_del_Physical = 0; r1_min_Physical = 0; r2_del_Physical = 0; r2_min_Physical = 0; am_del_Physical = 0; am_min_Physical = 0
                     ; from_skl = 0; from_skl_prof = 0; coold_pass = 0; sockets = 0; finery = 0; sunwuko = false
                     ; damage_Weapon_Percent_All = 1; damage_Weapon_off_Percent_All = 1
+                    ; gem_enf = 0; gem_bot = 0; gem_bop = 0; gem_zei = 0; from_skl_nogems = 0; elite_damage_nogems = 0;
                     ;
+
                     damage_ruby = 0; damage_ruby_off = 0;
 
                     //head_parse = ""; torso_parse = ""; feet_parse = ""; hands_parse = ""; shoulders_parse = ""; legs_parse = ""; bracers_parse = ""; mainHand_parse = ""; offHand_parse = ""; waist_parse = ""; rightFinger_parse = ""; leftFinger_parse = ""; neck_parse = "";
@@ -2007,6 +2070,8 @@ namespace DPS_Diablo3
             if (mh.attributesRaw.Damage_Weapon_Delta_Arcane != null) del_Arcane = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Delta_Arcane.min.Replace(".", sep)), 2);
             if (mh.attributesRaw.Damage_Weapon_Delta_Holy != null) del_Holy = Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Delta_Holy.min.Replace(".", sep)), 2);
 
+            if (mh.attributesRaw.Item_Power_Passive_ItemPassive_Unique_Ring_571_x1 != null) elite_damage += Math.Round(Convert.ToDouble(mh.attributesRaw.Item_Power_Passive_ItemPassive_Unique_Ring_571_x1.min.Replace(".", sep)) * 100, 2);
+
             //24.09.2014
             if (mh.attributesRaw.Damage_Weapon_Percent_All != null) damage_Weapon_Percent_All = 1 + Math.Round(Convert.ToDouble(mh.attributesRaw.Damage_Weapon_Percent_All.min.Replace(".", sep)), 2);
 
@@ -2057,13 +2122,22 @@ namespace DPS_Diablo3
 
             int cdr_flag = 0;
             double cdr_leoric = 1;
+            if (dh!=2) taskers = 1;
             cdr_n += 1;
+            string jewelRank = "";
 
             string gem = "";
             string[] pars_item = forparse.Split('\n');  //парсим строку и получаем стринговый массив
 
             for (int i = 0; i < pars_item.Length; i++)
             {
+                if (dh==2 && pars_item[i].Contains("Increase attack speed of your pets by")) //Tasker and Theo //14.10.2014
+                {
+                    int start = pars_item[i].IndexOf(@"Increase attack speed of your pets by") + 38;
+                    int end = pars_item[i].IndexOf(@"%");
+                    try { taskers = Convert.ToDouble(pars_item[i].Substring(start, end - start).Replace(".", sep)) / 100 + 1; }
+                    catch { }
+                }
                 if (pars_item[i].Contains("Increase the effect of any gem socketed into this item by")) //Leoric's Crown
                 {
                     int start = pars_item[i].IndexOf(@"Increase the effect of any gem socketed into this item by") + 58;
@@ -2098,39 +2172,70 @@ namespace DPS_Diablo3
                     }
                 }
 
+                if (pars_item[i].Contains("jewelRank")) jewelRank = pars_item[i].Replace(@"""jewelRank"" :", "").Replace(",", "").Trim();
+
                 //04.09.2014//
                     //Enforcer
                 if (pars_item[i].Contains("Increase the damage of your pets by"))
                 {
                     int start = pars_item[i].IndexOf(@"by") + 3;
-                    try { from_skl += Math.Round(Convert.ToSingle(pars_item[i].Substring(start, 5).Replace(".", sep)),2); }
+                    try
+                    {
+                        from_skl_nogems += Math.Round(Convert.ToSingle(pars_item[i].Substring(start, 5).Replace(".", sep)), 2);
+                        from_skl += Math.Round(Convert.ToSingle(pars_item[i].Substring(start, 5).Replace(".", sep)), 2);
+                        gem_enf = Convert.ToDecimal((Math.Round(Convert.ToDouble(pars_item[i].Substring(start, 5).Replace(".", sep)), 2) - 15) / 0.3);
+                    }
                     catch { }
                 }
-                    //Bane of the Trapped
+                //Bane of the Trapped
                 if (pars_item[i].Contains("Increase damage against enemies under the effects of control-impairing effects by"))
                 {
                     int start = pars_item[i].IndexOf(@"by") + 3;
-                    try { from_skl += Math.Round(Convert.ToSingle(pars_item[i].Substring(start, 5).Replace(".", sep)),2); }
+                    try
+                    {
+                        from_skl_nogems += Math.Round(Convert.ToSingle(pars_item[i].Substring(start, 5).Replace(".", sep)), 2);
+                        from_skl += Math.Round(Convert.ToSingle(pars_item[i].Substring(start, 5).Replace(".", sep)), 2);
+                        gem_bot = Convert.ToDecimal((Math.Round(Convert.ToDouble(pars_item[i].Substring(start, 5).Replace(".", sep)), 2) - 15) / 0.3);
+                    }
                     catch { }
                 }
-                    //Bane of the Powerful
+                //Bane of the Powerful
                 if (pars_item[i].Contains("Gain 20% increased damage for"))
                 {
+                    from_skl_nogems += 20;
                     from_skl += 20;
+                    if (jewelRank.Length > 0 && Regex.IsMatch(jewelRank, @"^\d+$"))
+                        try
+                        {
+                            gem_bop = Convert.ToDecimal(jewelRank);
+                            if (Convert.ToDecimal(jewelRank) > 24) elite_damage += 15;
+                            elite_damage_nogems += 15;
+                        }
+                        catch { }
                 }
                 //04.09.2014//
 
-                //08.09.2014//
-                if (pars_item[i].Contains("Bane of the Powerful")) gem = "Bane of the Powerful";
-                if (pars_item[i].Contains(@"""jewelRank"" : 25") && gem == "Bane of the Powerful")
+                //Zei's Stone of Vengeance //06.11.2014
+                if (pars_item[i].Contains("% increase at 50 yards"))
                 {
-                    int start = pars_item[i].IndexOf(@"""jewelRank"" :") + 14;
-                    int end = pars_item[i].IndexOf(@",");
-                    int sec = 0;
-                    try { sec = Convert.ToInt16(pars_item[i].Substring(start, end - start).Replace(".", sep)); }
-                    catch { }
-                    if (sec > 24) elite_damage += 15;
+                    int start = pars_item[i].IndexOf(@"% increase");
+                    from_skl_nogems += Math.Round(Convert.ToSingle(pars_item[i].Substring(start - 5, 5).Replace(".", sep)), 2);
+                    from_skl += Math.Round(Convert.ToSingle(pars_item[i].Substring(start-5, 5).Replace(".", sep)), 2);
+                    gem_zei = Convert.ToDecimal((Math.Round(Convert.ToDouble(pars_item[i].Substring(start-5, 5).Replace(".", sep)), 2) - 20) / 0.25);
                 }
+
+
+                //08.09.2014// --06/11/2014
+                //if (pars_item[i].Contains("Bane of the Powerful")) gem = "Bane of the Powerful";
+                //if (pars_item[i].Contains(@"""jewelRank"" : 25") && gem == "Bane of the Powerful")
+                //{
+                //    int start = pars_item[i].IndexOf(@"""jewelRank"" :") + 14;
+                //    int end = pars_item[i].IndexOf(@",");
+                //    int sec = 0;
+                //    try { sec = Convert.ToInt16(pars_item[i].Substring(start, end - start).Replace(".", sep)); }
+                //    catch { }
+                //    if (sec > 24) elite_damage += 15;
+                //}
                 //08.09.2014//
 
             }
@@ -2245,6 +2350,7 @@ namespace DPS_Diablo3
 
         public void import()
         {
+
             Settings.Default.Save();
             web_choice();
             //MessageBox.Show(Settings.Default.web1_name);
@@ -2266,6 +2372,11 @@ namespace DPS_Diablo3
             //MessageBox.Show(nud_ps_prev.Text);
 
             //if (lb_adv.Text == "def") b_adv.PerformClick();
+
+            if (gem_enf > 0) nud_gem_enf.Value = gem_enf;
+            if (gem_bot > 0) nud_gem_bot.Value = gem_bot;
+            if (gem_bop > 0) nud_gem_bop.Value = gem_bop;
+            if (gem_zei > 0) nud_gem_zei.Value = gem_zei;
 
             if (damage_Weapon_Percent_All - 1 > 0) tb_dmg1_p.Text = Math.Round((damage_Weapon_Percent_All-1) * 100).ToString().Replace(sep, ".");
             if (damage_Weapon_Percent_All - 1 > 0) Readonly_clear(tb_dmg1_p, null);
@@ -2557,8 +2668,8 @@ namespace DPS_Diablo3
                 Readonly_insert(form_box_ro[i], set_box_ro[i], 0, "ReadOnly");
             }
 
-            List<NumericUpDown> form_nud = new List<NumericUpDown> { nud_garg, nud_dogs, nud_fet, nud_elemp, nud_damp, nud_speedp, nud_main_w, nud_damp_w, nud_acp_w, nud_cd_w, nud_elem_w, nud_elite_w, nud_cooldown, nud_cdr1, nud_cdr2, nud_cdr3, nud_cdr4, nud_cdr5, nud_cdr6, nud_cdr7, nud_cdr8, nud_cdr9, nud_cdr10, nud_cdr11, nud_cdr12, nud_cdr13, nud_para_as, nud_para_cdr, nud_para_cc, nud_para_cd }; //29.08.2014//, nud_para_main
-            List<decimal> set_nud = new List<decimal> { Settings.Default.nud_garg, Settings.Default.nud_dogs, Settings.Default.nud_fet, Settings.Default.nud_elemp, Settings.Default.nud_damp, Settings.Default.nud_speedp, Settings.Default.nud_main_w, Settings.Default.nud_damp_w, Settings.Default.nud_acp_w, Settings.Default.nud_cd_w, Settings.Default.nud_elem_w, Settings.Default.nud_elite_w, Settings.Default.nud_cooldown, Settings.Default.nud_cdr1, Settings.Default.nud_cdr2, Settings.Default.nud_cdr3, Settings.Default.nud_cdr4, Settings.Default.nud_cdr5, Settings.Default.nud_cdr6, Settings.Default.nud_cdr7, Settings.Default.nud_cdr8, Settings.Default.nud_cdr9, Settings.Default.nud_cdr10, Settings.Default.nud_cdr11, Settings.Default.nud_cdr12, Settings.Default.nud_cdr13, Settings.Default.nud_para_as, Settings.Default.nud_para_cdr, Settings.Default.nud_para_cc, Settings.Default.nud_para_cd }; //29.08.2014//, Settings.Default.nud_para_main
+            List<NumericUpDown> form_nud = new List<NumericUpDown> { nud_garg, nud_dogs, nud_fet, nud_elemp, nud_damp, nud_speedp, nud_main_w, nud_damp_w, nud_acp_w, nud_cd_w, nud_elem_w, nud_elite_w, nud_cooldown, nud_cdr1, nud_cdr2, nud_cdr3, nud_cdr4, nud_cdr5, nud_cdr6, nud_cdr7, nud_cdr8, nud_cdr9, nud_cdr10, nud_cdr11, nud_cdr12, nud_cdr13, nud_cdr14, nud_para_as, nud_para_cdr, nud_para_cc, nud_para_cd }; //29.08.2014//, nud_para_main
+            List<decimal> set_nud = new List<decimal> { Settings.Default.nud_garg, Settings.Default.nud_dogs, Settings.Default.nud_fet, Settings.Default.nud_elemp, Settings.Default.nud_damp, Settings.Default.nud_speedp, Settings.Default.nud_main_w, Settings.Default.nud_damp_w, Settings.Default.nud_acp_w, Settings.Default.nud_cd_w, Settings.Default.nud_elem_w, Settings.Default.nud_elite_w, Settings.Default.nud_cooldown, Settings.Default.nud_cdr1, Settings.Default.nud_cdr2, Settings.Default.nud_cdr3, Settings.Default.nud_cdr4, Settings.Default.nud_cdr5, Settings.Default.nud_cdr6, Settings.Default.nud_cdr7, Settings.Default.nud_cdr8, Settings.Default.nud_cdr9, Settings.Default.nud_cdr10, Settings.Default.nud_cdr11, Settings.Default.nud_cdr12, Settings.Default.nud_cdr13, Settings.Default.nud_cdr14, Settings.Default.nud_para_as, Settings.Default.nud_para_cdr, Settings.Default.nud_para_cc, Settings.Default.nud_para_cd }; //29.08.2014//, Settings.Default.nud_para_main
 
             for (int i = 0; i < form_nud.Count; i++)
             {
@@ -2619,6 +2730,11 @@ namespace DPS_Diablo3
 
         private void tsmi_clear_Click(object sender, EventArgs e)
         {
+            foreach (NumericUpDown numud in frm_para.Controls.OfType<NumericUpDown>()) numud.Value = 0;
+            foreach (NumericUpDown numud in pan_gems.Controls.OfType<NumericUpDown>()) numud.Value = 0;
+            //para_lvl = ""; //10.09.2014//
+            lb_para_lvl.Text = ""; lb_curr_lvl.Text = "";
+
             nud_ps_next.Value = 1;
             nud_ps_prev.Value = 1;
             lb_para_seasons_exp_prev_val.Text = "";
@@ -2733,10 +2849,6 @@ namespace DPS_Diablo3
             cb_choice_SelectionChangeCommitted(null, null);
 
             Lang();
-
-            foreach (NumericUpDown numud in frm_para.Controls.OfType<NumericUpDown>()) numud.Value = 0;
-            //para_lvl = ""; //10.09.2014//
-            lb_para_lvl.Text = ""; lb_curr_lvl.Text = "";
         }
 
         private void tsmi_adv_Click(object sender, EventArgs e)
@@ -2846,6 +2958,8 @@ namespace DPS_Diablo3
             cb_choice.Items.Add(lng.b_wept);
             cb_choice.Items.Add(lng.b_statt_cdr);
             cb_choice.Items.Add(lng.b_wept_wd);
+            cb_choice.Items.Add(lng.b_wept_gems);
+            //http://eu.media.blizzard.com/d3/icons/items/small/unique_gem_012_x1_demonhunter_male.png
             cb_choice.SelectedIndex = i;
         }
 
@@ -2868,6 +2982,10 @@ namespace DPS_Diablo3
                 case 3:
                     lb_state.Text = "wd";
                     pan_wd.BringToFront();
+                    break;
+                case 4:
+                    lb_state.Text = "gems";
+                    pan_gems.BringToFront();
                     break;
             }
         }
@@ -3386,8 +3504,11 @@ namespace DPS_Diablo3
                 if (nud_sender.Name == "para_as") // && tb_acincr.Text !="") 
                 {
                     acincr_i += 1;
-                    if (acincr_i == 1) acincr_s = acincr;
+                    if (acincr_i == 1 && this.tb_acincr.Text != "") acincr_s = Convert.ToDouble(this.tb_acincr.Text.Replace(".", sep));//acincr; //25.09.2014
                     this.tb_acincr.Text = (acincr_s + Math.Round(Convert.ToSingle(nud_sender.Value),2)).ToString();
+                    //b_para_save.Text = acincr_i.ToString();
+                    //b_para_load.Text = acincr_s.ToString();
+                    //MessageBox.Show(acincr_s.ToString());
                     if (nud_sender.Value == nud_sender.Maximum || curr_para == 0)
                     {
                         b_para_as.Image = Resources.min_hor;
@@ -3403,7 +3524,7 @@ namespace DPS_Diablo3
                 if (nud_sender.Name == "para_cc") // && tb_cc.Text != "")
                 {
                     cc_i += 1;
-                    if (cc_i == 1) cc_s = cc;
+                    if (cc_i == 1 && this.tb_cc.Text != "") cc_s = Convert.ToDouble(this.tb_cc.Text.Replace(".", sep)); //cc; //25.09.2014
                     this.tb_cc.Text = (cc_s + Math.Round(Convert.ToSingle(nud_sender.Value),2)).ToString();
                     if (nud_sender.Value == nud_sender.Maximum || curr_para == 0)
                     {
@@ -3420,7 +3541,7 @@ namespace DPS_Diablo3
                 if (nud_sender.Name == "para_cd") // && tb_cd.Text != "")
                 {
                     cd_i += 1;
-                    if (cd_i == 1) cd_s = cd;
+                    if (cd_i == 1 && this.tb_cd.Text != "") cd_s = Convert.ToDouble(this.tb_cd.Text.Replace(".", sep)); //cd; //25.09.2014
                     this.tb_cd.Text = (cd_s + Math.Round(Convert.ToSingle(nud_sender.Value), 2)).ToString();
                     if (nud_sender.Value == nud_sender.Maximum || curr_para == 0)
                     {
@@ -3597,8 +3718,13 @@ namespace DPS_Diablo3
             if (cb_web.SelectedIndex == -1 || tb_pers.Text == lng.tb_pers_choice) tb_pers.Text = lng.tb_pers;
         }
 
+        private void tb_ac1_MouseHover(object sender, EventArgs e)
+        {
+            //MessageBox.Show(dh.ToString());
+            if (dh == 2) tt_as.SetToolTip(tb_ac1, "AS: " + Math.Round((speedtotal_profile * taskers),5).ToString() + "\n" + lng.ttas);
+            else tt_as.SetToolTip(tb_ac1, "AS: " + Math.Round(speedtotal_profile, 5).ToString());
+        }
 
     }
-
 
 }

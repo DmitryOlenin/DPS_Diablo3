@@ -1614,6 +1614,12 @@
         gMX2Ntyt8/RTk0UCZ//Z
 </value>
   </data>
+  <metadata name="tt_as.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>914, 132</value>
+  </metadata>
+  <metadata name="tt_cbweb.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>991, 132</value>
+  </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>174</value>
   </metadata>

@@ -50,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class_gems.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Class_paraclown.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,6 +140,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\min_hor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\unique_gem_001_x1_demonhunter_male.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\unique_gem_002_x1_demonhunter_male.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\unique_gem_010_x1_demonhunter_male.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\unique_gem_012_x1_demonhunter_male.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

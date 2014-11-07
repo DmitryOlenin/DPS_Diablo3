@@ -1066,5 +1066,17 @@ namespace DPS_Diablo3.Properties {
                 this["nud_elite_w"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal nud_cdr14 {
+            get {
+                return ((decimal)(this["nud_cdr14"]));
+            }
+            set {
+                this["nud_cdr14"] = value;
+            }
+        }
     }
 }

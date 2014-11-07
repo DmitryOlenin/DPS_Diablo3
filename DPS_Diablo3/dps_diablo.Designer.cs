@@ -217,8 +217,9 @@
             this.nud_cooldown = new System.Windows.Forms.NumericUpDown();
             this.lb_cooldown = new System.Windows.Forms.Label();
             this.pan_cdr = new System.Windows.Forms.Panel();
+            this.nud_cdr14 = new System.Windows.Forms.NumericUpDown();
             this.nud_cdr13 = new System.Windows.Forms.NumericUpDown();
-            this.lb_cdr13 = new System.Windows.Forms.Label();
+            this.lb_cdr1314 = new System.Windows.Forms.Label();
             this.nud_cdr11 = new System.Windows.Forms.NumericUpDown();
             this.nud_cdr12 = new System.Windows.Forms.NumericUpDown();
             this.lb_cdr1112 = new System.Windows.Forms.Label();
@@ -270,6 +271,7 @@
             this.справкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsm_faq = new System.Windows.Forms.ToolStripMenuItem();
             this.paragonSeasonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gemsGreaterRiftsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmi_ver = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -318,6 +320,21 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.tt_as = new System.Windows.Forms.ToolTip(this.components);
+            this.tt_cbweb = new System.Windows.Forms.ToolTip(this.components);
+            this.pan_gems = new System.Windows.Forms.Panel();
+            this.nud_gem_zei = new System.Windows.Forms.NumericUpDown();
+            this.nud_gem_enf = new System.Windows.Forms.NumericUpDown();
+            this.nud_gem_bot = new System.Windows.Forms.NumericUpDown();
+            this.nud_gem_bop = new System.Windows.Forms.NumericUpDown();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lb_gem_bop = new System.Windows.Forms.Label();
+            this.lb_gem_bot = new System.Windows.Forms.Label();
+            this.lb_gem_enf = new System.Windows.Forms.Label();
+            this.lb_gem_zei = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nud_ac)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_main)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cc)).BeginInit();
@@ -357,6 +374,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_cdr3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cooldown)).BeginInit();
             this.pan_cdr.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_cdr14)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cdr13)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cdr11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cdr12)).BeginInit();
@@ -378,6 +396,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_stat_dps)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_as_dps)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            this.pan_gems.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_gem_zei)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_gem_enf)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_gem_bot)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_gem_bop)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // lb_idmg1
@@ -554,6 +581,7 @@
             this.tb_ac1.Name = "tb_ac1";
             this.tb_ac1.Size = new System.Drawing.Size(56, 20);
             this.tb_ac1.TabIndex = 1;
+            this.tb_ac1.MouseHover += new System.EventHandler(this.tb_ac1_MouseHover);
             // 
             // tb_cd
             // 
@@ -2054,8 +2082,9 @@
             // 
             // pan_cdr
             // 
+            this.pan_cdr.Controls.Add(this.nud_cdr14);
             this.pan_cdr.Controls.Add(this.nud_cdr13);
-            this.pan_cdr.Controls.Add(this.lb_cdr13);
+            this.pan_cdr.Controls.Add(this.lb_cdr1314);
             this.pan_cdr.Controls.Add(this.nud_cdr11);
             this.pan_cdr.Controls.Add(this.nud_cdr12);
             this.pan_cdr.Controls.Add(this.lb_cdr1112);
@@ -2083,6 +2112,19 @@
             this.pan_cdr.Size = new System.Drawing.Size(224, 180);
             this.pan_cdr.TabIndex = 30;
             // 
+            // nud_cdr14
+            // 
+            this.nud_cdr14.DecimalPlaces = 1;
+            this.nud_cdr14.Location = new System.Drawing.Point(177, 157);
+            this.nud_cdr14.Maximum = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+            this.nud_cdr14.Name = "nud_cdr14";
+            this.nud_cdr14.Size = new System.Drawing.Size(45, 20);
+            this.nud_cdr14.TabIndex = 1002;
+            // 
             // nud_cdr13
             // 
             this.nud_cdr13.DecimalPlaces = 1;
@@ -2101,14 +2143,14 @@
             this.nud_cdr13.Size = new System.Drawing.Size(45, 20);
             this.nud_cdr13.TabIndex = 13;
             // 
-            // lb_cdr13
+            // lb_cdr1314
             // 
-            this.lb_cdr13.AutoSize = true;
-            this.lb_cdr13.Location = new System.Drawing.Point(0, 159);
-            this.lb_cdr13.Name = "lb_cdr13";
-            this.lb_cdr13.Size = new System.Drawing.Size(51, 13);
-            this.lb_cdr13.TabIndex = 1001;
-            this.lb_cdr13.Text = "CDR Belt";
+            this.lb_cdr1314.AutoSize = true;
+            this.lb_cdr1314.Location = new System.Drawing.Point(0, 159);
+            this.lb_cdr1314.Name = "lb_cdr1314";
+            this.lb_cdr1314.Size = new System.Drawing.Size(51, 13);
+            this.lb_cdr1314.TabIndex = 1001;
+            this.lb_cdr1314.Text = "CDR Belt";
             // 
             // nud_cdr11
             // 
@@ -2343,7 +2385,7 @@
             this.tb_pers.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.tb_pers.ContextMenuStrip = this.cms_web;
             this.tb_pers.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.tb_pers.Location = new System.Drawing.Point(248, 234);
+            this.tb_pers.Location = new System.Drawing.Point(247, 234);
             this.tb_pers.Name = "tb_pers";
             this.tb_pers.Size = new System.Drawing.Size(156, 20);
             this.tb_pers.TabIndex = 21;
@@ -2520,6 +2562,7 @@
             this.справкаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsm_faq,
             this.paragonSeasonToolStripMenuItem,
+            this.gemsGreaterRiftsToolStripMenuItem,
             this.toolStripSeparator6,
             this.tsmi_ver,
             this.toolStripSeparator5,
@@ -2543,6 +2586,14 @@
             this.paragonSeasonToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.paragonSeasonToolStripMenuItem.Text = "Paragon season";
             this.paragonSeasonToolStripMenuItem.Click += new System.EventHandler(this.paragonSeasonToolStripMenuItem_Click);
+            // 
+            // gemsGreaterRiftsToolStripMenuItem
+            // 
+            this.gemsGreaterRiftsToolStripMenuItem.Name = "gemsGreaterRiftsToolStripMenuItem";
+            this.gemsGreaterRiftsToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
+            this.gemsGreaterRiftsToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.gemsGreaterRiftsToolStripMenuItem.Text = "Gems - GRifts";
+            this.gemsGreaterRiftsToolStripMenuItem.Click += new System.EventHandler(this.gemsGreaterRiftsToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
@@ -3092,6 +3143,139 @@
             this.label7.TabIndex = 1007;
             this.label7.Text = "-";
             // 
+            // tt_as
+            // 
+            this.tt_as.AutoPopDelay = 5000;
+            this.tt_as.InitialDelay = 1;
+            this.tt_as.ReshowDelay = 100;
+            // 
+            // pan_gems
+            // 
+            this.pan_gems.Controls.Add(this.nud_gem_zei);
+            this.pan_gems.Controls.Add(this.nud_gem_enf);
+            this.pan_gems.Controls.Add(this.nud_gem_bot);
+            this.pan_gems.Controls.Add(this.nud_gem_bop);
+            this.pan_gems.Controls.Add(this.pictureBox4);
+            this.pan_gems.Controls.Add(this.pictureBox3);
+            this.pan_gems.Controls.Add(this.pictureBox2);
+            this.pan_gems.Controls.Add(this.pictureBox1);
+            this.pan_gems.Controls.Add(this.lb_gem_bop);
+            this.pan_gems.Controls.Add(this.lb_gem_bot);
+            this.pan_gems.Controls.Add(this.lb_gem_enf);
+            this.pan_gems.Controls.Add(this.lb_gem_zei);
+            this.pan_gems.Location = new System.Drawing.Point(447, 261);
+            this.pan_gems.Name = "pan_gems";
+            this.pan_gems.Size = new System.Drawing.Size(224, 180);
+            this.pan_gems.TabIndex = 1008;
+            // 
+            // nud_gem_zei
+            // 
+            this.nud_gem_zei.Location = new System.Drawing.Point(140, 140);
+            this.nud_gem_zei.Name = "nud_gem_zei";
+            this.nud_gem_zei.Size = new System.Drawing.Size(84, 20);
+            this.nud_gem_zei.TabIndex = 86;
+            // 
+            // nud_gem_enf
+            // 
+            this.nud_gem_enf.Location = new System.Drawing.Point(140, 98);
+            this.nud_gem_enf.Name = "nud_gem_enf";
+            this.nud_gem_enf.Size = new System.Drawing.Size(84, 20);
+            this.nud_gem_enf.TabIndex = 85;
+            // 
+            // nud_gem_bot
+            // 
+            this.nud_gem_bot.Location = new System.Drawing.Point(140, 56);
+            this.nud_gem_bot.Name = "nud_gem_bot";
+            this.nud_gem_bot.Size = new System.Drawing.Size(84, 20);
+            this.nud_gem_bot.TabIndex = 84;
+            // 
+            // nud_gem_bop
+            // 
+            this.nud_gem_bop.Location = new System.Drawing.Point(140, 12);
+            this.nud_gem_bop.Name = "nud_gem_bop";
+            this.nud_gem_bop.Size = new System.Drawing.Size(84, 20);
+            this.nud_gem_bop.TabIndex = 83;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Image = global::DPS_Diablo3.Properties.Resources.unique_gem_010_x1_demonhunter_male;
+            this.pictureBox4.ImageLocation = "";
+            this.pictureBox4.InitialImage = null;
+            this.pictureBox4.Location = new System.Drawing.Point(0, 91);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(30, 30);
+            this.pictureBox4.TabIndex = 82;
+            this.pictureBox4.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::DPS_Diablo3.Properties.Resources.unique_gem_002_x1_demonhunter_male;
+            this.pictureBox3.ImageLocation = "";
+            this.pictureBox3.InitialImage = null;
+            this.pictureBox3.Location = new System.Drawing.Point(0, 49);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(30, 30);
+            this.pictureBox3.TabIndex = 81;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::DPS_Diablo3.Properties.Resources.unique_gem_001_x1_demonhunter_male;
+            this.pictureBox2.ImageLocation = "";
+            this.pictureBox2.InitialImage = null;
+            this.pictureBox2.Location = new System.Drawing.Point(0, 5);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(30, 33);
+            this.pictureBox2.TabIndex = 80;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::DPS_Diablo3.Properties.Resources.unique_gem_012_x1_demonhunter_male;
+            this.pictureBox1.ImageLocation = "";
+            this.pictureBox1.InitialImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 133);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(30, 30);
+            this.pictureBox1.TabIndex = 79;
+            this.pictureBox1.TabStop = false;
+            // 
+            // lb_gem_bop
+            // 
+            this.lb_gem_bop.AutoSize = true;
+            this.lb_gem_bop.Location = new System.Drawing.Point(31, 15);
+            this.lb_gem_bop.Name = "lb_gem_bop";
+            this.lb_gem_bop.Size = new System.Drawing.Size(106, 13);
+            this.lb_gem_bop.TabIndex = 75;
+            this.lb_gem_bop.Text = "Bane of the Powerful";
+            // 
+            // lb_gem_bot
+            // 
+            this.lb_gem_bot.AutoSize = true;
+            this.lb_gem_bot.Location = new System.Drawing.Point(31, 59);
+            this.lb_gem_bot.Name = "lb_gem_bot";
+            this.lb_gem_bot.Size = new System.Drawing.Size(105, 13);
+            this.lb_gem_bot.TabIndex = 76;
+            this.lb_gem_bot.Text = "Bane of the Trapped";
+            // 
+            // lb_gem_enf
+            // 
+            this.lb_gem_enf.AutoSize = true;
+            this.lb_gem_enf.Location = new System.Drawing.Point(31, 101);
+            this.lb_gem_enf.Name = "lb_gem_enf";
+            this.lb_gem_enf.Size = new System.Drawing.Size(47, 13);
+            this.lb_gem_enf.TabIndex = 78;
+            this.lb_gem_enf.Text = "Enforcer";
+            // 
+            // lb_gem_zei
+            // 
+            this.lb_gem_zei.AutoSize = true;
+            this.lb_gem_zei.Location = new System.Drawing.Point(31, 143);
+            this.lb_gem_zei.Name = "lb_gem_zei";
+            this.lb_gem_zei.Size = new System.Drawing.Size(60, 13);
+            this.lb_gem_zei.TabIndex = 77;
+            this.lb_gem_zei.Text = "Zei\'s Stone";
+            // 
             // dps_diablo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -3165,12 +3349,13 @@
             this.Controls.Add(this.lb_idmg1);
             this.Controls.Add(this.pan_cdr);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.gb_roll);
             this.Controls.Add(this.pan_divider);
+            this.Controls.Add(this.pan_gems);
+            this.Controls.Add(this.gb_roll);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "dps_diablo";
-            this.Text = "DPS - Diablo3 ver. 2.4";
+            this.Text = "DPS - Diablo3 ver. 2.5";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.dps_diablo_FormClosed);
             this.Load += new System.EventHandler(this.dps_diablo_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dps_diablo_KeyDown);
@@ -3222,6 +3407,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_cooldown)).EndInit();
             this.pan_cdr.ResumeLayout(false);
             this.pan_cdr.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_cdr14)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cdr13)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cdr11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cdr12)).EndInit();
@@ -3248,6 +3434,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_as_dps)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.pan_gems.ResumeLayout(false);
+            this.pan_gems.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_gem_zei)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_gem_enf)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_gem_bot)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_gem_bop)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3535,7 +3731,7 @@
         private System.Windows.Forms.NumericUpDown nud_elite_w;
         private System.Windows.Forms.Label lb_elite_w;
         private System.Windows.Forms.NumericUpDown nud_cdr13;
-        private System.Windows.Forms.Label lb_cdr13;
+        private System.Windows.Forms.Label lb_cdr1314;
         private System.Windows.Forms.NumericUpDown nud_skill;
         private System.Windows.Forms.Label lb_skillc;
         private System.Windows.Forms.Label lb_skill;
@@ -3543,6 +3739,23 @@
         private System.Windows.Forms.Label lb_skill_dps;
         private System.Windows.Forms.NumericUpDown nud_skill_dps;
         private System.Windows.Forms.ToolStripMenuItem paragonSeasonToolStripMenuItem;
+        private System.Windows.Forms.NumericUpDown nud_cdr14;
+        private System.Windows.Forms.ToolTip tt_as;
+        private System.Windows.Forms.ToolStripMenuItem gemsGreaterRiftsToolStripMenuItem;
+        private System.Windows.Forms.ToolTip tt_cbweb;
+        private System.Windows.Forms.Panel pan_gems;
+        private System.Windows.Forms.Label lb_gem_bop;
+        private System.Windows.Forms.Label lb_gem_bot;
+        private System.Windows.Forms.Label lb_gem_enf;
+        private System.Windows.Forms.Label lb_gem_zei;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.NumericUpDown nud_gem_zei;
+        private System.Windows.Forms.NumericUpDown nud_gem_enf;
+        private System.Windows.Forms.NumericUpDown nud_gem_bot;
+        private System.Windows.Forms.NumericUpDown nud_gem_bop;
 
     }
 }
